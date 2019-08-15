@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbblog.business.mapping.UserMapping">
+    <select id="getUser" parameterType="java.util.HashMap" resultType="com.xbblog.business.dto.User">
+        select id, name, token,password from t_user where name = #{name}
+    </select>
+
+    <select id="getUserByToken" parameterType="java.lang.String" resultType="com.xbblog.business.dto.User">
+        select id, name, token, password from t_user where token = #{_parameter}
+    </select>
+    
+    <update id="modifyPassword" parameterType="java.util.HashMap">
+        update t_user set password = #{password} where name = #{name}
+    </update>
+
+    <update id="modifyToken" parameterType="java.util.HashMap">
+        update t_user set token = #{token} where name = #{name}
+    </update>
+</mapper>

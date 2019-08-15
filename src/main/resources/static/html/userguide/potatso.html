@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Potatso Lite 用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>在 Potatso Lite 上配置使用科学上网服务</h1>
+        <h2 class="subheader">Free Proxy Client For V2ray, SSR, SS</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>Potatso Lite 是 iOS 平台一款免费的网络代理工具，它完整地支持 SS, SSR协议，可以作为科学上网工具使用。
+            由于某些特殊原因，此类软件在中国区 App Store 已被下架，如需使用，请到非中国区（如美区、港区等）的应用商店进行下载。
+            <a href="https://itunes.apple.com/us/app/potatso-lite/id1239860606?mt=8" target="_blank">软件地址(需外区账号)</a>
+        </p>
+        <h2>配置Potatso Lite</h2>
+        <p>首先打开Potatso Lite，点击<code>立即使用</code>,提示是否立即添加节点。</p>
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/2p9EAOXzBJw31zn.png">
+        <p>点击<code>现在添加</code>，选择<code>自动导入</code>项目下的<code>订阅</code>按钮。</p>
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/ZA3qSjvynI3PtNv.png">
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/Hbn2bNE1SiDAfUO.png">
+        <p>在接下来的界面中，将复制的URL链接粘贴到<code>Subscription URL</code>一栏。（马赛克遮挡的部分，注意：此链接不能外露）。
+            <code>Name</code>一栏填写<code>自建</code>(也可自己换个名字)，选择<code>Auto Update</code>表示自动更新订阅。
+            最后点击右上角的<code>√</code>，等待软件获取所有订阅信息：</p>
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/ZH40TO9JJ8qfwkc.png">
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/8xj42qegC20Stwu.png">
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/zw2Kh07bBKVzayO.png">
+        <p>订阅成功之后会自动跳到主页面，主页面入下图所示：点击<code>代理</code>下的节点，可以自动打开节点列表，在这里可以自行选择节点信息。</p>
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/g7R3aTBH0RXD4b7.png">
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/kMXF22ii3Pye0hH.png">
+        <p>选择完适合自己的节点后，点击<code>开始</code>。首次打开时会有一个增加VPN配置的提示，选择<code>Allow</code>，然后就可以开始愉快地上网了。</p>
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/yDjzkG5AeqMDU78.png">
+        <img class="thumbnail" src="../../img/userguide/potatsoLite/l7w6S0hStkYZzNo.png">
+        <h2>写在最后</h2>
+        <p><code>Potatso Lite</code> 正常情况足够满足日常需求，但是存在广告，而且所谓的智能路由（国内国外分流）似乎也不怎么好用。
+            但如果对科学上网有更高要求，建议换用 <code>Shadowrocket</code>，<code>Quantumult</code>
+            它的整体性能更好且支持自定义规则、策略组等，如果其他需求可自行Google解决。</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>

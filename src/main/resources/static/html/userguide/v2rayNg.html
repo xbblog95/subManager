@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v2rayN用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>在 v2rayN 上配置使用科学上网服务</h1>
+        <h2 class="subheader">Proxy Client For v2ray</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>v2rayN是windows上一款开源的v2ray客户端管理软件，项目地址 <a href="https://github.com/2dust/v2rayN" target="_blank">https://github.com/2dust/v2rayN</a></p>
+        <h2>下载与配置v2rayN</h2>
+        <h3>1、下载v2rayN与v2ray核心程序</h3>
+        <p>首先访问项目的发布页面：<a href="https://github.com/2dust/v2rayN/releases" target="_blank">https://github.com/2dust/v2rayN/releases</a></p>
+        <p>
+            在这个页面上，找到<code>Latest release</code>项，这里下载的是软件的最新版本，如果看到<code>pre release</code>,表示软件的测试版本。
+            点击<code>v2rayN.zip</code>，下载软件
+        </p>
+        <img class="thumbnail" src="../../img/userguide/v2rayN/4ul6kwYcD687KFv.png">
+        <p>下载完成之后，可以获得一个压缩包，解压该压缩包，打开软件，如下图所示：</p>
+        <img class="thumbnail" src="../../img/userguide/v2rayN/zjI4T4bSXAiHtOA.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/Quj92l0T4xXmYLQ.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/oVKu7zBte9r25bP.png">
+        <p>打开之后，这里只是下载了v2ray的客户端管理工具，我们还要下载v2ray的客户端核心，依次点击<code>检查更新</code>，<code>检查更新v2rayCore</code>，
+            在是否下载询问框中，选择<code>是（Y）</code>，此时,v2rayN将会下载v2ray核心</p>
+        <img class="thumbnail" src="../../img/userguide/v2rayN/M3XW2K0aO9n5JsI.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/BJJL7AMVo6cNC7A.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/5SReqE0RA20wJQp.png">
+        <p>如果下载缓慢，可以<a href="../soft/v2rayN.zip">点击这里下载</a></p>
+        <h3>2、节点订阅</h3>
+        <p>依次点击<code>订阅</code>，<code>订阅设置</code>按钮，在弹出的窗口中填写相应的信息，点击<code>确定</code>。</p>
+        <img class="thumbnail" src="../../img/userguide/v2rayN/nUuauCf4TG5ys50.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/fXs5PRH4l4ZAuqY.png">
+        <p>依次点击<code>订阅</code>，<code>更新订阅</code>按钮，软件将自动下载节点信息</p>
+        <img class="thumbnail" src="../../img/userguide/v2rayN/6X7NxLbZo4TsFof.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/w6bv0U0fLlhipwy.png">
+        <p>自行选择自己喜欢的节点，敲击<code>Enter</code>键，即可将该节点设置为当前节点</p>
+        <h3>3、开始使用</h3>
+        <p>右键选择任务栏上v2ray图标，依次选择<code>启动Http代理</code>，<code>开启并自动配置PAC（PAC模式）</code>，开始上网</p>
+        <img class="thumbnail" src="../../img/userguide/v2rayN/ZIGpoT5D8WmgUgP.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/pijj4JpjR63ms40.png">
+        <h3>3、查看v2rayN的监听端口</h3>
+        <p>打开软件，点击<code>参数设置</code>按钮，在打开的窗口中，我们可以看到<code>本地监听端口</code>，后面文本框中的数字即是v2rayN此时监听的端口号，拿这个端口号，可以配合<code>SwitchyOmega</code>以达到更加自由的分流配置</p>
+        <img class="thumbnail" src="../../img/userguide/v2rayN/k5JqX7Os3jwsO9B.png">
+        <img class="thumbnail" src="../../img/userguide/v2rayN/jDO78ZaVE8ZzAjp.png">
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>

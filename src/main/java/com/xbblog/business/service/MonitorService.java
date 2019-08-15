@@ -1,0 +1,145 @@
+package com.xbblog.business.service;
+
+import com.xbblog.business.dto.*;
+import com.xbblog.utils.MonitorUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+@Service
+public class MonitorService {
+
+    private static Logger logger = LoggerFactory.getLogger(MonitorService.class);
+
+    @Autowired
+    private NodeService nodeService;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private V2rayService v2rayService;
+
+
+    public void doJob() throws Exception
+    {
+        try
+        {
+            List<NodeBo> list = nodeService.getAllssLink();
+            nodeService.insertAll(list);
+        }
+        catch (Exception e)
+        {
+
+        }
+        testActive();
+    }
+
+
+    @Transactional
+    public void testActive()
+    {
+        //如果超过当天的2.40 或者早于 3.20 停止服务器检测
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 2);
+        calendar.set(Calendar.MINUTE, 40);
+        calendar.set(Calendar.SECOND, 0);
+        Date lower = calendar.getTime();
+        calendar.set(Calendar.HOUR_OF_DAY, 3);
+        calendar.set(Calendar.MINUTE, 20);
+        Date upper = calendar.getTime();
+        if(date.before(upper) && date.after(lower))
+        {
+            return;
+        }
+        logger.info("开始检测服务器存活");
+        //检查ss节点信息
+        List<NodeDto> shadowsocksNodes = nodeService.getAllShadowsocksNodes();
+        //发送邮件的失败列表
+        List<NodeDetail> failList = new ArrayList<NodeDetail>();
+        failList.addAll(monitor(shadowsocksNodes));
+        //检查v2ray节点信息
+        List<NodeDto> v2rayNodes = nodeService.getV2rayNodes();
+        failList.addAll(monitor(v2rayNodes));
+        //检查ssr节点信息
+        List<NodeDto> ssrNode = nodeService.getAllShadowsocksRNodes();
+        failList.addAll(monitor(ssrNode));
+//        mailService.sendEmail(failList);
+        logger.info("服务器存活检测结束");
+    }
+
+
+    private List<NodeDetail> monitor(List<NodeDto> nodes)
+    {
+        //发送邮件的失败列表
+        List<NodeDetail> failList = new ArrayList<NodeDetail>();
+        if(CollectionUtils.isEmpty(nodes))
+        {
+            return failList;
+        }
+        ExecutorService pool = Executors.newCachedThreadPool();
+        List<Future> threadList = new ArrayList<Future>();
+        for(final NodeDto node : nodes)
+        {
+            Future future = pool.submit(new Callable() {
+                @Override
+                public Object call() throws Exception {
+                    //使用了kcp协议的不检测
+                    if (v2rayService.isKcp(node)) {
+                        return null;
+                    }
+                    String host = node.getIp();
+                    int port = node.getPort();
+                    logger.info(String.format("正在检测服务器ip：%s, 端口：%d", host, port));
+                    Boolean isActive = MonitorUtils.testTCPActive(host, port);
+                    if (isActive != (node.getFlag() == 1))
+                    {
+                        node.setFlag(isActive ? 1 : 0);
+                        Node modNode = new Node(node.getId(), node.getSource(), isActive ? 1 : 0, node.getSubscribeId());
+                        nodeService.modNode(modNode);
+                    }
+                    if (isActive)
+                    {
+                        logger.info(String.format("服务器ip：%s, 端口：%d正常", host, port));
+                        return null;
+                    }
+                    else
+                    {
+                        logger.warn(String.format("服务器ip：%s, 端口：%d检测不通过", host, port));
+                        if ("own".equals(node.getSource())) {
+                            return node;
+                        }
+                        return null;
+                    }
+                }
+            });
+            threadList.add(future);
+        }
+        for(Future future : threadList)
+        {
+            try
+            {
+                if(future.get() != null)
+                {
+                    failList.add((NodeDto)future.get());
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+        }
+        return failList;
+    }
+}

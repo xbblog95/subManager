@@ -1,0 +1,19 @@
+@media (max-width: 768px) {
+    body{
+        padding: 0px 0px;
+    }
+}
+
+@media (min-width: 768px) {
+    body{
+        padding: 20px 40px;
+    }
+}
+
+.text-right{
+    text-align: right;
+}
+
+.searchArea {
+    margin-bottom: 5px;
+}

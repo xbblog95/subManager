@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShadowsocksR 用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>在 ShadowsocksR 上配置使用科学上网服务</h1>
+        <h2 class="subheader">Proxy Client For SSR</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>ShadowsocksR是windows上一款SSR客户端软件，项目地址 <a href="https://github.com/shadowsocksrr/shadowsocksr-csharp/" target="_blank">https://github.com/shadowsocksrr/shadowsocksr-csharp</a></p>
+        <h2>下载与配置ShadowsocksR</h2>
+        <p>访问项目的发布页面：<a href="https://github.com/shadowsocksrr/shadowsocksr-csharp/releases" target="_blank">https://github.com/shadowsocksrr/shadowsocksr-csharp/releases</a>,
+            点击<code>Lastest release</code>版面，点击<code>Assets</code>下的下载链接，即可下载软件</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/i9c1iwNCOq816dA.png">
+        <p>下载完成后，可以获得一个压缩包，解压压缩包，打开软件,在任务栏会出现软件图标，如下图所示：</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/tGL6tQKP5TDEJ5F.png">
+        <p>右键点击任务栏上的软件图标，依次点击<code>服务器订阅</code>，<code>SSR服务器订阅设置</code>，打开订阅设置窗口</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/LL74xIS7IuOhwUL.png">
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/B7WzZMpJa548rO4.png">
+        <p>点击<code>Add</code>，在<code>网址</code>那里粘贴复制的订阅地址，点击<code>确定</code>，即可保存订阅信息</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/dnT5IgbB9uHWIC8.png">
+        <p>右键点击任务栏上的软件图标，依次点击<code>服务器订阅</code>，<code>更新SSR服务器订阅</code>，软件将自动获取订阅信息</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/asmgwqHFnX10sIC.png">
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/2c1IfjTk74uW8rQ.png">
+        <p>右键点击任务栏上的软件图标，依次点击<code>服务器</code>，选择适合自己的服务器</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/xkt39ecHSN20vfb.png">
+        <h2>更新PAC并设置国内外分流</h2>
+        <p>右键点击任务栏上的软件图标，依次点击<code>系统代理模式</code>，<code>PAC模式</code>,设置SSR为分流模式</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/70TB95RAdgIiTEo.png">
+        <p>右键点击任务栏上的软件图标，依次点击<code>PAC</code>，<code>更新PAC为GFWList</code>,更新PAC为为GFWList，这样访问被墙的网站将会自动使用代理访问。</p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/UkeKh3nzFlS77U4.png">
+        <h2>查看ShadowsocksR监听的端口号</h2>
+        <p>右键点击任务栏上的软件图标，选择<code>选项设置</code>，在打开的窗口中，我们可以看到一行<code>本地端口</code>,后面文本框中的数字即是ShadowsocksR监听端口号
+            拿这个端口号，可以配合<code>SwitchyOmega</code>以达到更加自由的分流配置
+        </p>
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/v4RF4Xl4hMvUEYa.png">
+        <img class="thumbnail" src="../../img/userguide/ShadowsocksR/3CAhJnb3y2CxEuN.png">
+        <h2>写在最后</h2>
+        <p><code>ShadowsocksR</code> 应该是windows下支持SSR最好的客户端，不过他的断流问题一直都没有得到解决。</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>

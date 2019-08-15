@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shadowrocket 用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>在 Shadowrocket 上配置使用科学上网服务</h1>
+        <h2 class="subheader">Rule based proxy utility</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>Shadowrocket 是 iOS 平台一款网络代理工具，它完整地支持 SSR,SS 协议，部分支持Vmess协议，且价格亲民，故可以作为科学上网工具使用。
+            由于某些特殊原因，此类软件在中国区 App Store 已被下架，如需使用，请到非中国区（如美区、港区等）的应用商店付费进行下载（也可以找站长要）。
+            <a href="https://itunes.apple.com/us/app/shadowrocket/id932747118?mt=8" target="_blank">软件地址(需外区账号)</a>
+        </p>
+        <h2>配置 Shadowrocket</h2>
+        <p>首先打开 Shadowrocket，首次打开时首页展示图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/tVsC18xBTk3WbPh.png">
+        <p>点击右上角 <code>+</code> 号，然后点击 <code>类型</code> 那一栏，选择 <code>Subscribe</code>：</p>
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/mnL1la9CgnckN6F.png">
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/zx09BX9Pkf3R7no.png">
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/AFd3lDjYS9URXqj.png">
+        <p>将复制的URL粘贴到 <code>URL</code> 一栏（马赛克遮挡的部分，注意：此链接不能外露），<code>备注</code> 一栏填 <code>自建</code>(也可自己换个名字)，然后点击 <code>完成</code> 保存，接着等待获取所有订阅信息：</p>
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/IO59k69RMgwx6Fg.png">
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/A6LBohSqFvD68XK.png">
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/3oyqTmAethLZ5b4.png">
+        <p>完成后显示图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/RO8E5qEkEtYR510.png">
+        <p>接着点击底部 <code>设置</code> Tab，然后选择 <code>服务器订阅</code>，将第一项 <code>打开时更新</code> 打开，这样每次打开该软件时会自动更新订阅，保证是最新状态。</p>
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/wWzyAuSDe3p13n5.png">
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/0IjOrEPFAm8C9Dr.png">
+        <p>回到首页，打开第一栏的开关，首次打开时会有一个增加VPN配置的提示，选择<code>Allow</code>，然后就可以开始愉快地上网了。</p>
+        <img class="thumbnail" src="../../img/userguide/shadowrocket/MeQyc994i3n9rJg.png">
+        <h2>写在最后</h2>
+        <p><code>Shadowrocket</code> 正常情况足够满足日常需求，但如果对科学上网有更高要求，建议换用 <code>Quantumult</code>，它的整体性能更好且支持自定义规则、策略组等，如果其他需求可自行Google解决。</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>

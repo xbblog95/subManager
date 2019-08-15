@@ -1,0 +1,127 @@
+
+<!doctype html>
+<html class="no-js" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantumult用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>在 Quantumult 上配置使用科学上网服务</h1>
+        <h2 class="subheader">Multi-Protocol Proxy Client</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>Quantumult 是 iOS 平台一款优秀的网络代理工具，它完整地支持 SS, SSR与vmess协议，故可以作为科学上网工具使用。
+            由于某些特殊原因，此类软件在中国区 App Store 已被下架，如需使用，请到非中国区（如美区、港区等）的应用商店付费进行下载（也可以找站长要）。
+            <a href="https://itunes.apple.com/us/app/quantumult/id1252015438?mt=8" target="_blank">软件地址(需外区账号)</a>
+        </p>
+        <h2>配置 Quantumult</h2>
+        <h3>1、订阅服务器</h3>
+        <p>
+            首先打开 Quantumult，首次打开时首页展示图如下：
+        </p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b2684240d9.png">
+        <p>点击底部 <code>设置</code> Tab 进入到设置页面，然后点击 <code>订阅</code>,示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b2684240e0.png">
+        <p>点击右上角的 <code>+</code> 号，并在弹出的菜单中选择 <code>服务器</code>，示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b2683b1738.jpg">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b26842498o.png">
+        <p>点击 <code>名称</code> 一栏，输入 <code>自建</code>（其实随便输啥都行，只是个名字），
+            确认后再点击 <code>链接</code> 一栏，然后从 用户面板 中复制 <code>订阅地址</code>（马赛克遮挡的部分，注意：此链接不能外露），
+            并粘贴在这里，然后确认，最后点击右上角的 <code>保存</code>完成后示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b2683rdw28.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b962d33po.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b962d6iu09.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b2683b8514.png">
+        <p>添加完成后，会返回到之前的订阅管理页面，此时在 <code>服务器</code> 下的名为 <code>自建</code> 选项左滑，
+            会出现三个选项分别是 <code>移除服务器</code>, <code>更新</code>, <code>删除</code>，这里我们选择 <code>更新</code>，
+            完成后会提示 <code>成功</code>，到此节点订阅工作完成。此步骤的示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b9873420e0.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b96324798o.png">
+        <h3>2、添加分流规则</h3>
+        <p>在订阅管理页面，点击右上角的  <code>+</code>号，选择第二项 <code>分流</code>。此步骤的示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b74159698o.png">
+        <p>同前面添加服务器步骤一致，分别在 <code>名称</code> 一栏输入 <code>分流</code>，在 <code>链接</code> 一栏输入：
+            <code id="filter">
+                https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf
+            </code>
+            <br/>
+            <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#filter">点击此处复制</a>
+        </p>
+        <p>并确认，然后勾选下面的 <code>个性化</code> 选项，点击右上角 <code>保存</code>。此步骤的示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b96587423o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b85214795o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b75395141o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b96214861o.png">
+        <p>回到订阅管理页面后，同前面一致，在 <code>分流</code> 下的分流一栏左滑，并选择 <code>替换</code>，完成后会有成功的提示，然后会跳转到有一堆策略选择的页面，
+            不用更改直接点击 <code>保存</code> 即可，完成后会有成功提示。此步骤示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b36715821o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b98426841o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b74268426o.png">
+        <h3>3、添加拒绝规则（去广告）</h3>
+        <p>同前面两点一样，回到订阅管理页面，点击右上角 <code>+</code> 后，在弹出菜单中选择 <code>链接阻止</code>，然后 在<code>名称</code> 中填写 <code>去广告</code>，<code>链接</code> 一栏复制以下链接：如下图所示
+            <code id="rejection">
+                https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf
+            </code>
+            <br/>
+            <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#rejection">点击此处复制</a>
+        </p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bnG05Y6c1o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bwz4NP1lto.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bfiG0iw8To.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b3NY1GQ9co.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bvT7k9lVlo.png">
+        <p>此规则主要包含过滤一些广告、垃圾信息等内容，完成后点击右上角 <code>保存</code>，然后再次左滑并 <code>替换</code>。此步骤的示意图如下：</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bwW5nIYB0o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bz5X70vp5o.png">
+        <h3>4、开启并使用 Quantumult</h3>
+        <p>完成后回到 <code>设置</code> 页面，可以看到这里的 <code>服务器</code>, <code>分流</code>, <code>链接阻止</code> 三项都多了很多，表示更新完毕。</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bJP2fP165o.png">
+        <p>然后点击 <code>底部Tab</code> 中那个黑色的图标，选择你想用的线路，然后回到首页 <code>主页</code>，打开右上角的 <code>开关</code>,首次打开时会有添加VPN配置的提示，选择 <code>Allow</code> ，到此即可开始使用。</p>
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b3nXDA8T4o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b7Sn8HnR5o.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2bRi09jEAao.png">
+        <img class="thumbnail" src="../../img/userguide/quantumult/5c2b3AD7aSrco.png">
+        <h2>写在最后</h2>
+        <p>
+            新手按照上述配置已经基本能够满足日常需求，更多的 Quantumult 高级功能及玩法可后续自行Google实现，比如回家连上WiFi自动断开代理，出门自动打开代理等。
+        </p>
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>

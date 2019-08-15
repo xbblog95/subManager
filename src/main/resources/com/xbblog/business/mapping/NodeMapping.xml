@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbblog.business.mapping.NodeMapping">
+    <select id="getShadowsocksNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
+        select a.id, a.node_id, a.ip, a.port,a.security,a.password,
+        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+        else concat(a.remarks, ' - ', c.`group`)
+        end remarks,
+         a.type, b.source, b.flag, b.subscribeId
+        from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+        where a.type = 'ss'
+        <if test="flag != null">
+            and b.flag = #{flag}
+        </if>
+    </select>
+
+    <select id="getV2rayNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
+        select b.id, a.node_id as nodeId, a.ip, a.port,a.uuid, a.alterId,a.security,a.network,
+        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+        else concat(a.remarks, ' - ', c.`group`)
+        end remarks,
+        a.camouflage_type as camouflageType,a.camouflage_host as camouflageHost,
+        a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId
+        from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+        where a.type = 'v2ray'
+        <if test="flag != null">
+            and b.flag = #{flag}
+        </if>
+    </select>
+
+    <select id="getShadowsocksRNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
+        select a.id, a.node_id, a.ip, a.port,a.security,a.password,a.obfs as obfs, a.obfsParam as obfsparam, a.protocol as protocol,
+        a.protoParam as protoparam,
+        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+        else concat(a.remarks, ' - ', c.`group`)
+        end remarks,
+         a.type, b.source, b.flag, b.subscribeId
+        from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+        where a.type = 'ssr'
+        <if test="flag != null">
+            and b.flag = #{flag}
+        </if>
+    </select>
+
+
+    <select id="getAllValidLink" resultType="com.xbblog.business.dto.Node">
+        select id, ip, port, nodeString, source, flag,subscribeId from t_node where flag = 1 order by subscribeId asc
+    </select>
+
+    <update id="modNode"  parameterType="com.xbblog.business.dto.Node">
+        update t_node set  source = #{source}, flag = #{flag}  where id = #{id}
+    </update>
+
+    <insert id="insertNode"  parameterType="com.xbblog.business.dto.Node" useGeneratedKeys="true" keyProperty="id">
+        insert into t_node
+            (source, subscribeId)
+        values
+            (#{source}, #{subscribeId})
+    </insert>
+
+    <delete id="deleteAllV2ray"  >
+      delete  a, b
+        from t_node a, t_node_detail b where a.id = b.node_id
+        and b.type = 'v2ray'
+    </delete>
+    
+    <insert id="insertV2ray" parameterType="com.xbblog.business.dto.V2rayNodeDetail">
+      insert into t_node_detail
+        (node_id, ip, port,uuid, alterId,security,network,remarks,camouflage_type,camouflage_host,camouflage_path,camouflage_tls,type )
+        values
+        (#{nodeId}, #{ip}, #{port},#{uuid}, #{alterId}, #{security}, #{network}, #{remarks}, #{camouflageType}, #{camouflageHost}, #{camouflagePath}, #{camouflageTls}, 'v2ray')
+    </insert>
+
+    <insert id="insertShadowsocks" parameterType="com.xbblog.business.dto.ShadowsocksNode">
+      insert into t_node_detail
+        (node_id, ip, port,security,password, remarks, type)
+        values
+        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},'ss')
+    </insert>
+    
+    <select id="getShadowsocks" parameterType="com.xbblog.business.dto.NodeDetail" resultType="com.xbblog.business.dto.ShadowsocksNode">
+        select id ,node_id as nodeId, ip, port, remarks,security,type,password from t_node_detail
+        where ip = #{ip} and port = #{port}
+    </select>
+
+    <update id="updateShadowsocks" parameterType="com.xbblog.business.dto.ShadowsocksNode">
+        update t_node_detail
+        set security = #{security}, password = #{password}, remarks = #{remarks},type='ss'
+        where ip = #{ip} and port = #{port}
+    </update>
+    
+    <select id="getCustomNodes" resultType="java.lang.String">
+        select string from t_node_custom
+    </select>
+
+    <insert id="insertShadowsocksR" parameterType="com.xbblog.business.dto.ShadowsocksRNode">
+        insert into t_node_detail
+        (node_id, ip, port,security,password, remarks,obfs,obfsParam,protocol,protoParam, type)
+        values
+        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},#{obfs},#{obfsparam}, #{protocol}, #{protoparam}, 'ssr')
+    </insert>
+
+    <update id="updateShadowsocksR" parameterType="com.xbblog.business.dto.ShadowsocksRNode">
+        update t_node_detail
+        set security = #{security}, password = #{password}, remarks = #{remarks},type='ssr',obfs=#{obfs},obfsParam=#{obfsparam},protocol=#{protocol},protoParam=#{protoparam}
+        where ip = #{ip} and port = #{port}
+    </update>
+</mapper>

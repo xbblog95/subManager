@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proxy SwitchyOmega 用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>SwitchyOmega配置教程</h1>
+        <h2 class="subheader">Free & Fast Switch Proxy</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>SwitchyOmega 是 优秀的代理管理与切换的浏览器插件，通过该插件，可以优雅的切换各个代理，实现不同的站点，走不同的代理的功能。
+            本教程以chrome为例，介绍SwitchyOmega的基本用法。
+        </p>
+        <p>项目地址：
+            <a href="https://github.com/FelisCatus/SwitchyOmega" target="_blank">https://github.com/FelisCatus/SwitchyOmega</a>
+        </p>
+        <h2>下载SwitchyOmega</h2>
+        <p>首先打开chrome应用商店，搜索<code>SwitchyOmega</code></p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/2ihesotLL0ly9rR.png">
+        <p>点击<code>添加至Chrome</code>,在接下来的提示中选择<code>添加扩展程序</code>，chrome将自动下载SwitchyOmega并安装。
+            安装完成后将会出现在chrome的扩展程序栏中。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/5eI8U655eSjbcZo.png">
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/G2t3qRVTU39FW2S.png">
+        <h2>配置SwitchyOmega</h2>
+        <p>右键点击<code>SwitchyOmega</code>图标，选择<code>选项</code>，将打开如下图所示的页面。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/9kSq9SMEG4fslc6.png">
+        <p>点击<code>跳过教程</code>,在左侧<code>情景模式</code>一栏中，打开<code>proxy</code>选项，在代理协议那里选择<code>SOCKS5</code>,
+            代理服务器处填写<code>127.0.0.1</code>，代理端口处填写你代理软件所监听的端口号。
+            查询对应代理软件监听端口号，可以在相应的软件教程中找到。本人的代理软件监听1080端口，所以此处我填写<code>1080</code>，请根据实际情况填写。完成后点击<code>应用选项</code>，保存设置。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/wXVG9U7hZ4uvnca.png">
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/zQ2Zl8K9R9VCX7c.png">
+        <h2>设置被墙站点自动走代理(PAC分流)</h2>
+        <p>依旧点击左侧<code>情景模式</code>一栏中的<code>auto switch</code>选项。在<code>规则列表设置</code>选项卡中，点击<code>添加规则列表</code>。如下图所示。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/41jSoKEHQ1rC1xm.png">
+        <p>在<code>规则列表格式</code>标签上，选择<code>AutoProxy</code>,并删除最上面几个实例规则。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/Lqv9JBsDd5s0HfJ.png">
+        <p>在<code>规则列表网址</code>那里输入
+            <p>
+                <code id="gfwListUrl">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</code>
+                <br/>
+                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#gfwListUrl">点击此处复制</a>
+            </p>
+            点击<code>立即更新情景模式</code>
+        </p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/3Fr2SEb2Dxa4NI3.png">
+
+        <p>弹出提示，选择<code>应用选项</code>，此时SwitchyOmega会自动获取分流规则。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/yDy48KxqiQ9xpep.png">
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/xQLwJA0CVhL0Kt3.png">
+        <p>在<code>切换规则</code>选项框中，我们将条件设置为<code>	(按照规则列表匹配请求)</code>后面的<code>情景模式</code>设置为我们前面配置的情景模式。点击应用选项保存设置。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/b3k62Q9Wity4KPh.png">
+        <p>此时，在此点击浏览器上的<code>SwitchyOmega</code>图标，选择<code>auto switch</code>，即可在访问被墙站点时，自动走代理访问。</p>
+        <img class="thumbnail" src="../../img/userguide/switchyOmega/WEI9Q8Kzh2lhJT0.png">
+        <h2>写在最后</h2>
+        <p>
+            SwitchyOmega同时也支持firefox，其情景模式支持多种规则（自定义，PAC，GFWList）自动切换，非常方便。具体功能还需要各位自行探索。
+        </p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>
