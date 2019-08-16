@@ -35,6 +35,7 @@ public class LinkController {
 
     @Autowired
     private MonitorService monitorService;
+
     @RequestMapping("link")
     public String searchlink(String qq, HttpServletResponse response, HttpServletRequest request) throws IOException {
         if (qq != null && !qq.equals("")) {
@@ -106,15 +107,15 @@ public class LinkController {
         }
     }
 
-//    @RequestMapping("refreshList")
-//    @ResponseBody
-//    public Map<String, Object> refreshList() throws Exception {
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        List<NodeBo> list = nodeService.getAllssLink();
-//        nodeService.insertAll(list);
-//        map.put("success", true);
-//        return map;
-//    }
+    @RequestMapping("refreshList")
+    @ResponseBody
+    public Map<String, Object> refreshList() throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<NodeBo> list = nodeService.getAllssLink();
+        nodeService.insertAll(list);
+        map.put("success", true);
+        return map;
+    }
 
     @RequestMapping("testActive")
     @ResponseBody

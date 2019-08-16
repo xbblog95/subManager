@@ -5,7 +5,7 @@ $(function () {
             return;
         }
         $.ajax({
-            url : BASE_PATH + "user/modifyPassword.do",
+            url : BASE_PATH + "user/modifyPassword",
             method : 'post',
             async : true,
             data : {

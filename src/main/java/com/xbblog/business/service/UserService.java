@@ -25,7 +25,7 @@ public class UserService {
     private MailService mailService;
 
 
-//    @Autowired
+    @Autowired
     private CacheManager cacheManager;
 
     public User getUser(String name) {
@@ -137,16 +137,16 @@ public class UserService {
         mailMap.put("host", basePath);
         mailMap.put("code", code);
         mailMap.put("date", new Date());
-        try {
-//            mailService.sendOne(name + "@qq.com" ,"validateforget.ftl", mailMap, "密码重置");
-            mailService.sendOne();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TemplateException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+//        try {
+////            mailService.sendOne(name + "@qq.com" ,"validateforget.ftl", mailMap, "密码重置");
+//            mailService.sendOne();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (TemplateException e) {
+//            e.printStackTrace();
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
         cacheManager.getCache("forgetValidCode").put(name, code);
         map.put("success", true);
         map.put("email", name + "@qq.com");

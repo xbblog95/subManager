@@ -40,12 +40,12 @@ $(function () {
                     {
                         if(result.resetPass)
                         {
-                            window.location.href = BASE_PATH + "user/resetPassForm.do";
+                            window.location.href = BASE_PATH + "user/resetPassForm";
 
                         }
                         else
                         {
-                            window.location.href = BASE_PATH + "user/toIndex.do";
+                            window.location.href = BASE_PATH + "user/toIndex";
                         }
                     }
                     else
@@ -73,7 +73,7 @@ $(function () {
                 }
             });
             $.ajax({
-                url : BASE_PATH + "user/forgetValidUser.do",
+                url : BASE_PATH + "user/forgetValidUser",
                 method : 'post',
                 async : true,
                 data : {
@@ -134,7 +134,7 @@ $(function () {
             }
         });
         $.ajax({
-            url : BASE_PATH + "user/resetPass.do",
+            url : BASE_PATH + "user/resetPass",
             data : {
                 name : $("#authName").val(),
                 code : $("#authCode").val()

@@ -9,7 +9,7 @@ $(function () {
     //重置订阅地址
     $("#resetToken").on("click", function () {
         $.ajax({
-            url : BASE_PATH + "user/resetToken.do",
+            url : BASE_PATH + "user/resetToken",
             method : 'post',
             async : true,
             data : {
@@ -50,7 +50,7 @@ $(function () {
             return;
         }
         $.ajax({
-            url : BASE_PATH + "user/modifyPassword.do",
+            url : BASE_PATH + "user/modifyPassword",
             method : 'post',
             async : true,
             data : {
@@ -60,7 +60,7 @@ $(function () {
             success : function (result) {
                 if(result.success)
                 {
-                    window.location.href=BASE_PATH + "user/loginOut.do";
+                    window.location.href=BASE_PATH + "user/loginOut";
                 }
                 else
                 {

@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             log.info("当前用户未登录");
             String path = request.getContextPath();
             String basePath =  request.getScheme() + "://"+request.getServerName() + ":"  +  request.getServerPort()+path+"/";
-            response.sendRedirect(basePath + "tologin.do");
+            response.sendRedirect(basePath + "tologin");
             return false;
         }
         else
