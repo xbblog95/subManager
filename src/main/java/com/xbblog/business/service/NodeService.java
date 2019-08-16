@@ -3,6 +3,7 @@ package com.xbblog.business.service;
 import com.xbblog.business.dto.*;
 import com.xbblog.business.mapping.NodeMapping;
 import com.xbblog.business.mapping.SubscribeMapping;
+import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -416,7 +417,7 @@ public class NodeService {
         //获取ss节点
         List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
         //组名
-//        String group = ParameterUtils.getParameter("web.group", "subManager");
+        String group = NormalConfiguration.webGroup;
         //重命名重名的备注
         Map<String, Object> filter = new HashMap<String, Object>();
         for(NodeDto nodeDto : v2rayList)
@@ -438,7 +439,7 @@ public class NodeService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
         map.put("ssNode", ShadowsocksNode.parseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
-//        map.put("group", group);
+        map.put("group", group);
         TemplateUtils.format("clash.ftl", map, os);
     }
 

@@ -5,6 +5,7 @@ import com.xbblog.business.dto.User;
 import com.xbblog.business.service.MonitorService;
 import com.xbblog.business.service.NodeService;
 import com.xbblog.business.service.UserService;
+import com.xbblog.config.NormalConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,7 @@ public class LinkController {
                 response.getWriter().println(shadowsocksRStr);
                 break;
             case "clash":
-//                response.setHeader("content-disposition", "attachment;filename=" + ParameterUtils.getParameter("web.group", "subManager") +".yml");
+                response.setHeader("content-disposition", "attachment;filename=" + NormalConfiguration.webGroup +".yml");
                 response.setCharacterEncoding("UTF-8");
                 nodeService.getClashSubscribe(response.getOutputStream());
                 break;

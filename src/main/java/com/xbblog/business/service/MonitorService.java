@@ -1,5 +1,6 @@
 package com.xbblog.business.service;
 
+import com.xbblog.base.service.EmailService;
 import com.xbblog.business.dto.*;
 import com.xbblog.utils.MonitorUtils;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.Email;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -24,7 +26,7 @@ public class MonitorService {
     private NodeService nodeService;
 
     @Autowired
-    private MailService mailService;
+    private EmailService emailService;
 
     @Autowired
     private V2rayService v2rayService;

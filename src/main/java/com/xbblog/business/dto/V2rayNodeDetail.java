@@ -1,6 +1,7 @@
 package com.xbblog.business.dto;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import org.springframework.util.CollectionUtils;
@@ -180,7 +181,7 @@ public class V2rayNodeDetail extends NodeDetail {
         templateMap.put("ip", node.getIp());
         templateMap.put("port", String.valueOf(node.getPort()));
         templateMap.put("uuid", node.getUuid());
-//        templateMap.put("group", ParameterUtils.getParameter("web.group", "subManager"));
+        templateMap.put("group", NormalConfiguration.webGroup);
         templateMap.put("tls", "".equals(node.getCamouflageTls()) ? "false" : "true");
         templateMap.put("network", "tcp".equals(node.getNetwork()) ? "none" : node.getNetwork());
         templateMap.put("path", "".equals(node.getCamouflagePath()) ? "/" : node.getCamouflagePath());

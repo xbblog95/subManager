@@ -1,5 +1,6 @@
 package com.xbblog.business.dto;
 
+import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import org.springframework.util.CollectionUtils;
@@ -77,7 +78,7 @@ public class ShadowsocksNode extends NodeDetail{
         templateMap.put("security", node.getSecurity());
         templateMap.put("password", Base64Util.encodeURLSafe(node.getPassword()));
         templateMap.put("remarks", Base64Util.encodeURLSafe(node.getRemarks()));
-//        templateMap.put("group", Base64Util.encodeURLSafe(ParameterUtils.getParameter("web.group", "subManager")));
+        templateMap.put("group", Base64Util.encodeURLSafe(NormalConfiguration.webGroup));
         String ssStr = StringUtil.format(template, templateMap);
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }

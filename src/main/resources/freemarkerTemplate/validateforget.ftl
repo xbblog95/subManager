@@ -5,7 +5,7 @@ p{
 }
     </style>
         <div style="position:relative">
-            <img src="${host}/img/mail/bk.jpg" style="height: 650px;width: 100%"/>
+            <img src="https://s2.ax1x.com/2019/03/07/kxuBH1.jpg" style="height: 650px;width: 100%"/>
             <div style="top: 50px;position:absolute;width: 100%">
                 <div style="margin-left: auto;margin-right: auto; width: 60%">
                     <h1>尊敬的先生/女士:</h1>

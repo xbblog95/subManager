@@ -1,5 +1,6 @@
 package com.xbblog.business.service;
 
+import com.xbblog.base.service.EmailService;
 import com.xbblog.business.dto.User;
 import com.xbblog.business.mapping.UserMapping;
 import com.xbblog.utils.MD5;
@@ -21,8 +22,8 @@ public class UserService {
     @Autowired
     private UserMapping userMapping;
 
-//    @Autowired
-    private MailService mailService;
+    @Autowired
+    private EmailService emailService;
 
 
     @Autowired
@@ -137,16 +138,15 @@ public class UserService {
         mailMap.put("host", basePath);
         mailMap.put("code", code);
         mailMap.put("date", new Date());
-//        try {
-////            mailService.sendOne(name + "@qq.com" ,"validateforget.ftl", mailMap, "密码重置");
-//            mailService.sendOne();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (TemplateException e) {
-//            e.printStackTrace();
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            emailService.sendOne(name + "@qq.com" ,"validateforget.ftl", mailMap, "密码重置");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         cacheManager.getCache("forgetValidCode").put(name, code);
         map.put("success", true);
         map.put("email", name + "@qq.com");

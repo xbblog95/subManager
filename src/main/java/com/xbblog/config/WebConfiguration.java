@@ -19,6 +19,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/user/resetPass")
                 .excludePathPatterns("/user/forgetValidUser")
                 .excludePathPatterns("/link/**/getLink")
+                .excludePathPatterns("/link/**/getLink.do")
                 .excludePathPatterns("/static/**")
                 .excludePathPatterns("/user/forgetValidUser")
                 .excludePathPatterns("/user/resetPass")
