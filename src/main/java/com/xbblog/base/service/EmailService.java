@@ -1,14 +1,15 @@
 package com.xbblog.base.service;
 
 import com.xbblog.utils.TemplateUtils;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import java.io.IOException;
@@ -26,20 +27,23 @@ public class EmailService {
     @Autowired
     private MailProperties mailProperties;
 
+    @Value("${monitor.email.fromUserName}")
+    private String fromUserName;
 
-    public void sendOne(String address, String templeteName, Map<String, Object> map, String subject) throws IOException, TemplateException, MessagingException {
+
+    public void sendOne(String address, String templeteName, Map<String, Object> map, String subject) throws IOException, MessagingException {
         StringWriter writer = new StringWriter();
         TemplateUtils.format(templeteName, map, writer);
         mailSender.send(getMessage(writer.toString(), subject, address));
     }
 
-    private MimeMessage getMessage(String html, String subject, String to) throws IOException, TemplateException, MessagingException {
+    private MimeMessage getMessage(String html, String subject, String to) throws IOException, MessagingException {
         MimeMessage msg = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg, true, "utf-8");
         helper.setTo(to);
         helper.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
         helper.setText(html, true);
-        helper.setFrom(mailProperties.getUsername());
+        helper.setFrom(new InternetAddress(mailProperties.getUsername(), fromUserName, "UTF-8"));
         return msg;
     }
 

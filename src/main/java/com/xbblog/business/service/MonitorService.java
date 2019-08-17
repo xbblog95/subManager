@@ -6,11 +6,13 @@ import com.xbblog.utils.MonitorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.Email;
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -31,20 +33,8 @@ public class MonitorService {
     @Autowired
     private V2rayService v2rayService;
 
-
-    public void doJob() throws Exception
-    {
-        try
-        {
-            List<NodeBo> list = nodeService.getAllssLink();
-            nodeService.insertAll(list);
-        }
-        catch (Exception e)
-        {
-
-        }
-        testActive();
-    }
+    @Value("${monitor.email.address}")
+    private String toAddress;
 
 
     @Transactional
@@ -76,7 +66,20 @@ public class MonitorService {
         //检查ssr节点信息
         List<NodeDto> ssrNode = nodeService.getAllShadowsocksRNodes();
         failList.addAll(monitor(ssrNode));
-//        mailService.sendEmail(failList);
+        if(!CollectionUtils.isEmpty(failList))
+        {
+            //发送邮件
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("date", new Date());
+            map.put("list", failList);
+            try {
+                emailService.sendOne(toAddress,  "mail.ftl", map, "服务器异常提醒");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }  catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
         logger.info("服务器存活检测结束");
     }
 

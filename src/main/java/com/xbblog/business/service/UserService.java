@@ -5,7 +5,6 @@ import com.xbblog.business.dto.User;
 import com.xbblog.business.mapping.UserMapping;
 import com.xbblog.utils.MD5;
 import com.xbblog.utils.StringUtil;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
@@ -141,8 +140,6 @@ public class UserService {
         try {
             emailService.sendOne(name + "@qq.com" ,"validateforget.ftl", mailMap, "密码重置");
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TemplateException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
             e.printStackTrace();

@@ -23,7 +23,7 @@ public class SubMangerApplication {
     @RequestMapping("/")
     public String index()
     {
-        return "redirect:/user/toIndex";
+        return "redirect:user/toIndex";
     }
 
     @RequestMapping("/tologin")

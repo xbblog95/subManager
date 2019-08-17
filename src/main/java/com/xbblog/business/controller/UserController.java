@@ -99,7 +99,7 @@ public class UserController extends BaseController  {
         setLoginUser(newUser);
         request.setAttribute("user", newUser);
 
-        return "/index/index";
+        return "index/index";
     }
 
     @RequestMapping("loginOut")
