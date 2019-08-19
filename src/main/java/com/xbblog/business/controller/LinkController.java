@@ -37,21 +37,6 @@ public class LinkController {
     @Autowired
     private MonitorService monitorService;
 
-    @RequestMapping("link")
-    public String searchlink(String qq, HttpServletResponse response, HttpServletRequest request) throws IOException {
-        if (qq != null && !qq.equals("")) {
-            User user = this.userService.getUser(qq);
-            if (user == null) {
-                return "/jsp/403.html";
-            } else {
-                String token = user.getToken();
-                request.setAttribute("token", token);
-                return "/link.jsp";
-            }
-        } else {
-            return "/jsp/403.html";
-        }
-    }
 
     @RequestMapping("{token}/{platform}/getLink")
     public void getLink(@PathVariable("token") String token,@PathVariable("platform") String platform, HttpServletResponse response) throws IOException {

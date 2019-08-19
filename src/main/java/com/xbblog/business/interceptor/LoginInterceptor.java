@@ -33,9 +33,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        String path = request.getContextPath();
-        String basePath =  request.getScheme() + "://"+request.getServerName() + ":"  +  request.getServerPort()+path+"/";
-        request.setAttribute("BASE_PATH", basePath);
+
     }
 
     @Override

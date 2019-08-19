@@ -1,5 +1,6 @@
 package com.xbblog.config;
 
+import com.xbblog.business.interceptor.BaseInterceptor;
 import com.xbblog.business.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,9 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
 
 
     public void addInterceptors(InterceptorRegistry registry) {
+        //所有页面的拦截器
+        HandlerInterceptor baseInterceptor = new BaseInterceptor();
+        registry.addInterceptor(baseInterceptor).addPathPatterns("/**");
         HandlerInterceptor interceptor = new LoginInterceptor();
         //添加登录拦截器
         registry.addInterceptor(interceptor).excludePathPatterns("/user/login")
@@ -24,6 +28,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/user/forgetValidUser")
                 .excludePathPatterns("/user/resetPass")
                 .excludePathPatterns("/*").addPathPatterns("/*/**");
+
     }
 
     /**
