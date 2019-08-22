@@ -40,6 +40,11 @@ public class LinkController {
 
     @RequestMapping("{token}/{platform}/getLink")
     public void getLink(@PathVariable("token") String token,@PathVariable("platform") String platform, HttpServletResponse response) throws IOException {
+        getLinkISP(token, platform, null, response);
+    }
+
+    @RequestMapping("{token}/{platform}/getLink/{isp}")
+    public void getLinkISP(@PathVariable("token") String token,@PathVariable("platform") String platform, @PathVariable("isp")String isp, HttpServletResponse response) throws IOException {
         if (token == null || token.equals("")) {
             response.sendError(403);
             return;
@@ -58,32 +63,32 @@ public class LinkController {
         switch (platform)
         {
             case "v2rayNg":
-                String v2rayNgStr = nodeService.getV2rayNgSubscribe();
+                String v2rayNgStr = nodeService.getV2rayNgSubscribe(isp);
                 response.getWriter().println(v2rayNgStr);
                 break;
-                case "shadowrocket":
-                String shadowrocketStr = nodeService.getShadowrocketSubscribe();
+            case "shadowrocket":
+                String shadowrocketStr = nodeService.getShadowrocketSubscribe(isp);
                 response.getWriter().println(shadowrocketStr);
                 break;
             case "quantumult":
-                String quantumultStr = nodeService.getQuantumultSubscribe();
+                String quantumultStr = nodeService.getQuantumultSubscribe(isp);
                 response.getWriter().println(quantumultStr);
                 break;
             case "shadowsocksR":
-                String shadowsocksRStr = nodeService.getShadowsocksRSubscribe();
+                String shadowsocksRStr = nodeService.getShadowsocksRSubscribe(isp);
                 response.getWriter().println(shadowsocksRStr);
                 break;
             case "clash":
                 response.setHeader("content-disposition", "attachment;filename=" + NormalConfiguration.webGroup +".yml");
                 response.setCharacterEncoding("UTF-8");
-                nodeService.getClashSubscribe(response.getOutputStream());
+                nodeService.getClashSubscribe(response.getOutputStream(), isp);
                 break;
             case "potatso":
-                String potatsoStr = nodeService.getShadowsocksRSubscribe();
+                String potatsoStr = nodeService.getShadowsocksRSubscribe(isp);
                 response.getWriter().println(potatsoStr);
                 break;
             case "pharosPro":
-                String pharosProString = nodeService.getPharosProSubscribe();
+                String pharosProString = nodeService.getPharosProSubscribe(isp);
                 response.getWriter().println(pharosProString);
                 break;
             default:{
@@ -92,6 +97,8 @@ public class LinkController {
             }
         }
     }
+
+
 
     @RequestMapping("refreshList")
     @ResponseBody

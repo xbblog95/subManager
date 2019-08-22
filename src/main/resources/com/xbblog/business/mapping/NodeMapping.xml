@@ -13,6 +13,9 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
+        <if test="isp != null">
+            and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
+        </if>
     </select>
 
     <select id="getV2rayNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
@@ -27,6 +30,9 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
+        <if test="isp != null">
+            and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
+        </if>
     </select>
 
     <select id="getShadowsocksRNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
@@ -40,6 +46,9 @@
         where a.type = 'ssr'
         <if test="flag != null">
             and b.flag = #{flag}
+        </if>
+        <if test="isp != null">
+            and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
         </if>
     </select>
 

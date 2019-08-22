@@ -153,7 +153,7 @@ public class V2rayNodeDetail extends NodeDetail {
             Map<String, String> templateMap = new HashMap<String, String>();
             templateMap.put("base", base64);
             templateMap.put("remarks", URLEncoder.encode(node.getRemarks(), "UTF-8"));
-            templateMap.put("network", node.getNetwork());
+            templateMap.put("network", "ws".equals(node.getNetwork()) ? node.getNetwork() : node.getCamouflageType());
             templateMap.put("host", node.getCamouflageHost());
             templateMap.put("path", node.getCamouflagePath());
             templateMap.put("tls", String.valueOf("tls".equals(node.getCamouflageTls())));
