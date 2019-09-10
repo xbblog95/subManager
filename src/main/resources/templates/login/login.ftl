@@ -1,30 +1,31 @@
+<#assign base=request.contextPath />
 <!DOCTYPE html>
 <head lang="zh-cn">
     <title>一个不知道是啥的站点</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <base  href="${BASE_PATH}">
-    <script type="text/javascript" src="${BASE_PATH}/static/base/jquery.1.9.1.min.js"></script>
-    <script type="text/javascript" src="${BASE_PATH}/static/base/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="${BASE_PATH}/static/base/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="${BASE_PATH}/static/base/css/font-awesome.min.css" />
-    <script type="text/javascript" src="${BASE_PATH}/static/js/plugins/artDialog/js/dialog-plus.js"></script>
-    <link href="${BASE_PATH}/static/js/plugins/artDialog/css/dialog.css" rel="stylesheet"/>
-    <script type="text/javascript" src="${BASE_PATH}/static/js/plugins/jquery.blockUI/jquery.blockUI.js"></script>
+    <base  href="${base}">
+    <script type="text/javascript" src="${base}/static/base/jquery.1.9.1.min.js"></script>
+    <script type="text/javascript" src="${base}/static/base/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="${base}/static/base/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${base}/static/base/css/font-awesome.min.css" />
+    <script type="text/javascript" src="${base}/static/js/plugins/artDialog/js/dialog-plus.js"></script>
+    <link href="${base}/static/js/plugins/artDialog/css/dialog.css" rel="stylesheet"/>
+    <script type="text/javascript" src="${base}/static/js/plugins/jquery.blockUI/jquery.blockUI.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript" src="${BASE_PATH}/static/js/plugins/bootstrap-select-1.12.2/defaults-zh_CN.js"></script>
+    <script type="text/javascript" src="${base}/static/js/plugins/bootstrap-select-1.12.2/defaults-zh_CN.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
-    <script src="${BASE_PATH}/static/js/plugins/validata/jquery-validate.js" type="text/javascript"></script>
-    <script src="${BASE_PATH}/static/js/plugins/validata/validate-config.js" type="text/javascript"></script>
-    <script type="text/javascript" src="${BASE_PATH}/static/js/common/common.js"></script>
-    <script type="text/javascript" src="${BASE_PATH}/static/js/common/common2.js"></script>
+    <script src="${base}/static/js/plugins/validata/jquery-validate.js" type="text/javascript"></script>
+    <script src="${base}/static/js/plugins/validata/validate-config.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${base}/static/js/common/common.js"></script>
+    <script type="text/javascript" src="${base}/static/js/common/common2.js"></script>
 
-    <script type="text/javascript" src="${BASE_PATH}/static/js/plugins/toastr/toastr.js"></script>
-    <link rel="stylesheet" href="${BASE_PATH}/static/css/plugins/toastr/toastr.min.css"/>
-    <script type="text/javascript" src="${BASE_PATH}/static/js/login/login.js"></script>
+    <script type="text/javascript" src="${base}/static/js/plugins/toastr/toastr.js"></script>
+    <link rel="stylesheet" href="${base}/static/css/plugins/toastr/toastr.min.css"/>
+    <script type="text/javascript" src="${base}/static/js/login/login.js"></script>
     <script  type="text/javascript">
-        var BASE_PATH = '${BASE_PATH}';
+        var BASE_PATH = '${base}';
     </script>
     <style rel="stylesheet">
         html body{
@@ -96,7 +97,7 @@
 <div >
     <div class="loginMain text-center body-div" >
         <div>
-            <img class="img-circle" src="${BASE_PATH}/static/img/profile_small.png" style="height: 150px; width: 150px"/>
+            <img class="img-circle" src="${base}/static/img/profile_small.png" style="height: 150px; width: 150px"/>
         </div>
         <h1>一个不知道是啥的站点</h1>
         <form class="m-t" role="form" id="loginForm" method="post">
