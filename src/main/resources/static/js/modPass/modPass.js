@@ -15,7 +15,7 @@ $(function () {
             success : function (result) {
                 if(result.success)
                 {
-                    window.location.href=BASE_PATH;
+                    window.location.href="/user/toIndex";
                 }
                 else
                 {
