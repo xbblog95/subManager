@@ -168,10 +168,10 @@ public class AnalysisUtils {
                 String obfsparam = Base64Util.decode(obfsArr[0].substring(obfsArr[0].indexOf("=") + 1));
                 String protoparam = Base64Util.decode(obfsArr[1].substring(obfsArr[1].indexOf("=") + 1));
                 String remarks = Base64Util.decode(obfsArr[2].substring(obfsArr[2].indexOf("=") + 1));
-                if("http_simple".equals(obf))
-                {
-                    obfsparam = COMM_OBFSPARAM;
-                }
+//                if("http_simple".equals(obf))
+//                {
+//                    obfsparam = COMM_OBFSPARAM;
+//                }
                 ShadowsocksRNode shadowsocksRNode = new ShadowsocksRNode(ip, port,remarks, security, password,proto,protoparam, obf, obfsparam );
                 return shadowsocksRNode;
             }
