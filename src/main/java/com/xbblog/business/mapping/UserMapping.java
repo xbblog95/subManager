@@ -1,5 +1,6 @@
 package com.xbblog.business.mapping;
 
+import com.xbblog.business.dto.SubLog;
 import com.xbblog.business.dto.User;
 
 import java.util.Map;
@@ -12,4 +13,6 @@ public interface UserMapping {
     void modifyPassword(Map<String, Object> paramMap);
 
     void modifyToken(Map<String, Object> paramMap);
+
+    void saveSubLog(SubLog subLog);
 }

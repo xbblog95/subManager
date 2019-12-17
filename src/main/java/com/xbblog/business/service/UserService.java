@@ -1,8 +1,10 @@
 package com.xbblog.business.service;
 
 import com.xbblog.base.service.EmailService;
+import com.xbblog.business.dto.SubLog;
 import com.xbblog.business.dto.User;
 import com.xbblog.business.mapping.UserMapping;
+import com.xbblog.utils.IPUtils;
 import com.xbblog.utils.MD5;
 import com.xbblog.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,5 +175,19 @@ public class UserService {
         map.put("success", false);
         map.put("msg", "验证码无效，请重新获取");
         return map;
+    }
+
+    public void saveSubLog(SubLog subLog)
+    {
+        try
+        {
+            subLog.setIpdesc(IPUtils.getAddress(subLog.getIp()));
+        }
+        catch (Exception e)
+        {
+            e.fillInStackTrace();
+            subLog.setIpdesc(IPUtils.UNKOWN_ADDRESS);
+        }
+        userMapping.saveSubLog(subLog);
     }
 }
