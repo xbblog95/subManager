@@ -1,0 +1,111 @@
+
+<!doctype html>
+<html class="no-js" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netch用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>在 Netch 上配置使用游戏加速服务</h1>
+        <h2 class="subheader">开源游戏加速工具</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>Netch可以很轻松解决SSTAP头疼的NAT问题，即使本地网络的NAT等级为严格，Netch也能够利用SSR,V2ray节点提高本地NAT等级。使用前需要做大量的测试寻找节点，这需要有一定的耐心。</p>
+        <h2>下载与安装Netch</h2>
+        <p>访问项目的发布页面：<a href="https://github.com/NetchX/Netch/releases" target="_blank">https://github.com/NetchX/Netch</a></p>
+        <p>
+            在这个页面上，找到<code>Latest release</code>项，这里下载的是软件的最新版本，如果看到<code>pre release</code>,表示软件的测试版本。
+            根据你的操作系统，下载x86或者x64的软件包，点击<code>Netch.1.3.5.x64.7z</code>，下载软件。注意32位的操作系统只能下载x86版本，64位操作系统只能下载x64版本，如果混淆用，会出现出乎意料的问题。
+        </p>
+        <img class="thumbnail" src="../../img/userguide/netch/QtdBgoe6HuglGa4.png">
+        <p>下载完成之后，可以获得一个压缩包，解压该压缩包，打开软件，如下图所示：。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/8QUzu2D3BCmm4qJ.png">
+        <img class="thumbnail" src="../../img/userguide/netch/3NRQn3tzCYiN2e4.png">
+        <h2>配置Natch</h2>
+        <p>启动V2ray或者SSR这类科学上网工具，选择其中一个节点。在Netch打开页面上，依次选择<code>服务器</code>，<code>添加[socks5]服务器</code>，打开<code>添加[socks5]服务器</code>窗口
+        </p>
+        <img class="thumbnail" src="../../img/userguide/netch/1T8ioggcG7p3pzg.png">
+        <img class="thumbnail" src="../../img/userguide/netch/Qvh8QtJw3XL5yKY.png">
+        <br/>
+        <img class="thumbnail" src="../../img/userguide/netch/7czGfInpFl54IsE.png">
+        <p>填写<code>备注</code>、<code>地址</code>、并输入你V2ray或者SSR监听的端口号，点击<code>保存</code>按钮。如不清楚监听的端口号,请去对应的教程上查看，这里不在赘述。这里以本机监听端口号为1080为例:</p>
+        <img class="thumbnail" src="../../img/userguide/netch/qVyh853y3WSMt8Z.png">
+        <img class="thumbnail" src="../../img/userguide/netch/Qx5xM2uCv9l5Tuo.png">
+        <h2>测试节点NAT状态</h2>
+        <p>由于不知道加速效果，所以必须测试，测试用的工具是<code>NatTypeTester</code>, 项目发布地址：<a href="https://github.com/HMBSbige/NatTypeTester/releases" target="_blank">https://github.com/HMBSbige/NatTypeTester/releases</a></p>
+        <p>下载下来之后直接运行即可，不可以修改名称，以防测试失败。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/npZAS4LHBekmLX7.png">
+        <p>选择一个国外的<code>STUN Server</code>,如：<code>stun.syncthing.net</code>,点击<code>Test</code>，可以发现此时的NAT Type为<code>Symmetric</code>。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/Ybju412x5mBY5Hx.png">
+        <img class="thumbnail" src="../../img/userguide/netch/xO31M4XrStLqQXJ.png">
+        <p>返回Netch用户界面，模式处选择<code>[1]NatTypeTester</code>,点击<code>启动</code>，启动完成时，状态栏显示为<code>已启动</code>。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/R8zmx5lS4ljCWcw.png">
+        <img class="thumbnail" src="../../img/userguide/netch/8ufNH3y6YdeCJ5H.png">
+        <p>再次返回<code>NatTypeTester</code>用户界面，点击<code>Test</code>，查看此时NAT状态。如果此时的NAT Type为<code>FullCone</code>,则说明加速成功，该节点可以用来解决NAT问题。如果不是，请在V2ray或者SSR处切换节点，再试一次。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/36GiBc0rAzUFOBa.png">
+        <h2>加速游戏</h2>
+        <p>返回<code>Netch</code>用户界面，依次点击<code>模式</code>，<code>创建进程模式</code>，打开创建进程模式窗口。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/eQtK3Cb7l728vD0.png">
+        <p>以加速steam为例，填写<code>备注</code>，点击<code>扫描</code>, 选择游戏所在的安装目录。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/94PZDWfv82jX4PN.png">
+        <p>软件会自动扫描该目录下所需要加速的游戏文件，点击<code>确定</code>完成扫描。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/rNzx4wuYnHayK9F.png">
+        <p>点击<code>保存</code>完成模式添加。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/JQ778SnGYBNNAzt.png">
+        <p>选择刚刚的添加的模式，点击<code>启动</code>，即可加速对应游戏。</p>
+        <img class="thumbnail" src="../../img/userguide/netch/Rcx2yE5l0LBP8lU.png">
+        <p>打开所加速的游戏，体验加速效果。</p>
+        <p>加速前：</p>
+        <img class="thumbnail" src="../../img/userguide/netch/ZmK7z58clwqp8RJ.jpg">
+        <p>加速后：</p>
+        <img class="thumbnail" src="../../img/userguide/netch/Hrm9EBk5k62NqBS.jpg">
+        <h2>Q&A</h2>
+        <p>Q:软件打不开，提示要安装xxx，怎么弄？</p>
+        <p>A:安装一下 .NET Framework 4.8 打上最新的 Visual C++ 合集.</p>
+        <p>Q:照做了，还是有问题</p>
+        <p>A:重装系统</p>
+        <p>Q:为什么测试之前，NatTypeTester提示的是Symmetric，使用Netch之后还是Symmetric或者直接udpBlocked?</p>
+        <p>A:首先检查NatTypeTester有没有被修改过名称，NatTypeTester如果被修改过文件名，Netch识别不到其真正加速的程序，导致测试失败。如果依旧是Symmetric，说明节点所在的网络环境不好，不能加速游戏，如果提示udpBlocked，则节点不能向游戏服务器发送数据。这两种情况只能换节点解决。</p>
+        <p>Q:NAT测试为FullCone，玩游戏的时候依旧很卡，还会掉线？</p>
+        <p>A:首先一定要保证线路传输的通畅，不丢包，否则NAT再好，也是浮云。如果游戏对NAT要求不高，尽可能的选择你所在省份到游戏所在国家的专线，以保证数据传输的可靠性。</p>
+        <p>Q:试了好多节点都不行，有没有快捷的办法？</p>
+        <p>A:暂时没有，折腾的目的就是在于此，一定要耐心！</p>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>

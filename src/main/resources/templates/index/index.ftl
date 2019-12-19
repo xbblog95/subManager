@@ -148,6 +148,7 @@
                 <p style="color: red;font-size: 150%">各个客户端订阅格式不兼容，请选择对应正确的客户端订阅地址</p>
                 <p>其他教程</p>
                 <a href="${base}/static/html/userguide/switchyOmega.html" target="_blank">SwitchyOmega使用教程</a>
+                <a href="${base}/static/html/userguide/Netch.html" target="_blank">游戏加速工具Netch使用教程</a>
             </div>
         </div>
         <div class="row">
