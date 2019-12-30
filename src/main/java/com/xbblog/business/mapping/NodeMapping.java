@@ -19,7 +19,7 @@ public interface NodeMapping {
 
     void insertNode(Node node);
 
-    void deleteAllV2ray();
+    void deleteAll();
 
     void insertV2ray(NodeDetail nodeDetail);
 

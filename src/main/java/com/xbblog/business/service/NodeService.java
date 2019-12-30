@@ -31,22 +31,15 @@ public class NodeService {
     @Transactional(propagation = Propagation.REQUIRED, isolation= Isolation.REPEATABLE_READ)
     public void insertAll(List<NodeBo> list)
     {
-        deleteAllV2ray();
+        deleteAll();
         for(NodeBo node : list)
         {
             NodeDetail detail = node.getNodeDetail();
             if(detail.getClass() == ShadowsocksNode.class)
             {
-                if(!shadowsocksRIsExists(detail))
-                {
-                    insertNode(node.getNode());
-                    detail.setNodeId(node.getNode().getId());
-                    insertShadowsocks(node.getNodeDetail());
-                }
-                else
-                {
-                    updateShadowsocks(node.getNodeDetail());
-                }
+                insertNode(node.getNode());
+                detail.setNodeId(node.getNode().getId());
+                insertShadowsocks(node.getNodeDetail());
             }
             else if(detail.getClass() == V2rayNodeDetail.class)
             {
@@ -58,16 +51,9 @@ public class NodeService {
             {
                 //ssr节点
                 ShadowsocksRNode shadowsocksRNode = (ShadowsocksRNode)detail;
-                if(!shadowsocksRIsExists(shadowsocksRNode))
-                {
-                    insertNode(node.getNode());
-                    detail.setNodeId(node.getNode().getId());
-                    insertShadowsocksR(shadowsocksRNode);
-                }
-                else
-                {
-                    updateShadowsocksR(shadowsocksRNode);
-                }
+                insertNode(node.getNode());
+                detail.setNodeId(node.getNode().getId());
+                insertShadowsocksR(shadowsocksRNode);
             }
         }
     }
@@ -204,8 +190,8 @@ public class NodeService {
         nodeMapping.modNode(node);
     }
 
-    public void deleteAllV2ray() {
-        nodeMapping.deleteAllV2ray();
+    public void deleteAll() {
+        nodeMapping.deleteAll();
     }
 
     public List<NodeDto> getAllShadowsocksNodes() {

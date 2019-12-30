@@ -68,10 +68,9 @@
             (#{source}, #{subscribeId})
     </insert>
 
-    <delete id="deleteAllV2ray"  >
+    <delete id="deleteAll"  >
       delete  a, b
         from t_node a, t_node_detail b where a.id = b.node_id
-        and b.type = 'v2ray'
     </delete>
     
     <insert id="insertV2ray" parameterType="com.xbblog.business.dto.V2rayNodeDetail">
