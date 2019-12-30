@@ -17,4 +17,11 @@
     <update id="modifyToken" parameterType="java.util.HashMap">
         update t_user set token = #{token} where name = #{name}
     </update>
+    
+    <insert id="saveSubLog" parameterType="com.xbblog.business.dto.SubLog">
+        insert into t_user_subscribe_log
+        (ip, `type`, userId,  ipdesc, `time`)
+        values
+        (#{ip}, #{type}, #{userId}, #{ipdesc}, #{time})
+    </insert>
 </mapper>
