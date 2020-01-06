@@ -64,6 +64,12 @@
             <version>${springboot-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.hiwepy</groupId>
+            <artifactId>ip2region-spring-boot-starter</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.alibaba</groupId>

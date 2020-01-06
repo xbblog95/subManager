@@ -1,5 +1,6 @@
 package com.xbblog.business.service;
 
+import com.github.hiwepy.ip2region.spring.boot.IP2regionTemplate;
 import com.xbblog.base.service.EmailService;
 import com.xbblog.business.dto.SubLog;
 import com.xbblog.business.dto.User;
@@ -29,6 +30,10 @@ public class UserService {
 
     @Autowired
     private CacheManager cacheManager;
+
+
+    @Autowired
+    private IP2regionTemplate ip2regionTemplate;
 
     public User getUser(String name) {
         Map<String, Object> map  = new HashMap<String, Object>();
@@ -181,7 +186,7 @@ public class UserService {
     {
         try
         {
-            subLog.setIpdesc(IPUtils.getAddress(subLog.getIp()));
+            subLog.setIpdesc(ip2regionTemplate.binarySearch(subLog.getIp()).getRegion());
         }
         catch (Exception e)
         {
