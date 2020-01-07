@@ -16,6 +16,7 @@
         <if test="isp != null">
             and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
         </if>
+        order by b.subscribeId desc
     </select>
 
     <select id="getV2rayNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
@@ -33,6 +34,7 @@
         <if test="isp != null">
             and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
         </if>
+        order by b.subscribeId desc
     </select>
 
     <select id="getShadowsocksRNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
@@ -50,12 +52,10 @@
         <if test="isp != null">
             and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
         </if>
+        order by b.subscribeId desc
     </select>
 
 
-    <select id="getAllValidLink" resultType="com.xbblog.business.dto.Node">
-        select id, ip, port, nodeString, source, flag,subscribeId from t_node where flag = 1 order by subscribeId asc
-    </select>
 
     <update id="modNode"  parameterType="com.xbblog.business.dto.Node">
         update t_node set  source = #{source}, flag = #{flag}  where id = #{id}
