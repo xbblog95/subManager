@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Configuration
-@PropertySource({"file:/usr/local/subManager/web/conf/mail.properties", "file:/usr/local/subManager/web/conf/web.properties"})
+@PropertySource({"file:D:\\subManager\\mail.properties", "file:D:\\subManager\\web.properties"})
 public class MailConfiguration {
 
 
