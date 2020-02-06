@@ -107,6 +107,23 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         return parseToShadowsocksRString(node);
     }
 
+    public static String parseToQuantumultXString(ShadowsocksRNode node)
+    {
+        String template = "shadowsocks=${ip}:${port}, method=${security}, password=${password}, ssr-protocol=${protocol}," +
+                " ssr-protocol-param=${protoparam}, obfs=${obfs}, obfs-host=${obfsparam}, tag=${remarks}";
+        Map<String, String> templateMap = new HashMap<String, String>();
+        templateMap.put("ip", node.getIp());
+        templateMap.put("port", String.valueOf(node.getPort()));
+        templateMap.put("security", node.getSecurity());
+        templateMap.put("password", node.getPassword());
+        templateMap.put("remarks", node.getRemarks());
+        templateMap.put("protocol", node.getProtocol());
+        templateMap.put("obfs", node.getObfs());
+        templateMap.put("protoparam", node.getProtoparam());
+        templateMap.put("obfsparam", node.getObfsparam());
+        return StringUtil.format(template, templateMap);
+    }
+
     public String getObfsparam() {
         return obfsparam;
     }

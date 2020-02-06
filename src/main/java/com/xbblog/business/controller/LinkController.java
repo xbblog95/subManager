@@ -80,6 +80,12 @@ public class LinkController {
                 userService.saveSubLog(subLog);
                 response.getWriter().println(quantumultStr);
                 break;
+            case "quantumultx":
+                String quantumultXStr = nodeService.getQuantumultXSubscribe(isp);
+                userService.saveSubLog(subLog);
+                response.setContentType("text/plain;charset=UTF-8");
+                response.getWriter().println(quantumultXStr);
+                break;
             case "shadowsocksR":
                 String shadowsocksRStr = nodeService.getShadowsocksRSubscribe(isp);
                 userService.saveSubLog(subLog);

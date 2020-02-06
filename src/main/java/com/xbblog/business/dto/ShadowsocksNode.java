@@ -65,6 +65,22 @@ public class ShadowsocksNode extends NodeDetail{
         return parseToShadowsocksRString(node);
     }
 
+    public static String parseToQuantumultXString(ShadowsocksNode node) {
+        if(node == null)
+        {
+            return "";
+        }
+        String template = "shadowsocks=${ip}:${port}, method=${security}, password=${password}, fast-open=false, udp-relay=false, tag=${remarks}";
+        Map<String, String> templateMap = new HashMap<String, String>();
+        templateMap.put("ip", node.getIp());
+        templateMap.put("port", String.valueOf(node.getPort()));
+        templateMap.put("security", node.getSecurity());
+        templateMap.put("password", node.getPassword());
+        templateMap.put("remarks", node.getRemarks());
+        templateMap.put("group", Base64Util.encodeURLSafe(NormalConfiguration.webGroup));
+        String ssStr = StringUtil.format(template, templateMap);
+        return ssStr;
+    }
     public static String parseToShadowsocksRString(ShadowsocksNode node)
     {
         if(node == null)

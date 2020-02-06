@@ -49,6 +49,7 @@ public class V2rayNodeDetail extends NodeDetail {
         this.camouflageTls = camouflageTls == null ? "" : camouflageTls;
     }
 
+
     public String getUuid() {
         return uuid;
     }
@@ -191,6 +192,44 @@ public class V2rayNodeDetail extends NodeDetail {
         return String.format("vmess://%s", base64);
     }
 
+    public static String parseToQuantumultXString(V2rayNodeDetail node) {
+        if(node == null)
+        {
+            return "";
+        }
+//        QuantumultX不支持kcp
+        if("kcp".equals(node.getNetwork()))
+        {
+            return "";
+        }
+        String template = "vmess=${ip}:${port}, method=aes-128-gcm, password=${uuid}";
+        Map<String, String> templateMap = new HashMap<String, String>();
+        templateMap.put("remarks", node.getRemarks());
+        templateMap.put("ip", node.getIp());
+        templateMap.put("port", String.valueOf(node.getPort()));
+        templateMap.put("uuid", node.getUuid());
+        templateMap.put("group", NormalConfiguration.webGroup);
+        templateMap.put("tls", "".equals(node.getCamouflageTls()) ? "false" : "true");
+        templateMap.put("network", "".equals(node.getCamouflageTls())
+                ? ("http".equals(node.getNetwork()) ? "http" : "")
+                : ("ws".equals(node.getNetwork()) ? "wss" : "over-tls"));
+        templateMap.put("path", "".equals(node.getCamouflagePath()) ? "/" : node.getCamouflagePath());
+        templateMap.put("host", "".equals(node.getCamouflageHost()) ? node.getIp() :node.getCamouflageHost());
+        StringBuffer basic = new StringBuffer(StringUtil.format(template, templateMap));
+        if("over-tls".equals(templateMap.get("network")))
+        {
+            basic.append(", obfs=" + templateMap.get("network"));
+        }
+        else
+        {
+            if(!"".equals(templateMap.get("network")))
+            {
+                basic.append(", obfs=" + templateMap.get("network") + ", obfs-uri=" + node.camouflagePath );
+            }
+        }
+        basic.append(", fast-open=false, udp-relay=false, tag=" + node.getRemarks());
+        return basic.toString();
+    }
     public static V2rayNodeDetail toV2rayDetail(NodeDto nodeDto) {
         if(nodeDto == null)
         {

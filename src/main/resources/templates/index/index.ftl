@@ -131,6 +131,10 @@
                 <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#quantumultSub">点击此处复制订阅地址</a>
                 <a href="${base}/static/html/userguide/quantumult.html" target="_blank">点击此处查看quantumult使用教程</a>
                 <br/>
+                您的quantumultX(IOS客户端)专用订阅地址为：<span id="quantumultxSub" >${BASE_PATH}link/${user.token}/quantumultx/getLink</span>
+                <br/>
+                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#quantumultxSub">点击此处复制订阅地址</a>
+                <br/>
                 您的clash(PC客户端)专用托管地址为：<span id="clashSub" >${BASE_PATH}link/${user.token}/clash/getLink</span>
                 <br/>
                 <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#clashSub">点击此处复制订阅地址</a>

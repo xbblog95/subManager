@@ -526,4 +526,62 @@ public class NodeService {
         }
         return Base64Util.encodeURLSafe(buffer.toString());
     }
+
+    public String getQuantumultXSubscribe(String isp) throws UnsupportedEncodingException {
+        StringBuffer buffer = new StringBuffer();
+        Map<String, Object> paramMap = new HashMap<String, Object>(1);
+        paramMap.put("flag", 1);
+        paramMap.put("isp", isp);
+        //获取v2ray节点
+        List<NodeDto> v2rayList = nodeMapping.getV2rayNodes(paramMap);
+        List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
+        for(int i = 0; i < v2rayNodeDetails.size(); i++)
+        {
+            String sub = V2rayNodeDetail.parseToQuantumultXString(v2rayNodeDetails.get(i));
+            if(StringUtil.isEmpty(sub))
+            {
+                continue;
+            }
+            buffer.append(sub);
+            if(i != v2rayNodeDetails.size() - 1 && !StringUtil.isEmpty(sub))
+            {
+                buffer.append("\n");
+            }
+        }
+        //获取ss节点
+        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        if(!CollectionUtils.isEmpty(ssList))
+        {
+            buffer.append("\n");
+        }
+        //转换成ss对象
+        List<ShadowsocksNode> shadowsocksNodes = ShadowsocksNode.toShadowsocksNodes(ssList);
+        for(int i = 0; i < shadowsocksNodes.size(); i++)
+        {
+            String sub = ShadowsocksNode.parseToQuantumultXString(shadowsocksNodes.get(i));
+            buffer.append(sub);
+            if(i != shadowsocksNodes.size() - 1 && !StringUtil.isEmpty(sub))
+            {
+                buffer.append("\n");
+            }
+        }
+        //获取ssr节点
+        List<NodeDto> ssrList = nodeMapping.getShadowsocksRNodes(paramMap);
+        if(!CollectionUtils.isEmpty(ssrList))
+        {
+            buffer.append("\n");
+        }
+        //转换成ssr对象
+        List<ShadowsocksRNode> shadowsocksRNodes = ShadowsocksRNode.toShadowsocksRNodes(ssrList);
+        for(int i = 0; i < shadowsocksRNodes.size(); i++)
+        {
+            String sub = ShadowsocksRNode.parseToQuantumultXString(shadowsocksRNodes.get(i));
+            buffer.append(sub);
+            if(i != shadowsocksRNodes.size() - 1 && !StringUtil.isEmpty(sub))
+            {
+                buffer.append("\n");
+            }
+        }
+        return buffer.toString();
+    }
 }
