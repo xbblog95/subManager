@@ -135,6 +135,8 @@
                 <br/>
                 <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#quantumultxSub">点击此处复制订阅地址</a>
                 <br/>
+                分流规则：<code id="quantumultxFilter" >https://raw.githubusercontent.com/ConnersHua/Profiles/master/Quantumult/X/Pro.conf</code>
+                <br/>
                 您的clash(PC客户端)专用托管地址为：<span id="clashSub" >${BASE_PATH}link/${user.token}/clash/getLink</span>
                 <br/>
                 <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#clashSub">点击此处复制订阅地址</a>
