@@ -212,7 +212,7 @@ public class NodeService {
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取v2ray节点
-        List<NodeDto> v2rayList = nodeMapping.getV2rayNodes(paramMap);
+        List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //转换成v2ray对象
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
         for(int i = 0; i < v2rayNodeDetails.size(); i++)
@@ -224,7 +224,7 @@ public class NodeService {
             }
         }
         //获取ss节点
-        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssList))
         {
             buffer.append("\n");
@@ -248,7 +248,7 @@ public class NodeService {
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取v2ray节点
-        List<NodeDto> v2rayList = nodeMapping.getV2rayNodes(paramMap);
+        List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
         for(int i = 0; i < v2rayNodeDetails.size(); i++)
         {
@@ -264,7 +264,7 @@ public class NodeService {
             }
         }
         //获取ss节点
-        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssList))
         {
             buffer.append("\n");
@@ -281,7 +281,7 @@ public class NodeService {
             }
         }
         //获取ssr节点
-        List<NodeDto> ssrList = nodeMapping.getShadowsocksRNodes(paramMap);
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssrList))
         {
             buffer.append("\n");
@@ -307,7 +307,7 @@ public class NodeService {
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取v2ray节点
-        List<NodeDto> v2rayList = nodeMapping.getV2rayNodes(paramMap);
+        List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
         for(int i = 0; i < v2rayNodeDetails.size(); i++)
         {
@@ -323,7 +323,7 @@ public class NodeService {
             }
         }
         //获取ss节点
-        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssList))
         {
             buffer.append("\n");
@@ -340,7 +340,7 @@ public class NodeService {
             }
         }
         //获取ssr节点
-        List<NodeDto> ssrList = nodeMapping.getShadowsocksRNodes(paramMap);
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssrList))
         {
             buffer.append("\n");
@@ -382,7 +382,7 @@ public class NodeService {
 //            }
 //        }
         //获取ssr节点
-        List<NodeDto> ssrList = nodeMapping.getShadowsocksRNodes(paramMap);
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssrList))
         {
             buffer.append("\n");
@@ -406,9 +406,9 @@ public class NodeService {
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取v2ray节点
-        List<NodeDto> v2rayList = nodeMapping.getV2rayNodes(paramMap);
+        List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //获取ss节点
-        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         //组名
         String group = NormalConfiguration.webGroup;
         //重命名重名的备注
@@ -442,7 +442,7 @@ public class NodeService {
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取ss节点
-        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         //转换成ss对象
         List<ShadowsocksNode> shadowsocksNodes = ShadowsocksNode.toShadowsocksNodes(ssList);
         for(int i = 0; i < shadowsocksNodes.size(); i++)
@@ -455,7 +455,7 @@ public class NodeService {
             }
         }
         //获取ssr节点
-        List<NodeDto> ssrList = nodeMapping.getShadowsocksRNodes(paramMap);
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssrList))
         {
             buffer.append("\n");
@@ -480,7 +480,7 @@ public class NodeService {
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取v2ray节点
-        List<NodeDto> v2rayList = nodeMapping.getV2rayNodes(paramMap);
+        List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //转换成v2ray对象
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
         for(int i = 0; i < v2rayNodeDetails.size(); i++)
@@ -492,7 +492,7 @@ public class NodeService {
             }
         }
         //获取ss节点
-        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssList))
         {
             buffer.append("\n");
@@ -508,7 +508,7 @@ public class NodeService {
             }
         }
         //获取ssr节点
-        List<NodeDto> ssrList = nodeMapping.getShadowsocksRNodes(paramMap);
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssrList))
         {
             buffer.append("\n");
@@ -533,7 +533,7 @@ public class NodeService {
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取v2ray节点
-        List<NodeDto> v2rayList = nodeMapping.getV2rayNodes(paramMap);
+        List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
         for(int i = 0; i < v2rayNodeDetails.size(); i++)
         {
@@ -549,7 +549,7 @@ public class NodeService {
             }
         }
         //获取ss节点
-        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssList))
         {
             buffer.append("\n");
@@ -566,7 +566,7 @@ public class NodeService {
             }
         }
         //获取ssr节点
-        List<NodeDto> ssrList = nodeMapping.getShadowsocksRNodes(paramMap);
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssrList))
         {
             buffer.append("\n");
@@ -583,5 +583,99 @@ public class NodeService {
             }
         }
         return buffer.toString();
+    }
+
+    private List<NodeDto> getV2rayNodes(Map<String, Object> paramMap)
+    {
+        List<NodeDto> list = nodeMapping.getV2rayNodes(paramMap);
+        List<NodeDto> result = new ArrayList<NodeDto>();
+        for(NodeDto node : list)
+        {
+            if(filterNode(node))
+            {
+                result.add(node);
+            }
+        }
+        return result;
+    }
+
+    private List<NodeDto> getShadowsocksNodes(Map<String, Object> paramMap)
+    {
+        List<NodeDto> list = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> result = new ArrayList<NodeDto>();
+        for(NodeDto node : list)
+        {
+            if(filterNode(node))
+            {
+                result.add(node);
+            }
+        }
+        return result;
+    }
+
+    private List<NodeDto> getShadowsocksRNodes(Map<String, Object> paramMap)
+    {
+        List<NodeDto> list = nodeMapping.getShadowsocksRNodes(paramMap);
+        List<NodeDto> result = new ArrayList<NodeDto>();
+        for(NodeDto node : list)
+        {
+            if(filterNode(node))
+            {
+                result.add(node);
+            }
+        }
+        return result;
+    }
+
+    private boolean filterNode(NodeDto node)
+    {
+        Map<Integer, Map<Integer, List<SubscribeKeyConfig>>> fitlerkeyMap = querySubscribeKeyConfig();
+        Map<Integer, List<SubscribeKeyConfig>> subscribeKeyConfigMap = fitlerkeyMap.get(node.getSubscribeId());
+        if(subscribeKeyConfigMap == null)
+        {
+            return true;
+        }
+        if(node.getSubscribeId() == 1)
+        {
+            int i = 1;
+        }
+//        先做排除节点的配置
+        List<SubscribeKeyConfig> excludeKeys = subscribeKeyConfigMap.get(SubscribeKeyConfigKind.ExcludeKey.getCode());
+        for(SubscribeKeyConfig config : excludeKeys)
+        {
+            if(node.getRemarks().indexOf(config.getKey()) >= 0)
+            {
+                return false;
+            }
+        }
+        // 在做过滤关键字
+        List<SubscribeKeyConfig> filterKeys = subscribeKeyConfigMap.get(SubscribeKeyConfigKind.FilterKey.getCode());
+        for(SubscribeKeyConfig config : filterKeys)
+        {
+            if(node.getRemarks().indexOf(config.getKey()) >= 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public Map<Integer, Map<Integer, List<SubscribeKeyConfig>>> querySubscribeKeyConfig()
+    {
+        Map<Integer, Map<Integer, List<SubscribeKeyConfig>>> result = new HashMap<Integer, Map<Integer, List<SubscribeKeyConfig>>>();
+        List<SubscribeKeyConfig> subscribeKeyConfigs = nodeMapping.querySubscribeKeyConfig();
+        for(SubscribeKeyConfig subscribeKeyConfig : subscribeKeyConfigs)
+        {
+            if(result.get(subscribeKeyConfig.getSubscribeId()) == null)
+            {
+                Map<Integer, List<SubscribeKeyConfig>> map = new HashMap<Integer, List<SubscribeKeyConfig>>();
+                map.put(SubscribeKeyConfigKind.FilterKey.getCode(), new ArrayList<SubscribeKeyConfig>());
+                map.put(SubscribeKeyConfigKind.ExcludeKey.getCode(), new ArrayList<SubscribeKeyConfig>());
+                result.put(subscribeKeyConfig.getSubscribeId(), map);
+            }
+            result.get(subscribeKeyConfig.getSubscribeId()).get(subscribeKeyConfig.getKind()).add(subscribeKeyConfig);
+        }
+        return result;
     }
 }

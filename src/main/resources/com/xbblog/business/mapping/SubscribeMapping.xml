@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xbblog.business.mapping.SubscribeMapping">
     <select id="getAllSubscribe" resultType="com.xbblog.business.dto.Subscribe">
-        select id, subscribe, `type` from t_subscribe
+        select id, subscribe, `type` from t_subscribe where flag = 1
     </select>
 
 </mapper>

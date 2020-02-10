@@ -114,4 +114,9 @@
         set security = #{security}, password = #{password}, remarks = #{remarks},type='ssr',obfs=#{obfs},obfsParam=#{obfsparam},protocol=#{protocol},protoParam=#{protoparam}
         where ip = #{ip} and port = #{port}
     </update>
+    
+    
+    <select id="querySubscribeKeyConfig"  resultType="com.xbblog.business.dto.SubscribeKeyConfig">
+        select id, subscribeId, flag, `key`, kind from t_subscribe_key_config where flag = 1
+    </select>
 </mapper>

@@ -35,5 +35,5 @@ public interface NodeMapping {
 
     void updateShadowsocksR(ShadowsocksRNode node);
 
-
+    List<SubscribeKeyConfig> querySubscribeKeyConfig();
 }

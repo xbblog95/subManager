@@ -63,6 +63,7 @@ public class LinkController {
         String ip = StringUtil.isEmpty(request.getHeader("X-real-ip")) ? request.getRemoteAddr() : request.getHeader("X-real-ip");
         logger.info(String.format("用户QQ：%s获取订阅", user.getName()));
         SubLog subLog = new SubLog(ip, platform, user.getId());
+        response.setContentType("text/plain;charset=UTF-8");
         switch (platform)
         {
             case "v2rayNg":
@@ -83,7 +84,6 @@ public class LinkController {
             case "quantumultx":
                 String quantumultXStr = nodeService.getQuantumultXSubscribe(isp);
                 userService.saveSubLog(subLog);
-                response.setContentType("text/plain;charset=UTF-8");
                 response.getWriter().println(quantumultXStr);
                 break;
             case "shadowsocksR":
