@@ -650,6 +650,11 @@ public class NodeService {
         }
         // 在做过滤关键字
         List<SubscribeKeyConfig> filterKeys = subscribeKeyConfigMap.get(SubscribeKeyConfigKind.FilterKey.getCode());
+        //没有过滤关键字，自动成功
+        if(CollectionUtils.isEmpty(filterKeys))
+        {
+            return true;
+        }
         for(SubscribeKeyConfig config : filterKeys)
         {
             if(node.getRemarks().indexOf(config.getKey()) >= 0)
