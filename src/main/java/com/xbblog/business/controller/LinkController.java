@@ -92,7 +92,7 @@ public class LinkController {
                 response.getWriter().println(shadowsocksRStr);
                 break;
             case "clash":
-                response.setHeader("content-disposition", "attachment;filename=" + NormalConfiguration.webGroup +".yml");
+                response.setHeader("content-disposition", "attachment;filename=clash.yml");
                 response.setCharacterEncoding("UTF-8");
                 userService.saveSubLog(subLog);
                 nodeService.getClashSubscribe(response.getOutputStream(), isp);
@@ -114,17 +114,6 @@ public class LinkController {
         }
     }
 
-
-
-    @RequestMapping("refreshList")
-    @ResponseBody
-    public Map<String, Object> refreshList() throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<NodeBo> list = nodeService.getAllssLink();
-        nodeService.insertAll(list);
-        map.put("success", true);
-        return map;
-    }
 
     @RequestMapping("testActive")
     @ResponseBody

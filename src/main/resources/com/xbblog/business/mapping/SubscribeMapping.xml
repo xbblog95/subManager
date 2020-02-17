@@ -6,4 +6,9 @@
         select id, subscribe, `type` from t_subscribe where flag = 1
     </select>
 
+    <select id="getNodeHandler" parameterType="java.util.HashMap" resultType="com.xbblog.business.dto.SubscribeHandler">
+        select id, subscribeId, className
+        from t_subscribe_handler_className
+        where subscribeId = #{subscribeId}
+    </select>
 </mapper>

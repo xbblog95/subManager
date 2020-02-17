@@ -66,13 +66,13 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         templateMap.put("ip", node.getIp());
         templateMap.put("port", String.valueOf(node.getPort()));
         templateMap.put("security", node.getSecurity());
-        templateMap.put("password", Base64Util.encodeURLSafe(node.getPassword()));
+        templateMap.put("password", Base64Util.encode(node.getPassword()));
         templateMap.put("remarks", Base64Util.encodeURLSafe(node.getRemarks()));
         templateMap.put("protocol", node.getProtocol());
         templateMap.put("obfs", node.getObfs());
         templateMap.put("protoparam", Base64Util.encodeURLSafe(node.getProtoparam()));
         templateMap.put("obfsparam", Base64Util.encodeURLSafe(node.getObfsparam()));
-        templateMap.put("group", Base64Util.encodeURLSafe(NormalConfiguration.webGroup));
+        templateMap.put("group", Base64Util.encode(NormalConfiguration.webGroup));
         String ssStr = StringUtil.format(template, templateMap);
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }

@@ -1,6 +1,7 @@
 package com.xbblog.business.service;
 
 import com.xbblog.business.dto.*;
+import com.xbblog.business.handler.NodeHandler;
 import com.xbblog.business.mapping.NodeMapping;
 import com.xbblog.business.mapping.SubscribeMapping;
 import com.xbblog.config.NormalConfiguration;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.util.*;
 
 @Service
@@ -126,6 +128,20 @@ public class NodeService {
         {
             for(Subscribe subscribe : list)
             {
+                //获取节点Handler
+                Map<String, Object> handlerReqMap = new HashMap<String, Object>();
+                handlerReqMap.put("subscribeId", subscribe.getId());
+                SubscribeHandler className = subscribeMapping.getNodeHandler(handlerReqMap);
+                String classStr = "";
+                if(className == null)
+                {
+                    classStr = "com.xbblog.business.handler.impl.DefaultNodeHandler";
+                }
+                else
+                {
+                    classStr = className.getClassName();
+                }
+                Class<NodeHandler> clazz = (Class<NodeHandler>) Class.forName(classStr);
                 if(SubscribeType.SSSTRING.getCode().equals(subscribe.getType()))
                 {
                     String[] arr = subscribe.getSubscribe().split(" ");
@@ -135,7 +151,9 @@ public class NodeService {
                         if(nodeDetail != null)
                         {
                             Node node = new Node("subscribe", subscribe.getId());
-                            nodeList.add(new NodeBo(node, nodeDetail));
+                            NodeBo bo = new NodeBo(node, nodeDetail);
+                            clazz.newInstance().beforeInsertDBHandler(bo);
+                            nodeList.add(bo);
                         }
                     }
                 }
@@ -145,7 +163,9 @@ public class NodeService {
                     for(NodeDetail nodeDetail : nodes)
                     {
                         Node node = new Node("subscribe", subscribe.getId());
-                        nodeList.add(new NodeBo(node, nodeDetail));
+                        NodeBo bo = new NodeBo(node, nodeDetail);
+                        clazz.newInstance().beforeInsertDBHandler(bo);
+                        nodeList.add(bo);
                     }
                 }
                 else if(SubscribeType.SSDSUBSCRIBE.getCode().equals(subscribe.getType()))
@@ -155,7 +175,9 @@ public class NodeService {
                     for(NodeDetail nodeDetail : nodes)
                     {
                         Node node = new Node("subscribe", subscribe.getId());
-                        nodeList.add(new NodeBo(node, nodeDetail));
+                        NodeBo bo = new NodeBo(node, nodeDetail);
+                        clazz.newInstance().beforeInsertDBHandler(bo);
+                        nodeList.add(bo);
                     }
                 }
                 else if(SubscribeType.V2RAYNGSUBSCRIBE.getCode().equals(subscribe.getType()))
@@ -165,7 +187,9 @@ public class NodeService {
                     for(NodeDetail nodeDetail : nodes)
                     {
                         Node node = new Node("subscribe", subscribe.getId());
-                        nodeList.add(new NodeBo(node, nodeDetail));
+                        NodeBo bo = new NodeBo(node, nodeDetail);
+                        clazz.newInstance().beforeInsertDBHandler(bo);
+                        nodeList.add(bo);
                     }
                 }
                 else if(SubscribeType.SSRSUBSCRIBE.getCode().equals(subscribe.getType()))
@@ -175,7 +199,9 @@ public class NodeService {
                     for(NodeDetail nodeDetail : nodes)
                     {
                         Node node = new Node("subscribe", subscribe.getId());
-                        nodeList.add(new NodeBo(node, nodeDetail));
+                        NodeBo bo = new NodeBo(node, nodeDetail);
+                        clazz.newInstance().beforeInsertDBHandler(bo);
+                        nodeList.add(bo);
                     }
                 }
 
@@ -398,7 +424,7 @@ public class NodeService {
                 buffer.append("\n");
             }
         }
-        return Base64Util.encodeURLSafe(buffer.toString());
+        return Base64Util.encode(buffer.toString());
     }
 
     public void getClashSubscribe(OutputStream os, String isp) {
@@ -410,7 +436,7 @@ public class NodeService {
         //获取ss节点
         List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         //组名
-        String group = NormalConfiguration.webGroup;
+//        String group = NormalConfiguration.webGroup;
         //重命名重名的备注
         Map<String, Object> filter = new HashMap<String, Object>();
         for(NodeDto nodeDto : v2rayList)
@@ -432,7 +458,7 @@ public class NodeService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
         map.put("ssNode", ShadowsocksNode.parseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
-        map.put("group", group);
+        map.put("group", "clash");
         TemplateUtils.format("clash.ftl", map, os);
     }
 

@@ -92,9 +92,9 @@ public class ShadowsocksNode extends NodeDetail{
         templateMap.put("ip", node.getIp());
         templateMap.put("port", String.valueOf(node.getPort()));
         templateMap.put("security", node.getSecurity());
-        templateMap.put("password", Base64Util.encodeURLSafe(node.getPassword()));
-        templateMap.put("remarks", Base64Util.encodeURLSafe(node.getRemarks()));
-        templateMap.put("group", Base64Util.encodeURLSafe(NormalConfiguration.webGroup));
+        templateMap.put("password", Base64Util.encode(node.getPassword()));
+        templateMap.put("remarks", Base64Util.encode(node.getRemarks()));
+        templateMap.put("group", Base64Util.encode(NormalConfiguration.webGroup));
         String ssStr = StringUtil.format(template, templateMap);
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }
@@ -118,7 +118,10 @@ public class ShadowsocksNode extends NodeDetail{
         }
         for(NodeDto node : nodes)
         {
-            list.add(toShadowsocksNode(node));
+            if(!"chacha20".equals(node.getSecurity()))
+            {
+                list.add(toShadowsocksNode(node));
+            }
         }
         return list;
     }
