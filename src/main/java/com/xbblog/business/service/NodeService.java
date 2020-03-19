@@ -101,7 +101,7 @@ public class NodeService {
         nodeMapping.insertNode(node);
     }
 
-    public List<NodeBo> getAllssLink() throws Exception {
+    public List<NodeBo> getAllssLink() throws Exception  {
         List<NodeBo> nodeList = new ArrayList<NodeBo>();
         //自己自定义的节点解析
         List<String> customList = nodeMapping.getCustomNodes();
@@ -112,9 +112,13 @@ public class NodeService {
             {
                 nodeDetail = AnalysisUtils.analysisShadowsocks(str);
             }
-            else
+            else if(str.startsWith("vmess://"))
             {
                 nodeDetail = AnalysisUtils.analysisVmess(str);
+            }
+            else
+            {
+                nodeDetail = AnalysisUtils.analysisShadowsocksR(str);
             }
             if(nodeDetail != null)
             {
@@ -170,7 +174,13 @@ public class NodeService {
                 }
                 else if(SubscribeType.SSDSUBSCRIBE.getCode().equals(subscribe.getType()))
                 {
-                    String text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                    String text = null;
+                    try {
+                        text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        continue;
+                    }
                     List<NodeDetail> nodes = AnalysisUtils.analysisShadowsocksD(text);
                     for(NodeDetail nodeDetail : nodes)
                     {
@@ -182,7 +192,15 @@ public class NodeService {
                 }
                 else if(SubscribeType.V2RAYNGSUBSCRIBE.getCode().equals(subscribe.getType()))
                 {
-                    String text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                    String text = "";
+                    try {
+                        text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        continue;
+                    }
                     List<NodeDetail> nodes = AnalysisUtils.analysisV2raySubscribe(text);
                     for(NodeDetail nodeDetail : nodes)
                     {
@@ -194,7 +212,13 @@ public class NodeService {
                 }
                 else if(SubscribeType.SSRSUBSCRIBE.getCode().equals(subscribe.getType()))
                 {
-                    String text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                    String text = null;
+                    try {
+                        text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        continue;
+                    }
                     List<NodeDetail> nodes = AnalysisUtils.analysisSSRSubscribe(text);
                     for(NodeDetail nodeDetail : nodes)
                     {

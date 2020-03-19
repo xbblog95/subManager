@@ -139,7 +139,7 @@ public class AnalysisUtils {
         return nodeList;
     }
 
-    private static ShadowsocksRNode analysisShadowsocksR(String ssr) {
+    public static ShadowsocksRNode analysisShadowsocksR(String ssr) {
         if(ssr == null || "".equals(ssr))
         {
             return null;

@@ -2,9 +2,11 @@ package com.xbblog.business.mapping;
 
 import com.xbblog.business.dto.SubLog;
 import com.xbblog.business.dto.User;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+@Component
 public interface UserMapping {
     User getUser(Map<String, Object> map);
 
