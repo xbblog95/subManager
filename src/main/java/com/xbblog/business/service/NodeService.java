@@ -661,10 +661,6 @@ public class NodeService {
         {
             return true;
         }
-        if(node.getSubscribeId() == 1)
-        {
-            int i = 1;
-        }
 //        先做排除节点的配置
         List<SubscribeKeyConfig> excludeKeys = subscribeKeyConfigMap.get(SubscribeKeyConfigKind.ExcludeKey.getCode());
         for(SubscribeKeyConfig config : excludeKeys)
