@@ -3,6 +3,7 @@ package com.xbblog.business.service;
 import com.xbblog.base.service.EmailService;
 import com.xbblog.business.dto.*;
 import com.xbblog.utils.MonitorUtils;
+import com.xbblog.utils.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,11 +93,10 @@ public class MonitorService {
         {
             return failList;
         }
-        ExecutorService pool = Executors.newCachedThreadPool();
         List<Future> threadList = new ArrayList<Future>();
         for(final NodeDto node : nodes)
         {
-            Future future = pool.submit(new Callable() {
+            Future future = ThreadUtils.getPool().submit(new Callable() {
                 @Override
                 public Object call() throws Exception {
                     //使用了kcp协议的不检测
