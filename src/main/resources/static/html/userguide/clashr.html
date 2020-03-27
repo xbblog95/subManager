@@ -1,0 +1,77 @@
+
+<!doctype html>
+<html class="no-js" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clash用户指南</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <style rel="stylesheet" type="text/css">
+        @media screen and (min-width: 768px){
+            img.thumbnail{
+                max-height: 800px;
+            }
+        }
+        code {
+            padding: 2px 4px;
+            word-wrap: break-word;
+            color: #555;
+            background: #eee;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="callout large primary">
+    <div class="row column text-center">
+        <h1>在 ClashR 上配置使用科学上网服务</h1>
+        <h2 class="subheader">Multi-Protocol Proxy Client</h2>
+    </div>
+</div>
+
+<div class="row medium-8 large-7 columns">
+    <div class="blog-post">
+        <h2>前言</h2>
+        <p>Clash
+        </p>
+        <h2>下载与安装ClashR</h2>
+        <p>访问项目的发布页面：<a href="https://github.com/BoyceLig/ClashR.For.Windows/releases" target="_blank">https://github.com/BoyceLig/ClashR.For.Windows/releases</a></p>
+        <p>
+            在这个页面上，找到<code>Latest release</code>项，这里下载的是软件的最新版本，如果看到<code>pre release</code>,表示软件的测试版本。
+            点击<code>ClashR.For.Windows.for.Chinese.rar</code>，下载软件。下载速度缓慢可以<a href="https://sub.gxlog.com/pan/clashr.rar">点击此处</a>加速下载
+        </p>
+        <img class="thumbnail" src="../../img/userguide/clash/sBdM6vWYHI89en0.png">
+        <p>下载完成之后，可以获得一个压缩包，解压该压缩包，打开软件，如下图所示：如果没有显示界面，可以在任务栏右侧点击软件图标打开软件。</p>
+        <img class="thumbnail" src="../../img/userguide/clash/h8lr6H7I48xtZSS.png">
+        <h2>配置Clash</h2>
+        <p>点击界面左侧的<code>Profiles</code>，在<code>Download from a URL</code>处粘贴拷贝过来的地址，（马赛克遮挡的部分任意一个，注意：此链接不能外露）,此链接在登录后的首页可以看到。
+            点击<code>Download</code>,即可下载订阅信息。如看到<code>Success</code>，表示订阅下载成功。
+        </p>
+        <img class="thumbnail" src="../../img/userguide/clash/rV4mseCVrs0qHOE.png">
+        <img class="thumbnail" src="../../img/userguide/clash/1pf1VLiJDmpSuoY.png">
+        <img class="thumbnail" src="../../img/userguide/clash/u8RyuAI56WYay0e.png">
+        <p>点击界面左侧的<code>Proxies</code>，点击刚刚下载下来的订阅，可以展开服务器列表，选择适合自己的服务器。</p>
+        <img class="thumbnail" src="../../img/userguide/clash/686vwYLP4AtSu38.png">
+        <p>最后回到主页面，勾选<code>System Proxy</code>后的钩，即可开始上网。</p>
+        <img class="thumbnail" src="../../img/userguide/clash/t9QY8HJA23rWAVv.png">
+        <img class="thumbnail" src="../../img/userguide/clash/34ABg2EUkKnpdwA.png">
+        <h2>查看Clash监听的端口号</h2>
+        <p>打开软件主界面，<code>Socks Prot</code>后面的数字即是Clash监听的端口号，可以配合<code>SwitchyOmega</code>以达到更加自由的分流配置</p>
+        <img class="thumbnail" src="../../img/userguide/clash/yQ5cLg59yQJYzur.png">
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript">
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        alert("复制成功！")
+    });
+</script>
+</body>
+</html>
