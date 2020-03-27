@@ -92,10 +92,16 @@ public class LinkController {
                 response.getWriter().println(shadowsocksRStr);
                 break;
             case "clash":
-                response.setHeader("content-disposition", "attachment;filename=clash.yml");
+                response.setHeader("content-disposition", "attachment;filename=clash.yaml");
                 response.setCharacterEncoding("UTF-8");
                 userService.saveSubLog(subLog);
                 nodeService.getClashSubscribe(response.getOutputStream(), isp);
+                break;
+            case "clashr":
+                response.setHeader("content-disposition", "attachment;filename=clash.yaml");
+                response.setCharacterEncoding("UTF-8");
+                userService.saveSubLog(subLog);
+                nodeService.getClashRSubscribe(response.getOutputStream(), isp);
                 break;
             case "potatso":
                 String potatsoStr = nodeService.getShadowsocksRSubscribe(isp);

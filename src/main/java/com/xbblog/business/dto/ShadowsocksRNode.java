@@ -77,25 +77,30 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }
 
-    public static List<Map<String, String>> parseToClashMap(List<ShadowsocksNode> list)
-    {
-        List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
-        if(CollectionUtils.isEmpty(list))
-        {
-            return mapList;
-        }
-        for(ShadowsocksNode shadowsocksNode : list)
-        {
-            Map<String, String> tempMap = new HashMap<String, String>();
-            tempMap.put("ip", shadowsocksNode.getIp());
-            tempMap.put("port", String.valueOf(shadowsocksNode.getPort()));
-            tempMap.put("security", shadowsocksNode.getSecurity());
-            tempMap.put("password",shadowsocksNode.getPassword());
-            tempMap.put("remarks", shadowsocksNode.getRemarks());
-            mapList.add(tempMap);
-        }
-        return mapList;
-    }
+   public static List<Map<String,String>> parseShadowsocksRToClashMap(List<ShadowsocksRNode> list)
+   {
+       List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
+       if(CollectionUtils.isEmpty(list))
+       {
+           return mapList;
+       }
+       for(ShadowsocksRNode shadowsocksRNode : list)
+       {
+           Map<String, String> tempMap = new HashMap<String, String>();
+           tempMap.put("type","ssr");
+           tempMap.put("ip", shadowsocksRNode.getIp());
+           tempMap.put("protocol", shadowsocksRNode.getProtocol());
+           tempMap.put("protocolparam", shadowsocksRNode.getProtoparam());
+           tempMap.put("obfs", shadowsocksRNode.getObfs());
+           tempMap.put("obfsparam", shadowsocksRNode.getObfsparam());
+           tempMap.put("port", String.valueOf(shadowsocksRNode.getPort()));
+           tempMap.put("security", shadowsocksRNode.getSecurity());
+           tempMap.put("password",shadowsocksRNode.getPassword());
+           tempMap.put("remarks", shadowsocksRNode.getRemarks());
+           mapList.add(tempMap);
+       }
+       return mapList;
+   }
 
     public static String parseToShadowrocketString(ShadowsocksRNode node)
     {

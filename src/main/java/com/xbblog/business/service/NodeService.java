@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.ServletOutputStream;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -728,5 +729,89 @@ public class NodeService {
             result.get(subscribeKeyConfig.getSubscribeId()).get(subscribeKeyConfig.getKind()).add(subscribeKeyConfig);
         }
         return result;
+    }
+
+    public void getClashRSubscribe(OutputStream os, String isp) {
+        Map<String, Object> paramMap = new HashMap<String, Object>(1);
+        paramMap.put("flag", 1);
+        paramMap.put("isp", isp);
+        //获取v2ray节点
+        List<NodeDto> v2rayList = getV2rayNodes(paramMap);
+        //获取ss节点
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
+        //获取ssr节点
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
+        //组名
+//        String group = NormalConfiguration.webGroup;
+        //重命名重名的备注
+        Map<String, Object> filter = new HashMap<String, Object>();
+        //流媒体v2ray节点
+        List<NodeDto> netflixV2rayList = new ArrayList<NodeDto>();
+        //流媒体ss节点
+        List<NodeDto> netflixSsList = new ArrayList<NodeDto>();
+        //流媒体ssr节点
+        List<NodeDto> netflixSsrList = new ArrayList<NodeDto>();
+        for(NodeDto nodeDto : v2rayList)
+        {
+            if(filter.get(nodeDto.getRemarks()) != null)
+            {
+                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
+            }
+            filter.put(nodeDto.getRemarks(), nodeDto);
+            if(isNetflix(nodeDto))
+            {
+                netflixV2rayList.add(nodeDto);
+            }
+        }
+        for(NodeDto nodeDto : ssList)
+        {
+            if(filter.get(nodeDto.getRemarks()) != null)
+            {
+                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
+            }
+            filter.put(nodeDto.getRemarks(), nodeDto);
+            if(isNetflix(nodeDto))
+            {
+                netflixSsList.add(nodeDto);
+            }
+        }
+        for(NodeDto nodeDto : ssrList)
+        {
+            if(filter.get(nodeDto.getRemarks()) != null)
+            {
+                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
+            }
+            filter.put(nodeDto.getRemarks(), nodeDto);
+            if(isNetflix(nodeDto))
+            {
+                netflixSsrList.add(nodeDto);
+            }
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
+        map.put("ssNode", ShadowsocksNode.parseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
+        map.put("ssrNode", ShadowsocksRNode.parseShadowsocksRToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrList)));
+        map.put("netflixV2rayList", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(netflixV2rayList)));
+        map.put("netflixSsList", ShadowsocksNode.parseToClashMap(ShadowsocksNode.toShadowsocksNodes(netflixSsList)));
+        map.put("netflixSsrList", ShadowsocksRNode.parseShadowsocksRToClashMap(ShadowsocksRNode.toShadowsocksRNodes(netflixSsrList)));
+        map.put("group", "clash");
+        TemplateUtils.format("clashr.ftl", map, os);
+    }
+
+    public Boolean isNetflix(NodeDto nodeDto)
+    {
+        if(nodeDto == null)
+        {
+            return false;
+        }
+        String[] keyWords = new  String[]{"netflix", "nf",  "流媒体"};
+        for(String key : keyWords)
+        {
+            if(nodeDto.getRemarks().toLowerCase().indexOf(key) >= 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
