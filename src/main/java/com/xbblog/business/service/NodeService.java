@@ -129,110 +129,106 @@ public class NodeService {
         }
         //订阅的节点
         List<Subscribe> list =  subscribeMapping.getAllSubscribe();
-        if(list != null || list.size() != 0)
+        if(CollectionUtils.isEmpty(list))
         {
-            for(Subscribe subscribe : list)
+            return nodeList;
+        }
+        for(Subscribe subscribe : list)
+        {
+            //获取节点Handler
+            Map<String, Object> handlerReqMap = new HashMap<String, Object>();
+            handlerReqMap.put("subscribeId", subscribe.getId());
+            List<SubscribeHandler> nodeHandler = subscribeMapping.getNodeHandler(handlerReqMap);
+            if(SubscribeType.SSSTRING.getCode().equals(subscribe.getType()))
             {
-                //获取节点Handler
-                Map<String, Object> handlerReqMap = new HashMap<String, Object>();
-                handlerReqMap.put("subscribeId", subscribe.getId());
-                SubscribeHandler className = subscribeMapping.getNodeHandler(handlerReqMap);
-                String classStr = "";
-                if(className == null)
+                String[] arr = subscribe.getSubscribe().split(" ");
+                for(String ss : arr)
                 {
-                    classStr = "com.xbblog.business.handler.impl.DefaultNodeHandler";
-                }
-                else
-                {
-                    classStr = className.getClassName();
-                }
-                Class<NodeHandler> clazz = (Class<NodeHandler>) Class.forName(classStr);
-                if(SubscribeType.SSSTRING.getCode().equals(subscribe.getType()))
-                {
-                    String[] arr = subscribe.getSubscribe().split(" ");
-                    for(String ss : arr)
-                    {
-                        NodeDetail nodeDetail = AnalysisUtils.analysisShadowsocks(ss);
-                        if(nodeDetail != null)
-                        {
-                            Node node = new Node("subscribe", subscribe.getId());
-                            NodeBo bo = new NodeBo(node, nodeDetail);
-                            clazz.newInstance().beforeInsertDBHandler(bo);
-                            nodeList.add(bo);
-                        }
-                    }
-                }
-                else if(SubscribeType.SSDSTRING.getCode().equals(subscribe.getType()))
-                {
-                    List<NodeDetail> nodes = AnalysisUtils.analysisShadowsocksD(subscribe.getSubscribe());
-                    for(NodeDetail nodeDetail : nodes)
+                    NodeDetail nodeDetail = AnalysisUtils.analysisShadowsocks(ss);
+                    if(nodeDetail != null)
                     {
                         Node node = new Node("subscribe", subscribe.getId());
                         NodeBo bo = new NodeBo(node, nodeDetail);
-                        clazz.newInstance().beforeInsertDBHandler(bo);
+                        bo = nodeHandler(nodeHandler, bo);
                         nodeList.add(bo);
                     }
                 }
-                else if(SubscribeType.SSDSUBSCRIBE.getCode().equals(subscribe.getType()))
+            }
+            else if(SubscribeType.SSDSTRING.getCode().equals(subscribe.getType()))
+            {
+                List<NodeDetail> nodes = AnalysisUtils.analysisShadowsocksD(subscribe.getSubscribe());
+                for(NodeDetail nodeDetail : nodes)
                 {
-                    String text = null;
-                    try {
-                        text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        continue;
-                    }
-                    List<NodeDetail> nodes = AnalysisUtils.analysisShadowsocksD(text);
-                    for(NodeDetail nodeDetail : nodes)
-                    {
-                        Node node = new Node("subscribe", subscribe.getId());
-                        NodeBo bo = new NodeBo(node, nodeDetail);
-                        clazz.newInstance().beforeInsertDBHandler(bo);
-                        nodeList.add(bo);
-                    }
+                    Node node = new Node("subscribe", subscribe.getId());
+                    NodeBo bo = new NodeBo(node, nodeDetail);
+                    bo = nodeHandler(nodeHandler, bo);
+                    nodeList.add(bo);
                 }
-                else if(SubscribeType.V2RAYNGSUBSCRIBE.getCode().equals(subscribe.getType()))
+            }
+            else if(SubscribeType.SSDSUBSCRIBE.getCode().equals(subscribe.getType()))
+            {
+                String text = null;
+                try {
+                    text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                List<NodeDetail> nodes = AnalysisUtils.analysisShadowsocksD(text);
+                for(NodeDetail nodeDetail : nodes)
                 {
-                    String text = "";
-                    try {
-                        text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        continue;
-                    }
-                    List<NodeDetail> nodes = AnalysisUtils.analysisV2raySubscribe(text);
-                    for(NodeDetail nodeDetail : nodes)
-                    {
-                        Node node = new Node("subscribe", subscribe.getId());
-                        NodeBo bo = new NodeBo(node, nodeDetail);
-                        clazz.newInstance().beforeInsertDBHandler(bo);
-                        nodeList.add(bo);
-                    }
+                    Node node = new Node("subscribe", subscribe.getId());
+                    NodeBo bo = new NodeBo(node, nodeDetail);
+                    bo = nodeHandler(nodeHandler, bo);
+                    nodeList.add(bo);
                 }
-                else if(SubscribeType.SSRSUBSCRIBE.getCode().equals(subscribe.getType()))
+            }
+            else if(SubscribeType.V2RAYNGSUBSCRIBE.getCode().equals(subscribe.getType()))
+            {
+                String text = "";
+                try {
+                    text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                }
+                catch (Exception e)
                 {
-                    String text = null;
-                    try {
-                        text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        continue;
-                    }
-                    List<NodeDetail> nodes = AnalysisUtils.analysisSSRSubscribe(text);
-                    for(NodeDetail nodeDetail : nodes)
-                    {
-                        Node node = new Node("subscribe", subscribe.getId());
-                        NodeBo bo = new NodeBo(node, nodeDetail);
-                        clazz.newInstance().beforeInsertDBHandler(bo);
-                        nodeList.add(bo);
-                    }
+                    e.printStackTrace();
                 }
-
+                List<NodeDetail> nodes = AnalysisUtils.analysisV2raySubscribe(text);
+                for(NodeDetail nodeDetail : nodes)
+                {
+                    Node node = new Node("subscribe", subscribe.getId());
+                    NodeBo bo = new NodeBo(node, nodeDetail);
+                    bo = nodeHandler(nodeHandler, bo);
+                    nodeList.add(bo);
+                }
+            }
+            else if(SubscribeType.SSRSUBSCRIBE.getCode().equals(subscribe.getType()))
+            {
+                String text = null;
+                try {
+                    text = HttpUtils.sendGet(subscribe.getSubscribe(), null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                List<NodeDetail> nodes = AnalysisUtils.analysisSSRSubscribe(text);
+                for(NodeDetail nodeDetail : nodes)
+                {
+                    Node node = new Node("subscribe", subscribe.getId());
+                    NodeBo bo = new NodeBo(node, nodeDetail);
+                    bo = nodeHandler(nodeHandler, bo);
+                    nodeList.add(bo);
+                }
             }
         }
         return nodeList;
+    }
+
+    private NodeBo nodeHandler( List<SubscribeHandler> nodeHandlers, NodeBo bo) throws IOException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+        for(SubscribeHandler subscribeHandler : nodeHandlers)
+        {
+            Class<NodeHandler> clazz = (Class<NodeHandler>) Class.forName(subscribeHandler.getClassName());
+            clazz.newInstance().beforeInsertDBHandler(bo);
+        }
+        return bo;
     }
 
 

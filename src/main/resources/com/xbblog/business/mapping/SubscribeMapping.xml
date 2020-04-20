@@ -10,5 +10,6 @@
         select id, subscribeId, className
         from t_subscribe_handler_className
         where subscribeId = #{subscribeId}
+        order by seq
     </select>
 </mapper>

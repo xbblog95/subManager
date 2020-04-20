@@ -12,5 +12,5 @@ public interface SubscribeMapping {
 
     public List<Subscribe> getAllSubscribe();
 
-    SubscribeHandler getNodeHandler(Map<String, Object> id);
+    List<SubscribeHandler> getNodeHandler(Map<String, Object> id);
 }
