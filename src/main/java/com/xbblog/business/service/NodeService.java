@@ -411,23 +411,23 @@ public class NodeService {
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
-//        //获取ss节点
-//        List<NodeDto> ssList = nodeMapping.getShadowsocksNodes(paramMap);
-//        //转换成ss对象
-//        List<ShadowsocksNode> shadowsocksNodes = ShadowsocksNode.toShadowsocksNodes(ssList);
-//        for(int i = 0; i < shadowsocksNodes.size(); i++)
-//        {
-//            String sub = ShadowsocksNode.parseToShadowsocksRString(shadowsocksNodes.get(i));
-//            if(StringUtil.isEmpty(sub))
-//            {
-//                continue;
-//            }
-//            buffer.append(sub);
-//            if(i != shadowsocksNodes.size() - 1)
-//            {
-//                buffer.append("\n");
-//            }
-//        }
+        //获取ss节点
+        List<NodeDto> ssList = getShadowsocksNodes(paramMap);
+        //转换成ss对象
+        List<ShadowsocksNode> shadowsocksNodes = ShadowsocksNode.toShadowsocksNodes(ssList);
+        for(int i = 0; i < shadowsocksNodes.size(); i++)
+        {
+            String sub = ShadowsocksNode.parseToShadowsocksRString(shadowsocksNodes.get(i));
+            if(StringUtil.isEmpty(sub))
+            {
+                continue;
+            }
+            buffer.append(sub);
+            if(i != shadowsocksNodes.size() - 1)
+            {
+                buffer.append("\n");
+            }
+        }
         //获取ssr节点
         List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         if(!CollectionUtils.isEmpty(ssrList))
