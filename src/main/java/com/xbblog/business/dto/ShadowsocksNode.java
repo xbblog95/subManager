@@ -118,10 +118,7 @@ public class ShadowsocksNode extends NodeDetail{
         }
         for(NodeDto node : nodes)
         {
-            if(!"chacha20".equals(node.getSecurity()))
-            {
-                list.add(toShadowsocksNode(node));
-            }
+            list.add(toShadowsocksNode(node));
         }
         return list;
     }
