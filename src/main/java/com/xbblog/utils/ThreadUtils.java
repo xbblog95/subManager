@@ -16,7 +16,7 @@ public class ThreadUtils {
     {
         if(pool == null)
         {
-            pool = Executors.newFixedThreadPool(80);
+            pool = Executors.newFixedThreadPool(20);
         }
         return pool;
     }

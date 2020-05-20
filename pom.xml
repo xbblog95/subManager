@@ -130,7 +130,11 @@
             <groupId>com.sendgrid</groupId>
             <artifactId>sendgrid-java</artifactId>
         </dependency>
-
+        <!-- 日志依赖 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

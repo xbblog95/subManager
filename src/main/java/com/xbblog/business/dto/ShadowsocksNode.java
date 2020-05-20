@@ -3,6 +3,7 @@ package com.xbblog.business.dto;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
+import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -12,10 +13,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Data
 public class ShadowsocksNode extends NodeDetail{
 
     //ss/ssr密码
     private String password;
+
+    private String group;
+
+    public ShadowsocksNode(String ip, int port, String remarks, String security, String password, String group) {
+        super(ip, port, remarks, security, "ss");
+        this.password = password;
+        this.group = group;
+    }
 
     public ShadowsocksNode(String ip, int port, String remarks, String security, String password) {
         super(ip, port, remarks, security, "ss");
@@ -94,7 +104,7 @@ public class ShadowsocksNode extends NodeDetail{
         templateMap.put("security", node.getSecurity());
         templateMap.put("password", Base64Util.encode(node.getPassword()));
         templateMap.put("remarks", Base64Util.encode(node.getRemarks()));
-        templateMap.put("group", Base64Util.encode(NormalConfiguration.webGroup));
+        templateMap.put("group", Base64Util.encode(node.getGroup()));
         String ssStr = StringUtil.format(template, templateMap);
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }
@@ -105,7 +115,8 @@ public class ShadowsocksNode extends NodeDetail{
         {
             return null;
         }
-        ShadowsocksNode shadowsocksNode = new ShadowsocksNode(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(), nodeDto.getSecurity(), nodeDto.getPassword());
+        ShadowsocksNode shadowsocksNode = new ShadowsocksNode(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(),
+                nodeDto.getSecurity(), nodeDto.getPassword(), nodeDto.getGroup());
         return shadowsocksNode;
     }
 

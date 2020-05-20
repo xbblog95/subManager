@@ -1,5 +1,8 @@
 package com.xbblog.business.dto;
 
+import lombok.Data;
+
+@Data
 public class NodeDto extends NodeDetail {
 
     //v2ray uuid
@@ -45,6 +48,7 @@ public class NodeDto extends NodeDetail {
     //有效性
     private int flag;
 
+    private String group;
     //订阅id
     private int subscribeId;
 
@@ -69,125 +73,5 @@ public class NodeDto extends NodeDetail {
 
     public NodeDto() {
         super();
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public int getAlterId() {
-        return alterId;
-    }
-
-    public void setAlterId(int alterId) {
-        this.alterId = alterId;
-    }
-
-    public String getNetwork() {
-        return network;
-    }
-
-    public void setNetwork(String network) {
-        this.network = network;
-    }
-
-    public String getCamouflageType() {
-        return camouflageType;
-    }
-
-    public void setCamouflageType(String camouflageType) {
-        this.camouflageType = camouflageType;
-    }
-
-    public String getCamouflageHost() {
-        return camouflageHost;
-    }
-
-    public void setCamouflageHost(String camouflageHost) {
-        this.camouflageHost = camouflageHost;
-    }
-
-    public String getCamouflagePath() {
-        return camouflagePath;
-    }
-
-    public void setCamouflagePath(String camouflagePath) {
-        this.camouflagePath = camouflagePath;
-    }
-
-    public String getCamouflageTls() {
-        return camouflageTls;
-    }
-
-    public void setCamouflageTls(String camouflageTls) {
-        this.camouflageTls = camouflageTls;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public int getFlag() {
-        return flag;
-    }
-
-    public void setFlag(int flag) {
-        this.flag = flag;
-    }
-
-    public int getSubscribeId() {
-        return subscribeId;
-    }
-
-    public void setSubscribeId(int subscribeId) {
-        this.subscribeId = subscribeId;
-    }
-
-    public String getObfsparam() {
-        return obfsparam;
-    }
-
-    public void setObfsparam(String obfsparam) {
-        this.obfsparam = obfsparam;
-    }
-
-    public String getProtoparam() {
-        return protoparam;
-    }
-
-    public void setProtoparam(String protoparam) {
-        this.protoparam = protoparam;
-    }
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getObfs() {
-        return obfs;
-    }
-
-    public void setObfs(String obfs) {
-        this.obfs = obfs;
     }
 }

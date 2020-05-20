@@ -7,7 +7,7 @@
         case when c.`group` is null then concat(a.remarks, ' - ', '自建')
         else concat(a.remarks, ' - ', c.`group`)
         end remarks,
-         a.type, b.source, b.flag, b.subscribeId
+         a.type, b.source, b.flag, b.subscribeId,c.`group`
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'ss'
         <if test="flag != null">
@@ -25,7 +25,7 @@
         else concat(a.remarks, ' - ', c.`group`)
         end remarks,
         a.camouflage_type as camouflageType,a.camouflage_host as camouflageHost,
-        a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId
+        a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId,c.`group`
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'v2ray'
         <if test="flag != null">
@@ -43,7 +43,7 @@
         case when c.`group` is null then concat(a.remarks, ' - ', '自建')
         else concat(a.remarks, ' - ', c.`group`)
         end remarks,
-         a.type, b.source, b.flag, b.subscribeId
+         a.type, b.source, b.flag, b.subscribeId,c.`group`
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'ssr'
         <if test="flag != null">

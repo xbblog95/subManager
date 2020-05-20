@@ -24,6 +24,16 @@ public class ShadowsocksRNode extends ShadowsocksNode {
     //混淆
     private String obfs;
 
+    public ShadowsocksRNode(String ip, int port, String remarks, String security, String password, String protocol, String protoparam, String obfs, String obfsparam, String group) {
+        super(ip, port, remarks, security, password, group);
+        this.obfs = obfs;
+        this.protocol = protocol;
+        this.protoparam = protoparam;
+        this.obfsparam = obfsparam;
+        this.setType("ssr");
+    }
+
+
     public ShadowsocksRNode(String ip, int port, String remarks, String security, String password, String protocol, String protoparam, String obfs, String obfsparam) {
         super(ip, port, remarks, security, password);
         this.obfs = obfs;
@@ -51,7 +61,9 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         {
             return null;
         }
-        ShadowsocksRNode shadowsocksrNode = new ShadowsocksRNode(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(), nodeDto.getSecurity(), nodeDto.getPassword(), nodeDto.getProtocol(), nodeDto.getProtoparam(), nodeDto.getObfs(), nodeDto.getObfsparam());
+        ShadowsocksRNode shadowsocksrNode = new ShadowsocksRNode(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(),
+                nodeDto.getSecurity(), nodeDto.getPassword(), nodeDto.getProtocol(), nodeDto.getProtoparam(), nodeDto.getObfs(),
+                nodeDto.getObfsparam(), nodeDto.getGroup());
         return shadowsocksrNode;
     }
 
@@ -72,7 +84,7 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         templateMap.put("obfs", node.getObfs());
         templateMap.put("protoparam", Base64Util.encodeURLSafe(node.getProtoparam()));
         templateMap.put("obfsparam", Base64Util.encodeURLSafe(node.getObfsparam()));
-        templateMap.put("group", Base64Util.encode(NormalConfiguration.webGroup));
+        templateMap.put("group",  Base64Util.encodeURLSafe(node.getGroup()));
         String ssStr = StringUtil.format(template, templateMap);
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }
