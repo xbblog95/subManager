@@ -141,6 +141,40 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         return StringUtil.format(template, templateMap);
     }
 
+    public static List<Map<String, String>> shadowsocksRNodeparseToClashMap(List<ShadowsocksRNode> list)
+    {
+        List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
+        if(CollectionUtils.isEmpty(list))
+        {
+            return mapList;
+        }
+
+        for(ShadowsocksRNode shadowsocksRNode : list)
+        {
+            //排除所有chacha20的加密
+            if("chacha20".equals(shadowsocksRNode.getSecurity()))
+            {
+                continue;
+            }
+            if("chacha20-ietf".equals(shadowsocksRNode.getSecurity()))
+            {
+                continue;
+            }
+            Map<String, String> tempMap = new HashMap<String, String>();
+            tempMap.put("ip", shadowsocksRNode.getIp());
+            tempMap.put("port", String.valueOf(shadowsocksRNode.getPort()));
+            tempMap.put("security", shadowsocksRNode.getSecurity());
+            tempMap.put("password",shadowsocksRNode.getPassword());
+            tempMap.put("remarks", shadowsocksRNode.getRemarks());
+            tempMap.put("protocol", shadowsocksRNode.getProtocol());
+            tempMap.put("protocolParam", shadowsocksRNode.getProtoparam());
+            tempMap.put("obfs", shadowsocksRNode.getObfs());
+            tempMap.put("obfsParam", shadowsocksRNode.getObfsparam());
+            mapList.add(tempMap);
+        }
+        return mapList;
+    }
+
     public String getObfsparam() {
         return obfsparam;
     }

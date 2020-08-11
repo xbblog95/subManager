@@ -456,6 +456,8 @@ public class NodeService {
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //获取ss节点
         List<NodeDto> ssList = getShadowsocksNodes(paramMap);
+        //获取ssr节点
+        List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         //组名
 //        String group = NormalConfiguration.webGroup;
         //重命名重名的备注
@@ -476,9 +478,18 @@ public class NodeService {
             }
             filter.put(nodeDto.getRemarks(), nodeDto);
         }
+        for(NodeDto nodeDto : ssrList)
+        {
+            if(filter.get(nodeDto.getRemarks()) != null)
+            {
+                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
+            }
+            filter.put(nodeDto.getRemarks(), nodeDto);
+        }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
-        map.put("ssNode", ShadowsocksNode.parseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
+        map.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
+        map.put("ssrNode", ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrList)));
         map.put("group", "clash");
         TemplateUtils.format("clash.ftl", map, os);
     }
@@ -785,10 +796,10 @@ public class NodeService {
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
-        map.put("ssNode", ShadowsocksNode.parseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
+        map.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
         map.put("ssrNode", ShadowsocksRNode.parseShadowsocksRToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrList)));
         map.put("netflixV2rayList", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(netflixV2rayList)));
-        map.put("netflixSsList", ShadowsocksNode.parseToClashMap(ShadowsocksNode.toShadowsocksNodes(netflixSsList)));
+        map.put("netflixSsList", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(netflixSsList)));
         map.put("netflixSsrList", ShadowsocksRNode.parseShadowsocksRToClashMap(ShadowsocksRNode.toShadowsocksRNodes(netflixSsrList)));
         map.put("group", "clash");
         TemplateUtils.format("clashr.ftl", map, os);

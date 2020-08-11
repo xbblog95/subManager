@@ -6,9 +6,9 @@ port: 7890
 socks-port: 7891
 
 # redir port for Linux and macOS
-# redir-port: 7892
+redir-port: 7892
 
-allow-lan: false
+allow-lan: true
 
 # Rule / Global/ Direct (default is Rule)
 mode: Rule
@@ -41,18 +41,33 @@ dns:
   - tls://1.1.1.1:853
   - tls://dns.google:853
 
-Proxy:
+proxies:
 <#list v2rayNode as vmess>
-- { name: "${vmess.remarks}", type: vmess, server: ${vmess.ip}, port: ${vmess.port}, uuid: ${vmess.uuid}, alterId: ${vmess.alterId}, cipher: auto<#if vmess.camouflageTls?length gt 0 >,tls: true</#if><#if (vmess.network!"tcp") != "tcp" >,network: ${vmess.network}</#if><#if vmess.camouflageHost?length gt 0 >,ws-headers: { Host: ${vmess.camouflageHost} }</#if><#if vmess.camouflagePath?length gt 0 >,ws-path: ${vmess.camouflagePath}</#if>}
+- { "name": "${vmess.remarks}", "type": "vmess", "server": "${vmess.ip}", "port": "${vmess.port}", "uuid": "${vmess.uuid}", "alterId": "${vmess.alterId}", "cipher": "auto"<#if vmess.camouflageTls?length gt 0 >,"tls": true</#if><#if (vmess.network!"tcp") != "tcp" >,"network": "${vmess.network}"</#if><#if vmess.camouflageHost?length gt 0 >,"ws-headers": { "Host": "${vmess.camouflageHost}" }</#if><#if vmess.camouflagePath?length gt 0 >,"ws-path": "${vmess.camouflagePath}"</#if>}
 </#list>
 <#list ssNode as ss>
-- {name: "${ss.remarks}", type: ss, server: ${ss.ip}, port: ${ss.port}, cipher: ${ss.security}, password: "${ss.password}"}
+- { "name": "${ss.remarks}", "type": "ss", "server": "${ss.ip}", "port": "${ss.port}", "cipher": "${ss.security}", "password": "${ss.password}"}
+</#list>
+<#list ssrNode as ssr>
+- { "name" : "${ssr.remarks}", "type": "ssr", "server": "${ssr.ip}", "port": "${ssr.port}", "cipher": "${ssr.security}", "password": "${ssr.password}", "protocol": "${ssr.protocol}", "protocol-param":"${ssr.protocolParam}", "obfs":"${ssr.obfs}", "obfs-param":"${ssr.obfsParam}"}
 </#list>
 
-Proxy Group:
-- { name: "${group}", type: select, proxies: [<#list v2rayNode as vmess>"${vmess.remarks}"<#if (vmess_has_next)>,<#elseIf ssNode?size gt 0>,<#else></#if></#list><#list ssNode as ss>"${ss.remarks}"<#if (ss_has_next)>,</#if></#list>] }
+proxy-groups:
+-
+  name: "${group}"
+  type: select
+  proxies:
+    <#list v2rayNode as vmess>
+      - '${vmess.remarks}'
+    </#list>
+    <#list ssNode as ss>
+      - '${ss.remarks}'
+    </#list>
+    <#list ssrNode as ssr>
+      - '${ssr.remarks}'
+    </#list>
 
-Rule:
+rules:
 ## 国内网站
 - DOMAIN-SUFFIX,cn,DIRECT
 - DOMAIN-KEYWORD,-cn,DIRECT
@@ -497,4 +512,4 @@ Rule:
 - IP-CIDR,17.0.0.0/8,DIRECT
 - IP-CIDR,100.64.0.0/10,DIRECT
 - GEOIP,CN,DIRECT
-- FINAL, ,${group}
+- MATCH, ,${group}

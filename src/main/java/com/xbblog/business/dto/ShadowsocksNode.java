@@ -134,7 +134,7 @@ public class ShadowsocksNode extends NodeDetail{
         return list;
     }
 
-    public static List<Map<String, String>> parseToClashMap(List<ShadowsocksNode> list)
+    public static List<Map<String, String>> shadowsocksNodeparseToClashMap(List<ShadowsocksNode> list)
     {
         List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
         if(CollectionUtils.isEmpty(list))
