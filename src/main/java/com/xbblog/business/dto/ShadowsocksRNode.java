@@ -156,10 +156,6 @@ public class ShadowsocksRNode extends ShadowsocksNode {
             {
                 continue;
             }
-            if("chacha20-ietf".equals(shadowsocksRNode.getSecurity()))
-            {
-                continue;
-            }
             Map<String, String> tempMap = new HashMap<String, String>();
             tempMap.put("ip", shadowsocksRNode.getIp());
             tempMap.put("port", String.valueOf(shadowsocksRNode.getPort()));

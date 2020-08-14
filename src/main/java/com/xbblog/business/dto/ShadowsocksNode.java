@@ -104,7 +104,7 @@ public class ShadowsocksNode extends NodeDetail{
         templateMap.put("security", node.getSecurity());
         templateMap.put("password", Base64Util.encode(node.getPassword()));
         templateMap.put("remarks", Base64Util.encode(node.getRemarks()));
-        templateMap.put("group", Base64Util.encode(node.getGroup()));
+        templateMap.put("group",  Base64Util.encodeURLSafe(node.getGroup()));
         String ssStr = StringUtil.format(template, templateMap);
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }
