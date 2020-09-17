@@ -15,10 +15,7 @@ import org.springframework.util.CollectionUtils;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Service
 public class MonitorService {
@@ -94,41 +91,31 @@ public class MonitorService {
             return failList;
         }
         List<Future> threadList = new ArrayList<Future>();
+        Semaphore semaphore = new Semaphore(20);
         for(final NodeDto node : nodes)
         {
-            Future future = ThreadUtils.getPool().submit(new Callable() {
+            FutureTask futureTask = new FutureTask(new Callable() {
                 @Override
                 public Object call() throws Exception {
-                    //使用了kcp协议的不检测
-                    if (v2rayService.isKcp(node)) {
-                        return null;
-                    }
-                    String host = node.getIp();
-                    int port = node.getPort();
-                    logger.info(String.format("正在检测服务器ip：%s, 端口：%d", host, port));
-                    Boolean isActive = MonitorUtils.testTCPActive(host, port);
-                    if (isActive != (node.getFlag() == 1))
+                    NodeDto result = null;
+                    try
                     {
-                        node.setFlag(isActive ? 1 : 0);
-                        Node modNode = new Node(node.getId(), node.getSource(), isActive ? 1 : 0, node.getSubscribeId());
-                        nodeService.modNode(modNode);
+                        semaphore.acquire();
+                        result = monitor(node);
                     }
-                    if (isActive)
+                    catch (Exception e)
                     {
-                        logger.info(String.format("服务器ip：%s, 端口：%d正常", host, port));
-                        return null;
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        logger.warn(String.format("服务器ip：%s, 端口：%d检测不通过", host, port));
-                        if ("own".equals(node.getSource())) {
-                            return node;
-                        }
-                        return null;
+                    finally {
+                        semaphore.release();
                     }
+                    return result;
                 }
             });
-            threadList.add(future);
+            Thread thread = new Thread(futureTask);
+            thread.start();
+            threadList.add(futureTask);
         }
         for(Future future : threadList)
         {
@@ -146,5 +133,36 @@ public class MonitorService {
 
         }
         return failList;
+    }
+
+    private NodeDto monitor(final NodeDto node)
+    {
+        //使用了kcp协议的不检测
+        if (v2rayService.isKcp(node)) {
+            return null;
+        }
+        String host = node.getIp();
+        int port = node.getPort();
+        logger.info(String.format("正在检测服务器ip：%s, 端口：%d", host, port));
+        Boolean isActive = MonitorUtils.testTCPActive(host, port);
+        if (isActive != (node.getFlag() == 1))
+        {
+            node.setFlag(isActive ? 1 : 0);
+            Node modNode = new Node(node.getId(), node.getSource(), isActive ? 1 : 0, node.getSubscribeId());
+            nodeService.modNode(modNode);
+        }
+        if (isActive)
+        {
+            logger.info(String.format("服务器ip：%s, 端口：%d正常", host, port));
+            return null;
+        }
+        else
+        {
+            logger.warn(String.format("服务器ip：%s, 端口：%d检测不通过", host, port));
+            if ("own".equals(node.getSource())) {
+                return node;
+            }
+            return null;
+        }
     }
 }

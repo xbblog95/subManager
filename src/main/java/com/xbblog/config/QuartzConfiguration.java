@@ -27,7 +27,7 @@ public class QuartzConfiguration {
     @Bean
     public Trigger monitorActiveQuartzTrigger(){
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(1800)  //设置时间周期单位秒
+                .withIntervalInSeconds(3600)  //设置时间周期单位秒
                 .repeatForever();
         return TriggerBuilder.newTrigger().forJob(monitorActiveJobDetail())
                 .withIdentity("monitorActiveTrigger")
