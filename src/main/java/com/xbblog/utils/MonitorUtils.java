@@ -1,6 +1,10 @@
 package com.xbblog.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.ParseException;
+import org.apache.http.message.BasicHeader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,14 +15,16 @@ public class MonitorUtils {
 
     public static Boolean testTCPActive(String host, int port){
         try {
-            Map<String, Object> map = new HashMap<>();
-            map.put("host", host);
-            map.put("port", port);
-            String json = HttpUtils.sendPost("http://ipcheck.xbblog.com/api_v1", map);
+            StringBuffer stringBuffer = new StringBuffer("https://www.toolsdaquan.com/toolapi/public/ipchecking/");
+            stringBuffer.append(host);
+            stringBuffer.append("/");
+            stringBuffer.append(port);
+            Header header = new BasicHeader("referer", "https://www.toolsdaquan.com/ipcheck/");
+            String json = HttpUtils.sendGet(stringBuffer.toString(), null, new Header[]{header});
             JSONObject obj = JSONObject.parseObject(json);
-            if(obj.getBoolean("success"))
+            if("success".equals(obj.getString("tcp")))
             {
-                return obj.getJSONObject("data").getJSONObject("inside").getBoolean("tcp");
+                return true;
             }
             else
             {

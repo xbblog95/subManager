@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Handler;
 
 
 /**
@@ -32,13 +33,17 @@ public class HttpUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
 
+    public static String sendGet(String url, Map<String, Object> param) throws Exception
+    {
+       return sendGet(url, param, null);
+    }
     /**
      * 发送GET请求
      * @param url   请求url
      * @return JSON或者字符串
      * @throws Exception
      */
-    public static String sendGet(String url, Map<String, Object> param) throws Exception{
+    public static String sendGet(String url, Map<String, Object> param, Header[] headersReq) throws Exception{
         LOGGER.info("发送get请求,url为" + url + "参数为" + param);
         CloseableHttpClient closeableHttpClient = getHttpClient(url);
         URIBuilder uriBuilder = new URIBuilder(url);
@@ -48,6 +53,10 @@ public class HttpUtils {
             uriBuilder.addParameters(paramList);
         }
         HttpGet httpGet = new HttpGet(uriBuilder.build());
+        if(headersReq != null && headersReq.length != 0)
+        {
+            httpGet.setHeaders(headersReq);
+        }
         httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0");
         CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
         Header[] headers = response.getHeaders("content-type");

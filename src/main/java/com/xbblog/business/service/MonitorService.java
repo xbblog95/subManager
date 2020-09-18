@@ -91,7 +91,7 @@ public class MonitorService {
             return failList;
         }
         List<Future> threadList = new ArrayList<Future>();
-        Semaphore semaphore = new Semaphore(20);
+        Semaphore semaphore = new Semaphore(10);
         for(final NodeDto node : nodes)
         {
             FutureTask futureTask = new FutureTask(new Callable() {
