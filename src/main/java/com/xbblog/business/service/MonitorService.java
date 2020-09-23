@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
@@ -34,7 +35,13 @@ public class MonitorService {
     @Value("${monitor.email.address}")
     private String toAddress;
 
+    private ExecutorService executorService;
 
+    @PostConstruct
+    public void init()
+    {
+        executorService = new ThreadPoolExecutor(5, 10, 1, TimeUnit.SECONDS,  new LinkedBlockingQueue<Runnable>());
+    }
     @Transactional
     public void testActive()
     {
@@ -91,31 +98,24 @@ public class MonitorService {
             return failList;
         }
         List<Future> threadList = new ArrayList<Future>();
-        Semaphore semaphore = new Semaphore(10);
         for(final NodeDto node : nodes)
         {
-            FutureTask futureTask = new FutureTask(new Callable() {
+            Future<NodeDto> submit = executorService.submit(new Callable() {
                 @Override
-                public Object call() throws Exception {
+                public NodeDto call() throws Exception {
                     NodeDto result = null;
                     try
                     {
-                        semaphore.acquire();
                         result = monitor(node);
                     }
                     catch (Exception e)
                     {
                         e.printStackTrace();
                     }
-                    finally {
-                        semaphore.release();
-                    }
                     return result;
                 }
             });
-            Thread thread = new Thread(futureTask);
-            thread.start();
-            threadList.add(futureTask);
+            threadList.add(submit);
         }
         for(Future future : threadList)
         {
