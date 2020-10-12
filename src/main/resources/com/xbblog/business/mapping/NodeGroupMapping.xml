@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbblog.business.mapping.NodeGroupMapping">
+
+    <sql id="groupSql">
+        id, `name`, flag, `order`
+    </sql>
+    <sql id="groupKeySql">
+        id, group_id as groupId, `key`, flag
+    </sql>
+    <select id="getGroups" resultType="com.xbblog.business.dto.NodeGroup" parameterType="com.xbblog.business.dto.NodeGroup">
+        select <include refid="groupSql"></include>
+        from t_node_group
+        where flag = #{flag}
+        order by `order`
+    </select>
+    <select id="getGroupKeys" resultType="com.xbblog.business.dto.NodeGroupKey" parameterType="com.xbblog.business.dto.NodeGroupKey">
+        select <include refid="groupKeySql"></include>
+        from t_node_group_key
+        where flag = #{flag}
+        <if test="groupId != null">
+            and group_id = #{groupId}
+        </if>
+    </select>
+</mapper>

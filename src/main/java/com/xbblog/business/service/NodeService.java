@@ -2,6 +2,7 @@ package com.xbblog.business.service;
 
 import com.xbblog.business.dto.*;
 import com.xbblog.business.handler.NodeHandler;
+import com.xbblog.business.mapping.NodeGroupMapping;
 import com.xbblog.business.mapping.NodeMapping;
 import com.xbblog.business.mapping.SubscribeMapping;
 import com.xbblog.config.NormalConfiguration;
@@ -29,6 +30,9 @@ public class NodeService {
 
     @Autowired
     private SubscribeMapping subscribeMapping;
+
+    @Autowired
+    private NodeGroupMapping nodeGroupMapping;
 
 
     @Transactional(propagation = Propagation.REQUIRED, isolation= Isolation.REPEATABLE_READ)
@@ -449,7 +453,7 @@ public class NodeService {
     }
 
     public void getClashSubscribe(OutputStream os, String isp) {
-        Map<String, Object> paramMap = new HashMap<String, Object>(1);
+        Map<String, Object> paramMap = new HashMap<String, Object>(2);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
         //获取v2ray节点
@@ -487,11 +491,103 @@ public class NodeService {
             filter.put(nodeDto.getRemarks(), nodeDto);
         }
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
-        map.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
-        map.put("ssrNode", ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrList)));
-        map.put("group", "clash");
+        List<NodeGroup> groups = nodeGroupMapping.getGroups(new NodeGroup());
+        List<Map<String, Object>> clashMapList = new ArrayList<>();
+        Map<Integer, Boolean> nodeInGroupStatusMap = new HashMap<>();
+        for(NodeGroup nodeGroup : groups)
+        {
+            //获取key
+            NodeGroupKey nodeGroupKey = new NodeGroupKey();
+            nodeGroupKey.setGroupId(nodeGroup.getId());
+            List<NodeGroupKey> groupKeys = nodeGroupMapping.getGroupKeys(nodeGroupKey);
+            Map<String, Object> groupMap = new HashMap<>();
+//            ************************ 比对每个节点备注与关键字的差异，判断是否应该进入该组
+            List<NodeDto> v2rayNodes = new ArrayList<>();
+            List<NodeDto> ssNodes = new ArrayList<>();
+            List<NodeDto> ssrNodes = new ArrayList<>();
+            for(NodeDto nodeDto : v2rayList)
+            {
+                if(isInGroup(groupKeys, nodeDto))
+                {
+                    //标识该节点已被编入组
+                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
+                    v2rayNodes.add(nodeDto);
+                }
+            }
+            for(NodeDto nodeDto : ssList)
+            {
+                if(isInGroup(groupKeys, nodeDto))
+                {
+                    //标识该节点已被编入组
+                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
+                    ssNodes.add(nodeDto);
+                }
+            }
+            for(NodeDto nodeDto : ssrList)
+            {
+                if(isInGroup(groupKeys, nodeDto))
+                {
+                    //标识该节点已被编入组
+                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
+                    ssrNodes.add(nodeDto);
+                }
+            }
+            groupMap.put("name", nodeGroup.getName());
+            groupMap.put("v2rayNode",  V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayNodes)));
+            groupMap.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssNodes)));
+            groupMap.put("ssrNode",  ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrNodes)));
+            clashMapList.add(groupMap);
+        }
+        //处理其他节点
+        Map<String, Object> otherMap = new HashMap<>();
+        List<NodeDto> v2rayNodes = new ArrayList<>();
+        List<NodeDto> ssNodes = new ArrayList<>();
+        List<NodeDto> ssrNodes = new ArrayList<>();
+        for(NodeDto nodeDto : v2rayList)
+        {
+            //判断标识该节点已被编入组
+            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
+            {
+                v2rayNodes.add(nodeDto);
+            }
+        }
+        for(NodeDto nodeDto : ssList)
+        {
+            //判断标识该节点已被编入组
+            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
+            {
+                ssNodes.add(nodeDto);
+            }
+        }
+        for(NodeDto nodeDto : ssrList)
+        {
+            //判断标识该节点已被编入组
+            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
+            {
+                ssrNodes.add(nodeDto);
+            }
+        }
+        otherMap.put("name", "其他");
+        otherMap.put("v2rayNode",  V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayNodes)));
+        otherMap.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssNodes)));
+        otherMap.put("ssrNode",  ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrNodes)));
+        clashMapList.add(otherMap);
+        map.put("group", clashMapList);
         TemplateUtils.format("clash.ftl", map, os);
+    }
+
+    private Boolean isInGroup(List<NodeGroupKey> groupKeys, NodeDto nodeDto)
+    {
+        Boolean flag = false;
+        for(NodeGroupKey key : groupKeys)
+        {
+            if(nodeDto.getRemarks().indexOf(key.getKey()) >= 0)
+            {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 
     public String getPotatsoLiteStr(String isp) {
@@ -654,6 +750,7 @@ public class NodeService {
                 result.add(node);
             }
         }
+        Collections.shuffle(result);
         return result;
     }
 
@@ -668,6 +765,7 @@ public class NodeService {
                 result.add(node);
             }
         }
+        Collections.shuffle(result);
         return result;
     }
 
@@ -682,6 +780,7 @@ public class NodeService {
                 result.add(node);
             }
         }
+        Collections.shuffle(result);
         return result;
     }
 
