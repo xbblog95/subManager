@@ -84,7 +84,7 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         templateMap.put("obfs", node.getObfs());
         templateMap.put("protoparam", Base64Util.encodeURLSafe(node.getProtoparam()));
         templateMap.put("obfsparam", Base64Util.encodeURLSafe(node.getObfsparam()));
-        templateMap.put("group",  Base64Util.encodeURLSafe(node.getGroup()));
+        templateMap.put("group",  Base64Util.encodeURLSafe(NormalConfiguration.webGroup));
         String ssStr = StringUtil.format(template, templateMap);
         return "ssr://" + Base64Util.encodeURLSafe(ssStr);
     }
