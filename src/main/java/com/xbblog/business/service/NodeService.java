@@ -573,6 +573,9 @@ public class NodeService {
         otherMap.put("ssrNode",  ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrNodes)));
         clashMapList.add(otherMap);
         map.put("group", clashMapList);
+        map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
+        map.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
+        map.put("ssrNode", ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrList)));
         TemplateUtils.format("clash.ftl", map, os);
     }
 

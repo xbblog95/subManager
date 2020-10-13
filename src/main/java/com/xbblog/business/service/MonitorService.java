@@ -40,25 +40,11 @@ public class MonitorService {
     @PostConstruct
     public void init()
     {
-        executorService = new ThreadPoolExecutor(5, 10, 1, TimeUnit.SECONDS,  new LinkedBlockingQueue<Runnable>());
+        executorService = new ThreadPoolExecutor(20, 100, 1, TimeUnit.SECONDS,  new LinkedBlockingQueue<Runnable>());
     }
     @Transactional
     public void testActive()
     {
-        //如果超过当天的2.40 或者早于 3.20 停止服务器检测
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 2);
-        calendar.set(Calendar.MINUTE, 40);
-        calendar.set(Calendar.SECOND, 0);
-        Date lower = calendar.getTime();
-        calendar.set(Calendar.HOUR_OF_DAY, 3);
-        calendar.set(Calendar.MINUTE, 20);
-        Date upper = calendar.getTime();
-        if(date.before(upper) && date.after(lower))
-        {
-            return;
-        }
         logger.info("开始检测服务器存活");
         //检查ss节点信息
         List<NodeDto> shadowsocksNodes = nodeService.getAllShadowsocksNodes();
@@ -144,7 +130,7 @@ public class MonitorService {
         String host = node.getIp();
         int port = node.getPort();
         logger.info(String.format("正在检测服务器ip：%s, 端口：%d", host, port));
-        Boolean isActive = MonitorUtils.testTCPActive(host, port);
+        Boolean isActive = MonitorUtils.testTCPActive(host, port) != 0;
         if (isActive != (node.getFlag() == 1))
         {
             node.setFlag(isActive ? 1 : 0);
