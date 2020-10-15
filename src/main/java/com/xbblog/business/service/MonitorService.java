@@ -107,16 +107,19 @@ public class MonitorService {
         {
             try
             {
-                if(future.get() != null)
+                if(future.get(30, TimeUnit.SECONDS) != null)
                 {
                     failList.add((NodeDto)future.get());
                 }
+            }
+            catch (InterruptedException e)
+            {
+
             }
             catch (Exception e)
             {
 
             }
-
         }
         return failList;
     }
