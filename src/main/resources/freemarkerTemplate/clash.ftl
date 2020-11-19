@@ -98,9 +98,7 @@ proxies:
       host: "${ssr.obfsParam}"
     </#if>
   <#else >
-    <#if ssr.protocol != "origin">
   protocol: "${ssr.protocol}"
-    </#if>
   protocol-param: "${ssr.protocolParam}"
   obfs: "${ssr.obfs}"
   obfs-param: "${ssr.obfsParam}"
@@ -130,6 +128,7 @@ proxy-groups:
   <#list nodeGroup.ssrNode as ssr>
     - '${ssr.remarks}'
   </#list>
+    - DIRECT
 </#list>
 
 rules:
