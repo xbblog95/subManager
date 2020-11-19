@@ -77,7 +77,7 @@ proxies:
 <#list ssrNode as ssr>
 -
   name : "${ssr.remarks}"
-  <#if ssr.protocol == "origin">
+  <#if ssr.protocol == "origin" &&  ssr.protocolParam?length == 0>
   type: "ss"
   <#else >
   type: "ssr"
@@ -86,15 +86,21 @@ proxies:
   port: "${ssr.port}"
   cipher: "${ssr.security}"
   password: "${ssr.password}"
-  <#if ssr.protocol == "origin">
+  <#if ssr.protocol == "origin" &&  ssr.protocolParam?length == 0>
   plugin: "obfs"
   plugin-opts:
     <#if ssr.obfs == "http_simple">
     mode: "http"
     host: "${ssr.obfsParam}"
     </#if>
+    <#if ssr.obfs == "tls1.2_ticket_auth">
+      mode: "tls"
+      host: "${ssr.obfsParam}"
+    </#if>
   <#else >
+    <#if ssr.protocol != "origin">
   protocol: "${ssr.protocol}"
+    </#if>
   protocol-param: "${ssr.protocolParam}"
   obfs: "${ssr.obfs}"
   obfs-param: "${ssr.obfsParam}"
