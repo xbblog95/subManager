@@ -3,6 +3,7 @@ package com.xbblog.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xbblog.business.dto.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -10,6 +11,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class AnalysisUtils {
 
 
@@ -48,7 +50,16 @@ public class AnalysisUtils {
         }
         String ssd = ssdStr.substring(ssdStr.indexOf("//") + 2);
         String origin = Base64Util.decode(ssd);
-        JSONObject object = JSONObject.parseObject(origin);
+        JSONObject object = null;
+        try
+        {
+            object = JSONObject.parseObject(origin);
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            return nodeList;
+        }
         int port = object.getInteger("port");
         String encryption = object.getString("encryption");
         String password = object.getString("password");
