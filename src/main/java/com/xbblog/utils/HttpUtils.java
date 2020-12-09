@@ -57,7 +57,7 @@ public class HttpUtils {
         {
             httpGet.setHeaders(headersReq);
         }
-        httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0");
+        httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36");
         CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
         Header[] headers = response.getHeaders("content-type");
         HttpEntity entity = response.getEntity();
