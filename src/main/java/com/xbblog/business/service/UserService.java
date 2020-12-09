@@ -208,7 +208,7 @@ public class UserService {
         subLog.setCity(city);
         subLog.setProvince(province);
         userMapping.saveSubLog(subLog);
-        if(riskControl(subLog))
+        if(!riskControl(subLog))
         {
             //        被风控的重置当前订阅信息
             GetUserByIdReqDto getUserByIdReqDto = new GetUserByIdReqDto();
@@ -220,6 +220,7 @@ public class UserService {
             riskAction.setTime(new Date());
             riskAction.setUserId(subLog.getUserId());
             userMapping.insertRiskAction(riskAction);
+            throw new RuntimeException("风控策略提示，账号暂时不可用");
         }
 
     }

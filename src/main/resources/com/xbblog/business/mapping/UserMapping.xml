@@ -16,7 +16,7 @@
             <![CDATA[ and `time` >= #{beginDate} ]]>
         </if>
         <if test="endDate != null">
-            <![CDATA[ and `time` <= #{endDate} ]]>
+            <![CDATA[ and `time` < #{endDate} ]]>
         </if>
     </select>
     <select id="getUserById" resultType="com.xbblog.business.dto.User" parameterType="com.xbblog.business.dto.GetUserByIdReqDto">
