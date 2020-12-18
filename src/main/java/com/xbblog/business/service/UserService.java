@@ -251,7 +251,7 @@ public class UserService {
         Map<String, String> citys = new HashMap<>();
         for(SubLog log : subLogs)
         {
-            if(!subLog.equals(log.getCity()))
+            if(!subLog.getCity().equals(log.getCity()))
             {
                 citys.put(log.getCity(), log.getCity());
             }
