@@ -42,66 +42,66 @@ dns:
   - tls://dns.google:853
 
 proxies:
-<#list v2rayNode as vmess>
+<#list nodes as node>
+  <#if node.type == "v2ray">
 -
-  name: "${vmess.remarks}"
+  name: "${node.remarks}"
   type: "vmess"
-  server: "${vmess.ip}"
-  port: "${vmess.port}"
-  uuid: "${vmess.uuid}"
-  alterId: "${vmess.alterId}"
+  server: "${node.ip}"
+  port: "${node.port}"
+  uuid: "${node.uuid}"
+  alterId: "${node.alterId}"
   cipher: "auto"
-  <#if vmess.camouflageTls?length gt 0 >
+  <#if node.camouflageTls?length gt 0 >
   tls: true
   </#if>
-  <#if (vmess.network!"tcp") != "tcp" >
-  network: "${vmess.network}"
+  <#if (node.network!"tcp") != "tcp" >
+  network: "${node.network}"
   </#if>
-  <#if vmess.camouflageHost?length gt 0 >
+  <#if node.camouflageHost?length gt 0 >
   ws-headers:
-    Host: "${vmess.camouflageHost}"
+    Host: "${node.camouflageHost}"
   </#if>
-  <#if vmess.camouflagePath?length gt 0 >
-  ws-path: "${vmess.camouflagePath}"
+  <#if node.camouflagePath?length gt 0 >
+  ws-path: "${node.camouflagePath}"
   </#if>
-</#list>
-<#list ssNode as ss>
+    <#elseif node.type == "ss">
 -
-  name: "${ss.remarks}"
+  name: "${node.remarks}"
   type: "ss"
-  server: "${ss.ip}"
-  port: "${ss.port}"
-  cipher: "${ss.security}"
-  password: "${ss.password}"
-</#list>
-<#list ssrNode as ssr>
+  server: "${node.ip}"
+  port: "${node.port}"
+  cipher: "${node.security}"
+  password: "${node.password}"
+      <#else>
 -
-  name : "${ssr.remarks}"
-  <#if ssr.protocol == "origin" &&  ssr.protocolParam?length == 0>
+  name : "${node.remarks}"
+  <#if node.protocol == "origin" &&  node.protocolParam?length == 0>
   type: "ss"
   <#else >
   type: "ssr"
   </#if>
-  server: "${ssr.ip}"
-  port: "${ssr.port}"
-  cipher: "${ssr.security}"
-  password: "${ssr.password}"
-  <#if ssr.protocol == "origin" &&  ssr.protocolParam?length == 0>
+  server: "${node.ip}"
+  port: "${node.port}"
+  cipher: "${node.security}"
+  password: "${node.password}"
+  <#if node.protocol == "origin" &&  node.protocolParam?length == 0>
   plugin: "obfs"
   plugin-opts:
-    <#if ssr.obfs == "http_simple">
+    <#if node.obfs == "http_simple">
     mode: "http"
-    host: "${ssr.obfsParam}"
+    host: "${node.obfsParam}"
     </#if>
-    <#if ssr.obfs == "tls1.2_ticket_auth">
-      mode: "tls"
-      host: "${ssr.obfsParam}"
+    <#if node.obfs == "tls1.2_ticket_auth">
+    mode: "tls"
+    host: "${node.obfsParam}"
     </#if>
   <#else >
-  protocol: "${ssr.protocol}"
-  protocol-param: "${ssr.protocolParam}"
-  obfs: "${ssr.obfs}"
-  obfs-param: "${ssr.obfsParam}"
+  protocol: "${node.protocol}"
+  protocol-param: "${node.protocolParam}"
+  obfs: "${node.obfs}"
+  obfs-param: "${node.obfsParam}"
+  </#if>
   </#if>
 </#list>
 
@@ -119,14 +119,8 @@ proxy-groups:
   name: "${nodeGroup.name}"
   type: select
   proxies:
-  <#list nodeGroup.v2rayNode as vmess>
-    - '${vmess.remarks}'
-  </#list>
-  <#list nodeGroup.ssNode as ss>
-    - '${ss.remarks}'
-  </#list>
-  <#list nodeGroup.ssrNode as ssr>
-    - '${ssr.remarks}'
+  <#list nodeGroup.nodes as node>
+    - '${node.remarks}'
   </#list>
     - DIRECT
 </#list>

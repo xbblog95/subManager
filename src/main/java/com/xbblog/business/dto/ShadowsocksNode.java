@@ -154,4 +154,16 @@ public class ShadowsocksNode extends NodeDetail{
         return mapList;
     }
 
+    public static Map<String, String> shadowsocksNodeparseToClashMap(ShadowsocksNode node)
+    {
+        Map<String, String> tempMap = new HashMap<String, String>();
+        tempMap.put("ip", node.getIp());
+        tempMap.put("port", String.valueOf(node.getPort()));
+        tempMap.put("security", node.getSecurity());
+        tempMap.put("password",node.getPassword());
+        tempMap.put("remarks", node.getRemarks());
+        tempMap.put("type", "ss");
+        return tempMap;
+    }
+
 }
