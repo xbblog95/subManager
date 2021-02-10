@@ -1,5 +1,6 @@
 package com.xbblog.business.dto;
 
+import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
