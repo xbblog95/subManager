@@ -502,16 +502,14 @@ public class NodeService {
             List<NodeGroupKey> groupKeys = nodeGroupMapping.getGroupKeys(nodeGroupKey);
             Map<String, Object> groupMap = new HashMap<>();
 //            ************************ 比对每个节点备注与关键字的差异，判断是否应该进入该组
-            List<NodeDto> v2rayNodes = new ArrayList<>();
-            List<NodeDto> ssNodes = new ArrayList<>();
-            List<NodeDto> ssrNodes = new ArrayList<>();
+            List<NodeDto> nodes = new ArrayList<>();
             for(NodeDto nodeDto : v2rayList)
             {
                 if(isInGroup(groupKeys, nodeDto))
                 {
                     //标识该节点已被编入组
                     nodeInGroupStatusMap.put(nodeDto.getId(), true);
-                    v2rayNodes.add(nodeDto);
+                    nodes.add(nodeDto);
                 }
             }
             for(NodeDto nodeDto : ssList)
@@ -520,7 +518,7 @@ public class NodeService {
                 {
                     //标识该节点已被编入组
                     nodeInGroupStatusMap.put(nodeDto.getId(), true);
-                    ssNodes.add(nodeDto);
+                    nodes.add(nodeDto);
                 }
             }
             for(NodeDto nodeDto : ssrList)
@@ -529,26 +527,23 @@ public class NodeService {
                 {
                     //标识该节点已被编入组
                     nodeInGroupStatusMap.put(nodeDto.getId(), true);
-                    ssrNodes.add(nodeDto);
+                    nodes.add(nodeDto);
                 }
             }
+            Collections.shuffle(nodes);
             groupMap.put("name", nodeGroup.getName());
-            groupMap.put("v2rayNode",  V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayNodes)));
-            groupMap.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssNodes)));
-            groupMap.put("ssrNode",  ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrNodes)));
+            groupMap.put("nodes",  parseClashNodeList(nodes));
             clashMapList.add(groupMap);
         }
         //处理其他节点
         Map<String, Object> otherMap = new HashMap<>();
-        List<NodeDto> v2rayNodes = new ArrayList<>();
-        List<NodeDto> ssNodes = new ArrayList<>();
-        List<NodeDto> ssrNodes = new ArrayList<>();
+        List<NodeDto> nodes = new ArrayList<>();
         for(NodeDto nodeDto : v2rayList)
         {
             //判断标识该节点已被编入组
             if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
             {
-                v2rayNodes.add(nodeDto);
+                nodes.add(nodeDto);
             }
         }
         for(NodeDto nodeDto : ssList)
@@ -556,7 +551,7 @@ public class NodeService {
             //判断标识该节点已被编入组
             if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
             {
-                ssNodes.add(nodeDto);
+                nodes.add(nodeDto);
             }
         }
         for(NodeDto nodeDto : ssrList)
@@ -564,21 +559,64 @@ public class NodeService {
             //判断标识该节点已被编入组
             if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
             {
-                ssrNodes.add(nodeDto);
+                nodes.add(nodeDto);
             }
         }
+        Collections.shuffle(nodes);
         otherMap.put("name", "其他");
-        otherMap.put("v2rayNode",  V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayNodes)));
-        otherMap.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssNodes)));
-        otherMap.put("ssrNode",  ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrNodes)));
+        otherMap.put("nodes",  parseClashNodeList(nodes));
         clashMapList.add(otherMap);
         map.put("group", clashMapList);
-        map.put("v2rayNode", V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetails(v2rayList)));
-        map.put("ssNode", ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNodes(ssList)));
-        map.put("ssrNode", ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksRNodes(ssrList)));
+        List<NodeDto> allNode = new ArrayList<NodeDto>();
+        for(NodeDto node : v2rayList)
+        {
+            allNode.add(node);
+        }
+        for(NodeDto node : ssList)
+        {
+            allNode.add(node);
+        }
+        for(NodeDto node : ssrList)
+        {
+            allNode.add(node);
+        }
+        map.put("nodes", parseClashNodeList(allNode));
         TemplateUtils.format("clash.ftl", map, os);
     }
 
+
+    private List<Map<String, String>> parseClashNodeList(List<NodeDto> nodes)
+    {
+        List<Map<String, String>> result = new ArrayList<Map<String, String>>();
+        if(CollectionUtils.isEmpty(nodes))
+        {
+            return result;
+        }
+        for(NodeDto node : nodes)
+        {
+            if("v2ray".equals(node.getType()))
+            {
+                Map<String, String> map = V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetail(node));
+                if(map != null)
+                {
+                    result.add(map);
+                }
+            }
+            else if("ss".equals(node.getType()))
+            {
+                result.add(ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNode(node)));
+            }
+            else
+            {
+                Map<String, String> map = ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksNodeR(node));
+                if(map != null)
+                {
+                    result.add(map);
+                }
+            }
+        }
+        return result;
+    }
     private Boolean isInGroup(List<NodeGroupKey> groupKeys, NodeDto nodeDto)
     {
         Boolean flag = false;

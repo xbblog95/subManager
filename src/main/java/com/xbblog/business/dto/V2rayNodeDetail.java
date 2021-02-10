@@ -278,8 +278,31 @@ public class V2rayNodeDetail extends NodeDetail {
             tempMap.put("camouflageHost", v2rayNodeDetail.getCamouflageHost() == null ? "" :v2rayNodeDetail.getCamouflageHost());
             tempMap.put("camouflageType", v2rayNodeDetail.getCamouflageType() == null ? "" :v2rayNodeDetail.getCamouflageType());
             tempMap.put("security", v2rayNodeDetail.getSecurity() == null ? "auto" : v2rayNodeDetail.getSecurity());
+            tempMap.put("type", "v2ray");
             mapList.add(tempMap);
         }
         return mapList;
+    }
+
+    public static Map<String, String> parseToClashMap(V2rayNodeDetail node)
+    {
+        if("kcp".equals(node.getNetwork()))
+        {
+            return null;
+        }
+        Map<String, String> tempMap = new HashMap<String, String>();
+        tempMap.put("remarks", node.getRemarks());
+        tempMap.put("ip", node.getIp());
+        tempMap.put("port", String.valueOf(node.getPort()));
+        tempMap.put("uuid", node.getUuid());
+        tempMap.put("alterId", String.valueOf(node.getAlterId()));
+        tempMap.put("network", node.getNetwork());
+        tempMap.put("camouflageTls", node.getCamouflageTls() == null ? "" : node.getCamouflageTls());
+        tempMap.put("camouflagePath", node.getCamouflagePath() == null ? "" : node.getCamouflagePath());
+        tempMap.put("camouflageHost", node.getCamouflageHost() == null ? "" :node.getCamouflageHost());
+        tempMap.put("camouflageType", node.getCamouflageType() == null ? "" :node.getCamouflageType());
+        tempMap.put("security", node.getSecurity() == null ? "auto" : node.getSecurity());
+        tempMap.put("type", "v2ray");
+        return tempMap;
     }
 }

@@ -1,8 +1,8 @@
 package com.xbblog.business.dto;
 
-import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
+import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Data
 public class ShadowsocksRNode extends ShadowsocksNode {
 
     //混淆参数
@@ -171,35 +172,24 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         return mapList;
     }
 
-    public String getObfsparam() {
-        return obfsparam;
-    }
-
-    public void setObfsparam(String obfsparam) {
-        this.obfsparam = obfsparam;
-    }
-
-    public String getProtoparam() {
-        return protoparam;
-    }
-
-    public void setProtoparam(String protoparam) {
-        this.protoparam = protoparam;
-    }
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getObfs() {
-        return obfs;
-    }
-
-    public void setObfs(String obfs) {
-        this.obfs = obfs;
+    public static Map<String, String> shadowsocksRNodeparseToClashMap(ShadowsocksRNode node)
+    {
+        //排除所有chacha20的加密
+        if("chacha20".equals(node.getSecurity()))
+        {
+            return null;
+        }
+        Map<String, String> tempMap = new HashMap<String, String>();
+        tempMap.put("ip", node.getIp());
+        tempMap.put("port", String.valueOf(node.getPort()));
+        tempMap.put("security", node.getSecurity());
+        tempMap.put("password",node.getPassword());
+        tempMap.put("remarks", node.getRemarks());
+        tempMap.put("protocol", node.getProtocol());
+        tempMap.put("protocolParam", node.getProtoparam());
+        tempMap.put("obfs", node.getObfs());
+        tempMap.put("obfsParam", node.getObfsparam());
+        tempMap.put("type", "ssr");
+        return tempMap;
     }
 }

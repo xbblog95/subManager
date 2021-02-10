@@ -17,7 +17,7 @@ public class AnalysisUtils {
 
     private static String COMM_OBFSPARAM = "www.download.windowsupdate.com";
 
-    public static NodeDetail analysisShadowsocks(String ssStr) throws UnsupportedEncodingException {
+    public static NodeDetail analysisShadowsocks(String ssStr) {
         if(ssStr == null || "".equals(ssStr))
         {
             return null;
@@ -26,12 +26,17 @@ public class AnalysisUtils {
         {
             String ss = ssStr.substring(ssStr.indexOf("//") + 2);
             String decode = URLDecoder.decode(ss, "UTF-8");
-            String origin = Base64Util.decode(decode.substring(0,decode.lastIndexOf("#")));
-            String remark = decode.substring(decode.lastIndexOf("#") + 1);
-            String host = origin.substring(origin.lastIndexOf("@") + 1, origin.lastIndexOf(":"));
-            String port = origin.substring(origin.lastIndexOf(":") + 1);
-            String security = origin.substring(0, origin.indexOf(":"));
-            String password = origin.substring(origin.indexOf(":") + 1, origin.indexOf("@"));
+            String ssRegex = "(.*)@(.*):([0-9]*)#(.*)";
+            List<List<String>> lists = RegexUtils.patternFindStr(ssRegex, decode);
+            String remark = RegexUtils.getListItemValue(lists, 0, 3);
+            String host =  RegexUtils.getListItemValue(lists, 0, 1);
+            String port = RegexUtils.getListItemValue(lists, 0, 2);
+            String nodeInfoBase64 = RegexUtils.getListItemValue(lists, 0, 0);
+            String nodeInfo = Base64Util.decode(nodeInfoBase64);
+            String nodeInfoRegex = "(.*):(.*)";
+            List<List<String>> nodeInfoList = RegexUtils.patternFindStr(nodeInfoRegex, nodeInfo);
+            String security =  RegexUtils.getListItemValue(nodeInfoList, 0, 0);
+            String password = RegexUtils.getListItemValue(nodeInfoList, 0, 1);
             ShadowsocksNode node = new ShadowsocksNode(host, Integer.parseInt(port), remark, security, password);
             return node;
         }
@@ -122,11 +127,23 @@ public class AnalysisUtils {
         String[] arr = v2rayNode.split("\n");
         for(String str : arr)
         {
-            NodeDetail node = analysisVmess(str);
-            if(node != null)
+            if(str.startsWith("vmess"))
             {
-                nodeList.add(node);
+                NodeDetail node = analysisVmess(str);
+                if(node != null)
+                {
+                    nodeList.add(node);
+                }
             }
+            else if(str.startsWith("ss"))
+            {
+                NodeDetail node = analysisShadowsocks(str);
+                if(node != null)
+                {
+                    nodeList.add(node);
+                }
+            }
+
         }
         return nodeList;
     }
