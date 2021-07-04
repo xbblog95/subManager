@@ -61,7 +61,7 @@
         <dependency>
             <groupId>com.github.hiwepy</groupId>
             <artifactId>ip2region-spring-boot-starter</artifactId>
-            <version>1.0.4-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
 

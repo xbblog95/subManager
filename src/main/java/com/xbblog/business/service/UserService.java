@@ -185,6 +185,7 @@ public class UserService {
         String region = "";
         String province = "";
         String city = "";
+        String isp = "";
         try
         {
             String ipdesc = ip2regionTemplate.binarySearch(subLog.getIp()).getRegion();
@@ -194,6 +195,7 @@ public class UserService {
             region = RegexUtils.getListItemValue(lists, 0, 1);
             province = RegexUtils.getListItemValue(lists, 0, 2);
             city = RegexUtils.getListItemValue(lists, 0, 3);
+            isp = RegexUtils.getListItemValue(lists, 0, 4);
         }
         catch (Exception e)
         {
@@ -202,6 +204,7 @@ public class UserService {
             region = IPUtils.UNKOWN_ADDRESS;
             province = IPUtils.UNKOWN_ADDRESS;
             city = IPUtils.UNKOWN_ADDRESS;
+            isp = IPUtils.UNKOWN_ADDRESS;
         }
         subLog.setRegion(region);
         subLog.setCountry(country);
@@ -258,6 +261,4 @@ public class UserService {
         }
         return citys.keySet().size() > 1;
     }
-
-
 }

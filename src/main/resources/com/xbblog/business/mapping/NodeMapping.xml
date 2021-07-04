@@ -13,9 +13,6 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
-        <if test="isp != null">
-            and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
-        </if>
         order by c.order, b.subscribeId
     </select>
 
@@ -31,9 +28,6 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
-        <if test="isp != null">
-            and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
-        </if>
         order by c.order, b.subscribeId
     </select>
 
@@ -48,9 +42,6 @@
         where a.type = 'ssr'
         <if test="flag != null">
             and b.flag = #{flag}
-        </if>
-        <if test="isp != null">
-            and EXISTS (select 1 from t_node_isp isp where isp.node_id = a.node_id and isp = #{isp})
         </if>
         order by c.order, b.subscribeId
     </select>
