@@ -54,6 +54,7 @@ proxies:
   cipher: "auto"
   <#if node.camouflageTls?length gt 0 >
   tls: true
+  skip-cert-verify: true
   </#if>
   <#if (node.network!"tcp") != "tcp" >
   network: "${node.network}"
