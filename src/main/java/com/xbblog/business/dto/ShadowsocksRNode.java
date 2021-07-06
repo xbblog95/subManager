@@ -185,7 +185,7 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         tempMap.put("port", String.valueOf(node.getPort()));
         tempMap.put("security", node.getSecurity());
         tempMap.put("password",node.getPassword());
-        tempMap.put("remarks", node.getRemarks());
+        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
         tempMap.put("protocol", node.getProtocol());
         tempMap.put("protocolParam", node.getProtoparam());
         tempMap.put("obfs", node.getObfs());
