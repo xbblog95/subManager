@@ -291,7 +291,7 @@ public class V2rayNodeDetail extends NodeDetail {
             return null;
         }
         Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("remarks", node.getRemarks());
+        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
         tempMap.put("ip", node.getIp());
         tempMap.put("port", String.valueOf(node.getPort()));
         tempMap.put("uuid", node.getUuid());

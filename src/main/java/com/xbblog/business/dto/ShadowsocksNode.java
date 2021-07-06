@@ -161,7 +161,7 @@ public class ShadowsocksNode extends NodeDetail{
         tempMap.put("port", String.valueOf(node.getPort()));
         tempMap.put("security", node.getSecurity());
         tempMap.put("password",node.getPassword());
-        tempMap.put("remarks", node.getRemarks());
+        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
         tempMap.put("type", "ss");
         return tempMap;
     }
