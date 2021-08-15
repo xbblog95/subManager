@@ -257,11 +257,12 @@ public class NodeService {
         return nodeMapping.getShadowsocksRNodes(new HashMap<>());
     }
 
-    public String getV2rayNgSubscribe(String isp) {
+    public String getV2rayNgSubscribe(String isp, int group) {
         StringBuffer buffer = new StringBuffer();
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取v2ray节点
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //转换成v2ray对象
@@ -293,11 +294,12 @@ public class NodeService {
         return Base64Util.encodeURLSafe(buffer.toString());
     }
 
-    public String getShadowrocketSubscribe(String isp) {
+    public String getShadowrocketSubscribe(String isp, int group) {
         StringBuffer buffer = new StringBuffer();
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取v2ray节点
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
@@ -351,12 +353,13 @@ public class NodeService {
         return Base64Util.encodeURLSafe(buffer.toString());
     }
 
-    public String getQuantumultSubscribe(String isp)
+    public String getQuantumultSubscribe(String isp, int group)
     {
         StringBuffer buffer = new StringBuffer();
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取v2ray节点
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
@@ -410,11 +413,12 @@ public class NodeService {
         return Base64Util.encodeURLSafe(buffer.toString());
     }
 
-    public String getShadowsocksRSubscribe(String isp) {
+    public String getShadowsocksRSubscribe(String isp, int group) {
         StringBuffer buffer = new StringBuffer();
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取ss节点
         List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         //转换成ss对象
@@ -452,10 +456,11 @@ public class NodeService {
         return Base64Util.encode(buffer.toString());
     }
 
-    public void getClashSubscribe(OutputStream os, String isp) {
+    public void getClashSubscribe(OutputStream os, String isp, int group) {
         Map<String, Object> paramMap = new HashMap<String, Object>(2);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取v2ray节点
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //获取ss节点
@@ -669,11 +674,12 @@ public class NodeService {
         return Base64Util.encodeURLSafe(buffer.toString());
     }
 
-    public String getPharosProSubscribe(String isp) {
+    public String getPharosProSubscribe(String isp, int group) {
         StringBuffer buffer = new StringBuffer();
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取v2ray节点
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //转换成v2ray对象
@@ -722,11 +728,12 @@ public class NodeService {
         return Base64Util.encodeURLSafe(buffer.toString());
     }
 
-    public String getQuantumultXSubscribe(String isp) throws UnsupportedEncodingException {
+    public String getQuantumultXSubscribe(String isp, int group) throws UnsupportedEncodingException {
         StringBuffer buffer = new StringBuffer();
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取v2ray节点
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         List<V2rayNodeDetail> v2rayNodeDetails = V2rayNodeDetail.toV2rayDetails(v2rayList);
@@ -878,10 +885,11 @@ public class NodeService {
         return result;
     }
 
-    public void getClashRSubscribe(OutputStream os, String isp) {
+    public void getClashRSubscribe(OutputStream os, String isp, int group) {
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
+        paramMap.put("group", group);
         //获取v2ray节点
         List<NodeDto> v2rayList = getV2rayNodes(paramMap);
         //获取ss节点

@@ -7,7 +7,7 @@
     </select>
 
     <select id="getUserByToken" parameterType="java.lang.String" resultType="com.xbblog.business.dto.User">
-        select id, name, token, password from t_user where token = #{_parameter}
+        select id, name, token, password, `group` from t_user where token = #{_parameter}
     </select>
     <select id="qrySubLog" resultType="com.xbblog.business.dto.SubLog" parameterType="com.xbblog.business.dto.QrySubLogReqDto">
         select ip, `type`, userId,  country, region,province, city, `time` from t_user_subscribe_log

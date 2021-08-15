@@ -67,27 +67,27 @@ public class LinkController {
         switch (platform)
         {
             case "v2rayNg":
-                String v2rayNgStr = nodeService.getV2rayNgSubscribe(isp);
+                String v2rayNgStr = nodeService.getV2rayNgSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(v2rayNgStr);
                 break;
             case "shadowrocket":
-                String shadowrocketStr = nodeService.getShadowrocketSubscribe(isp);
+                String shadowrocketStr = nodeService.getShadowrocketSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(shadowrocketStr);
                 break;
             case "quantumult":
-                String quantumultStr = nodeService.getQuantumultSubscribe(isp);
+                String quantumultStr = nodeService.getQuantumultSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(quantumultStr);
                 break;
             case "quantumultx":
-                String quantumultXStr = nodeService.getQuantumultXSubscribe(isp);
+                String quantumultXStr = nodeService.getQuantumultXSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(quantumultXStr);
                 break;
             case "shadowsocksR":
-                String shadowsocksRStr = nodeService.getShadowsocksRSubscribe(isp);
+                String shadowsocksRStr = nodeService.getShadowsocksRSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(shadowsocksRStr);
                 break;
@@ -95,21 +95,21 @@ public class LinkController {
                 response.setHeader("content-disposition", "attachment;filename=clash.yaml");
                 response.setCharacterEncoding("UTF-8");
                 userService.saveSubLog(subLog);
-                nodeService.getClashSubscribe(response.getOutputStream(), isp);
+                nodeService.getClashSubscribe(response.getOutputStream(), isp, user.getGroup());
                 break;
             case "clashr":
                 response.setHeader("content-disposition", "attachment;filename=clash.yaml");
                 response.setCharacterEncoding("UTF-8");
                 userService.saveSubLog(subLog);
-                nodeService.getClashRSubscribe(response.getOutputStream(), isp);
+                nodeService.getClashRSubscribe(response.getOutputStream(), isp, user.getGroup());
                 break;
             case "potatso":
-                String potatsoStr = nodeService.getShadowsocksRSubscribe(isp);
+                String potatsoStr = nodeService.getShadowsocksRSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(potatsoStr);
                 break;
             case "pharosPro":
-                String pharosProString = nodeService.getPharosProSubscribe(isp);
+                String pharosProString = nodeService.getPharosProSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(pharosProString);
                 break;

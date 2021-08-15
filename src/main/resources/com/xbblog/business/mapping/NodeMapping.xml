@@ -9,10 +9,18 @@
         end remarks,
          a.type, b.source, b.flag, b.subscribeId,c.`group`
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+        left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'ss'
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
+        and d.group in (0
+        <trim prefix=",">
+            <if test="group != 0">
+                #{group}
+            </if>
+        </trim>
+        )
         order by c.order, b.subscribeId
     </select>
 
@@ -24,10 +32,18 @@
         a.camouflage_type as camouflageType,a.camouflage_host as camouflageHost,
         a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId,c.`group`
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+        left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'v2ray'
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
+        and d.group in (0
+            <trim prefix=",">
+                <if test="group != 0">
+                    #{group}
+                </if>
+            </trim>
+      )
         order by c.order, b.subscribeId
     </select>
 
@@ -39,10 +55,18 @@
         end remarks,
          a.type, b.source, b.flag, b.subscribeId,c.`group`
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+        left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'ssr'
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
+        and d.group in (0
+        <trim prefix=",">
+            <if test="group != 0">
+                #{group}
+            </if>
+        </trim>
+        )
         order by c.order, b.subscribeId
     </select>
 

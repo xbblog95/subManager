@@ -6,6 +6,7 @@ public class User {
     private String name;
     private String token;
     private String password;
+    private int group;
 
     public String getPassword() {
         return password;
@@ -37,5 +38,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
     }
 }

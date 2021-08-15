@@ -28,6 +28,7 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold" >${user.name}</span>
                             <span class="text-muted text-xs block">一般用户 <b class="caret"></b></span>
+                            <span class="text-muted text-xs block">组别：${user.group}</span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a class="dropdown-item" href="${base}/user/toIndex">关于我</a></li>
