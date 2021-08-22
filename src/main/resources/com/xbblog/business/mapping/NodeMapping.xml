@@ -14,13 +14,15 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
-        and d.group in (0
-        <trim prefix=",">
-            <if test="group != 0">
-                #{group}
-            </if>
-        </trim>
-        )
+        <if test="group != null">
+            and d.group in (0
+            <trim prefix=",">
+                <if test="group != 0">
+                    #{group}
+                </if>
+            </trim>
+            )
+        </if>
         order by c.order, b.subscribeId
     </select>
 
@@ -37,13 +39,17 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
-        and d.group in (0
+        <if test="group != null">
+            and d.group in (0
             <trim prefix=",">
                 <if test="group != 0">
                     #{group}
                 </if>
             </trim>
-      )
+            )
+        </if>
+
+
         order by c.order, b.subscribeId
     </select>
 
@@ -60,13 +66,15 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
-        and d.group in (0
-        <trim prefix=",">
-            <if test="group != 0">
-                #{group}
-            </if>
-        </trim>
-        )
+        <if test="group != null">
+            and d.group in (0
+            <trim prefix=",">
+                <if test="group != 0">
+                    #{group}
+                </if>
+            </trim>
+            )
+        </if>
         order by c.order, b.subscribeId
     </select>
 
