@@ -836,11 +836,24 @@ public class NodeService {
     {
         Map<Integer, Map<Integer, List<SubscribeKeyConfig>>> fitlerkeyMap = querySubscribeKeyConfig();
         Map<Integer, List<SubscribeKeyConfig>> subscribeKeyConfigMap = fitlerkeyMap.get(node.getSubscribeId());
-        if(subscribeKeyConfigMap == null)
+        Map<Integer, List<SubscribeKeyConfig>> normalSubscribeKeyConfigMap = fitlerkeyMap.get(0);
+        if(normalSubscribeKeyConfigMap != null)
+        {
+            //先做排除通用版本節點配置
+            List<SubscribeKeyConfig> normalExcludeKeys = normalSubscribeKeyConfigMap.get(SubscribeKeyConfigKind.ExcludeKey.getCode());
+            for(SubscribeKeyConfig config : normalExcludeKeys)
+            {
+                if(node.getRemarks().indexOf(config.getKey()) >= 0)
+                {
+                    return false;
+                }
+            }
+        }
+        if(subscribeKeyConfigMap == null )
         {
             return true;
         }
-//        先做排除节点的配置
+//        再做單節點排除节点的配置
         List<SubscribeKeyConfig> excludeKeys = subscribeKeyConfigMap.get(SubscribeKeyConfigKind.ExcludeKey.getCode());
         for(SubscribeKeyConfig config : excludeKeys)
         {
