@@ -28,7 +28,7 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold" >${user.name}</span>
                             <span class="text-muted text-xs block">一般用户 <b class="caret"></b></span>
-                            <span class="text-muted text-xs block">组别：${user.group}</span>
+                            <span class="text-muted text-xs block">组别：${user.group}<span><a href="javascript:void(0)" id="changeGroupSwitch">切换</a> </span></span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a class="dropdown-item" href="${base}/user/toIndex">关于我</a></li>
@@ -109,6 +109,24 @@
                 <button class="btn btn-primary btn-lg btn-block" type="button" id="modPassSubmit">提交</button>
             </form>
         </div>
+        <div class="text-center col-md-12 col-sm-12 col-lg-12" style="display: none;min-width: 300px" id="changeGroupForm">
+            <form>
+                <div class="mb-3">
+                    <label for="oldPassword">组</label>
+                    <select  class="form-control validater" id="groupId" name="groupId" data-validate-rule='{
+                                                  "required":"true"
+                                              }' data-validate-message='{
+                                                  "required":"必填项"
+                                              }' data-validate-type="select"  required>
+                        <option value="1">组别1</option>
+                        <option value="2">组别2</option>
+                        <option value="3">组别3</option>
+                    </select>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="button" id="changeGroupSubmit">提交</button>
+            </form>
+        </div>
         <div class="row  border-bottom white-bg dashboard-header">
 
             <div class="col-md-12">
@@ -179,7 +197,7 @@
 
 <!-- Mainly scripts -->
 <script type="text/javascript" src="${base}/static/base/jquery.1.9.1.min.js"></script>
-<script type="text/javascript" src="${base}/static/base/bootstrap/js/bootstrap.bundle.min.js"></script>>
+<script type="text/javascript" src="${base}/static/base/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${base}/static/js/plugins/metisMenu/metisMenu.js"></script>
 <!-- Toastr -->
 <script type="text/javascript" src="${base}/static/js/plugins/toastr/toastr.js"></script>

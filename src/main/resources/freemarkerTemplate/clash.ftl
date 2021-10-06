@@ -28,7 +28,7 @@ external-controller: 127.0.0.1:9090
 secret: ""
 
 dns:
-  enable: false # set true to enable dns (default is false)
+  enable: true # set true to enable dns (default is false)
   ipv6: false # default is false
   listen: 0.0.0.0:53
   enhanced-mode: redir-host

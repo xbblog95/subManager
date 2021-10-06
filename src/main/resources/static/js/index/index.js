@@ -68,6 +68,67 @@ $(function () {
                 }
             }
         })
+    });
+    //切换组
+    $("#changeGroupSwitch").on("click", function () {
+        var user = queryUser();
+        $("#groupId").val(user.group);
+        dar = dialog({
+            title: '切换组',
+            zIndex:10,
+            content: $("#changeGroupForm")[0],
+            drag : true,
+            cancelValue: '取消',
+            cancel: function () {
+                this.close();
+            }
+        });
+        dar.showModal();
+    });
+    $("#changeGroupSubmit").on("click", function (){
+        if(!$("#changeGroupForm").jqueryValidate("validate"))
+        {
+            return;
+        }
+        $.ajax({
+            url : BASE_PATH + "/user/changeGroup",
+            method : 'post',
+            async : true,
+            data : {
+                "groupId" : $('#groupId').val()
+            },
+            success : function (result) {
+                if(result.success)
+                {
+                    alert('切换成功，请更新订阅获取新节点信息');
+                }
+                else
+                {
+                    alert(result.msg);
+                }
+            }
+        })
     })
+
+    function queryUser()
+    {
+        var user= {};
+        $.ajax({
+            url : BASE_PATH + "/user/querySessionUser",
+            method : 'post',
+            async : false,
+            success : function (result) {
+                if(result.success)
+                {
+                    user = result.user;
+                }
+                else
+                {
+                    alert(result.msg);
+                }
+            }
+        })
+        return user;
+    }
 })
 

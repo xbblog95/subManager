@@ -23,4 +23,6 @@ public interface UserMapping {
     List<SubLog> qrySubLog(QrySubLogReqDto subLog);
 
     void insertRiskAction(RiskAction riskAction);
+
+    void modifyGroup(Map<String, Object> paramMap);
 }

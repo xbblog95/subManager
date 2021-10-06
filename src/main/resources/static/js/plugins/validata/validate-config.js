@@ -79,6 +79,38 @@ $.validater.type.bootStrap4Selectpicker = {
 }
 
 
+$.validater.type.select = {
+    "onInit": function (element) {
+        $(element).on("changed", function (e, clickedIndex, isSelected, previousValue) {
+            if(isSelected)
+            {
+                //只有用户自己选择的，才会触发检验
+                $(element).jqueryValidate("validate");
+            }
+        })
+    },
+    "onError":function (error, element) {
+        $(element).parent().css("border", "1px solid #dc3545");
+        $(element).parent().tooltip("dispose");
+        $(element).parent().tooltip({
+            title : error,
+            placement : 'bottom'
+        })
+    },
+    "onReset" : function (element) {
+        $(element).parent().css("border", "");
+        $(element).parent().tooltip("dispose");
+    },
+    "onSuccess" : function (element) {
+        $(element).parent().css("border", "");
+        $(element).parent().tooltip("dispose");
+    },
+    "onGetValue" : function (element) {
+        return $(element).val();
+    }
+}
+
+
 $.validater.validatefunction.required = function (value, options) {
     //如果设置的值是false,跳过检验，必填项直接通过
     if(!options)

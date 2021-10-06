@@ -44,6 +44,8 @@
         values
         (#{userId}, #{time})
     </insert>
-
-
+    
+    <update id="modifyGroup" parameterType="java.util.HashMap">
+        update t_user set `group` = #{groupId} where id = #{id}
+    </update>
 </mapper>

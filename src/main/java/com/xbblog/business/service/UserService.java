@@ -261,4 +261,11 @@ public class UserService {
         }
         return citys.keySet().size() > 1;
     }
+
+    public void changeGroup(int id, int groupId) {
+        Map<String, Object> paramMap  = new HashMap<String, Object>();
+        paramMap.put("id", id);
+        paramMap.put("groupId", groupId);
+        userMapping.modifyGroup(paramMap);
+    }
 }

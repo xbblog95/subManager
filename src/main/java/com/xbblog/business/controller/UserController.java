@@ -110,4 +110,34 @@ public class UserController extends BaseController  {
         String basePath =  request.getScheme() + "://"+request.getServerName() + ":"  +  request.getServerPort()+path+"/";
         return "redirect:" + basePath;
     }
+
+    @RequestMapping("changeGroup")
+    @ResponseBody
+    public Map<String, Object> changeGroup(int groupId)
+    {
+        User user = getLoginUser();
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", true);
+        try
+        {
+            userService.changeGroup(user.getId(), groupId);
+        }
+        catch (Exception e)
+        {
+            map.put("success", false);
+            map.put("msg", e.getMessage());
+        }
+        return map;
+    }
+
+    @RequestMapping("querySessionUser")
+    @ResponseBody
+    public Map<String, Object> querySessionUser()
+    {
+        User user = getLoginUser();
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", true);
+        map.put("user", user);
+        return map;
+    }
 }
