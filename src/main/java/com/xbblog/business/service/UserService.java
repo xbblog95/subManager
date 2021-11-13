@@ -259,7 +259,7 @@ public class UserService {
                 citys.put(log.getCity(), log.getCity());
             }
         }
-        return citys.keySet().size() > 1;
+        return citys.keySet().size() > 3;
     }
 
     public void changeGroup(int id, int groupId) {
