@@ -61,7 +61,7 @@ public class LinkController {
             platform = "v2rayNg";
         }
         String ip = StringUtil.isEmpty(request.getHeader("X-real-ip")) ? request.getRemoteAddr() : request.getHeader("X-real-ip");
-        logger.info(String.format("用户QQ：%s获取订阅", user.getName()));
+        logger.info("用户QQ：{} 获取订阅", user.getName());
         SubLog subLog = new SubLog(ip, platform, user.getId());
         response.setContentType("text/plain;charset=UTF-8");
         switch (platform)

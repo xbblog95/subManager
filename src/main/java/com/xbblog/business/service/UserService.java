@@ -10,7 +10,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
@@ -144,8 +143,6 @@ public class UserService {
         try {
             emailService.sendOne(name + "@qq.com" ,"validateforget.ftl", mailMap, "密码重置");
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
             e.printStackTrace();
         }
         cacheManager.getCache("forgetValidCode").put(name, code);

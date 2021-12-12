@@ -3,7 +3,6 @@ package com.xbblog.business.service;
 import com.xbblog.base.service.EmailService;
 import com.xbblog.business.dto.*;
 import com.xbblog.utils.MonitorUtils;
-import com.xbblog.utils.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
@@ -66,8 +64,6 @@ public class MonitorService {
             try {
                 emailService.sendOne(toAddress,  "mail.ftl", map, "服务器异常提醒");
             } catch (IOException e) {
-                e.printStackTrace();
-            }  catch (MessagingException e) {
                 e.printStackTrace();
             }
         }
@@ -132,7 +128,7 @@ public class MonitorService {
         }
         String host = node.getIp();
         int port = node.getPort();
-        logger.info(String.format("正在检测服务器ip：%s, 端口：%d", host, port));
+        logger.info("正在检测服务器ip：{}, 端口：{}", host, port);
         Boolean isActive = MonitorUtils.testTCPActive(host, port) != 0;
         if (isActive != (node.getFlag() == 1))
         {
@@ -142,12 +138,12 @@ public class MonitorService {
         }
         if (isActive)
         {
-            logger.info(String.format("服务器ip：%s, 端口：%d正常", host, port));
+            logger.info("服务器ip：{}, 端口：{}正常", host, port);
             return null;
         }
         else
         {
-            logger.warn(String.format("服务器ip：%s, 端口：%d检测不通过", host, port));
+            logger.warn("服务器ip：{}, 端口：{}检测不通过", host, port);
             if ("own".equals(node.getSource())) {
                 return node;
             }

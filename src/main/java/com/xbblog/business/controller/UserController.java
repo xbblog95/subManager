@@ -18,7 +18,10 @@ public class UserController extends BaseController  {
     @Autowired
     private UserService userService;
 
-
+    public UserController()
+    {
+        System.out.println(1);
+    }
     @PostMapping("login")
     @ResponseBody
     public Map<String, Object> login(String name, String password)

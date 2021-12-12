@@ -44,7 +44,7 @@ public class HttpUtils {
      * @throws Exception
      */
     public static String sendGet(String url, Map<String, Object> param, Header[] headersReq) throws Exception{
-        LOGGER.info("发送get请求,url为" + url + "参数为" + param);
+        LOGGER.info("发送get请求,url为 {} 参数为 {}", url , param);
         CloseableHttpClient closeableHttpClient = getHttpClient(url);
         URIBuilder uriBuilder = new URIBuilder(url);
         if(param != null)

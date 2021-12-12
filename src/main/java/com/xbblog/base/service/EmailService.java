@@ -1,14 +1,15 @@
 package com.xbblog.base.service;
 
 import com.sendgrid.*;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import com.xbblog.utils.TemplateUtils;
-import org.omg.SendingContext.RunTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
@@ -18,17 +19,15 @@ import java.util.Map;
 public class EmailService {
 
 
-
-    @Autowired
-    private MailProperties mailProperties;
-
+    @Value("${monitor.email.fromAddress}")
+    private String userName;
     @Value("${sendgrid.apikey}")
     private String apiKey;
 
-    public void sendOne(String address, String templeteName, Map<String, Object> map, String subject) throws IOException, MessagingException {
+    public void sendOne(String address, String templeteName, Map<String, Object> map, String subject) throws IOException {
         StringWriter writer = new StringWriter();
         TemplateUtils.format(templeteName, map, writer);
-        Email from = new Email(mailProperties.getUsername());
+        Email from = new Email(userName);
         Email to = new Email(address);
         Content content = new Content("text/html", writer.toString());
         Mail mail = new Mail(from, subject, to, content);
