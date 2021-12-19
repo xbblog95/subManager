@@ -7,6 +7,7 @@ import com.xbblog.business.service.MonitorService;
 import com.xbblog.business.service.NodeService;
 import com.xbblog.business.service.UserService;
 import com.xbblog.config.NormalConfiguration;
+import com.xbblog.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,13 +94,13 @@ public class LinkController {
                 response.getWriter().println(shadowsocksRStr);
                 break;
             case "clash":
-                response.setHeader("content-disposition", "attachment;filename=clash.yaml");
+                response.setHeader("content-disposition", "attachment;filename=" + DateUtils.dateFormat(new Date(), DateUtils.DATE_FORMAT) + ".yaml");
                 response.setCharacterEncoding("UTF-8");
                 userService.saveSubLog(subLog);
                 nodeService.getClashSubscribe(response.getOutputStream(), isp, user.getGroup());
                 break;
             case "clashr":
-                response.setHeader("content-disposition", "attachment;filename=clash.yaml");
+                response.setHeader("content-disposition", "attachment;filename=" + DateUtils.dateFormat(new Date(), DateUtils.DATE_FORMAT) + ".yaml");
                 response.setCharacterEncoding("UTF-8");
                 userService.saveSubLog(subLog);
                 nodeService.getClashRSubscribe(response.getOutputStream(), isp, user.getGroup());
