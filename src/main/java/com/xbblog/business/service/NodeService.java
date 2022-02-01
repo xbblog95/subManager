@@ -7,6 +7,8 @@ import com.xbblog.business.mapping.NodeMapping;
 import com.xbblog.business.mapping.SubscribeMapping;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.*;
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +56,29 @@ public class NodeService {
                 detail.setNodeId(node.getNode().getId());
                 insertV2ray(node.getNodeDetail());
             }
-            else
+            else if(detail.getClass() == ShadowsocksRNode.class)
             {
                 //ssr节点
                 ShadowsocksRNode shadowsocksRNode = (ShadowsocksRNode)detail;
                 insertNode(node.getNode());
                 detail.setNodeId(node.getNode().getId());
                 insertShadowsocksR(shadowsocksRNode);
+            }
+            else if(detail.getClass() == SnellNode.class)
+            {
+                //snell节点
+                SnellNode snellNode = (SnellNode)detail;
+                insertNode(node.getNode());
+                detail.setNodeId(node.getNode().getId());
+                insertSnell(snellNode);
+            }
+            else if(detail.getClass() == TrojanNode.class)
+            {
+                //trojan节点
+                TrojanNode trojanNode = (TrojanNode)detail;
+                insertNode(node.getNode());
+                detail.setNodeId(node.getNode().getId());
+                insertTrojan(trojanNode);
             }
         }
     }
@@ -73,6 +91,16 @@ public class NodeService {
             return;
         }
         nodeMapping.insertShadowsocksR(node);
+    }
+
+    private void insertSnell(SnellNode node) {
+        //如果混淆参数是plain并且协议是origin的，可以认为是ss节点
+        nodeMapping.insertSnell(node);
+    }
+
+
+    private void insertTrojan(TrojanNode node) {
+        nodeMapping.insertTrojan(node);
     }
 
     private void updateShadowsocksR(ShadowsocksRNode node) {
@@ -222,6 +250,24 @@ public class NodeService {
                     nodeList.add(bo);
                 }
             }
+            else if(SubscribeType.CLASHSUBSCRIBE.getCode().equals(subscribe.getType()))
+            {
+                String text = null;
+                try {
+                    Header[] headers = new Header[]{new BasicHeader("user-agent", "ClashforWindows/0.19.7")};
+                    text = HttpUtils.sendGet(subscribe.getSubscribe(), null, headers);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                List<NodeDetail> nodes = AnalysisUtils.analysisClashSubscribe(text);
+                for(NodeDetail nodeDetail : nodes)
+                {
+                    Node node = new Node("subscribe", subscribe.getId());
+                    NodeBo bo = new NodeBo(node, nodeDetail);
+                    bo = nodeHandler(nodeHandler, bo);
+                    nodeList.add(bo);
+                }
+            }
         }
         return nodeList;
     }
@@ -291,7 +337,17 @@ public class NodeService {
                 buffer.append("\n");
             }
         }
-        return Base64Util.encodeURLSafe(buffer.toString());
+        //获取trojan节点
+        List<NodeDto> trojanList = getTrojanNodes(paramMap);
+        for(int i = 0; i < trojanList.size(); i++)
+        {
+            buffer.append(TrojanNode.parseToV2rayNgString(trojanList.get(i)));
+            if(i != trojanList.size() - 1)
+            {
+                buffer.append("\n");
+            }
+        }
+        return Base64Util.encode(buffer.toString());
     }
 
     public String getShadowrocketSubscribe(String isp, int group) {
@@ -350,7 +406,18 @@ public class NodeService {
                 buffer.append("\n");
             }
         }
-        return Base64Util.encodeURLSafe(buffer.toString());
+        //获取trojan节点
+        List<NodeDto> trojanList = getTrojanNodes(paramMap);
+        for(int i = 0; i < trojanList.size(); i++)
+        {
+            String sub = TrojanNode.parseToShadowrocketString(trojanList.get(i));
+            buffer.append(sub);
+            if(i != trojanList.size() - 1 && !StringUtil.isEmpty(sub))
+            {
+                buffer.append("\n");
+            }
+        }
+        return Base64Util.encode(buffer.toString());
     }
 
     public String getQuantumultSubscribe(String isp, int group)
@@ -784,6 +851,17 @@ public class NodeService {
                 buffer.append("\n");
             }
         }
+        //获取trojan节点
+        List<NodeDto> trojanList = getTrojanNodes(paramMap);
+        for(int i = 0; i < trojanList.size(); i++)
+        {
+            String sub = TrojanNode.parseToQuantumultXString(trojanList.get(i));
+            buffer.append(sub);
+            if(i != trojanList.size() - 1 && !StringUtil.isEmpty(sub))
+            {
+                buffer.append("\n");
+            }
+        }
         return buffer.toString();
     }
 
@@ -805,6 +883,20 @@ public class NodeService {
     private List<NodeDto> getShadowsocksNodes(Map<String, Object> paramMap)
     {
         List<NodeDto> list = nodeMapping.getShadowsocksNodes(paramMap);
+        List<NodeDto> result = new ArrayList<NodeDto>();
+        for(NodeDto node : list)
+        {
+            if(filterNode(node))
+            {
+                result.add(node);
+            }
+        }
+        Collections.shuffle(result);
+        return result;
+    }
+
+    private List<NodeDto> getTrojanNodes(Map<String, Object> paramMap) {
+        List<NodeDto> list = nodeMapping.getTrojanNodes(paramMap);
         List<NodeDto> result = new ArrayList<NodeDto>();
         for(NodeDto node : list)
         {

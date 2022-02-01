@@ -38,8 +38,8 @@ public class V2rayNodeDetail extends NodeDetail {
     private String camouflageTls;
 
     public V2rayNodeDetail(String ip, int port, String remarks, String uuid, int alterId,
-                           String network, String camouflageType, String camouflageHost, String camouflagePath, String camouflageTls) {
-        super(ip, port, remarks, "auto", "v2ray");
+                           String network, String camouflageType, String camouflageHost, String camouflagePath, String camouflageTls, int udp) {
+        super(ip, port, remarks, "auto", "v2ray", udp);
         this.uuid = uuid;
         this.alterId = alterId;
         this.network = network == null ? "tcp" : network;
@@ -236,7 +236,7 @@ public class V2rayNodeDetail extends NodeDetail {
             return null;
         }
         V2rayNodeDetail v2rayNodeDetail = new V2rayNodeDetail(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(), nodeDto.getUuid(),
-                nodeDto.getAlterId(), nodeDto.getNetwork(), nodeDto.getCamouflageType(), nodeDto.getCamouflageHost(), nodeDto.getCamouflagePath(), nodeDto.getCamouflageTls());
+                nodeDto.getAlterId(), nodeDto.getNetwork(), nodeDto.getCamouflageType(), nodeDto.getCamouflageHost(), nodeDto.getCamouflagePath(), nodeDto.getCamouflageTls(), nodeDto.getUdp());
         return v2rayNodeDetail;
     }
 

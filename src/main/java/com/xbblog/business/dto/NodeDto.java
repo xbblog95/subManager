@@ -52,9 +52,11 @@ public class NodeDto extends NodeDetail {
     //订阅id
     private int subscribeId;
 
+    private int udp;
+
     public NodeDto(String ip, int port, String remarks, String uuid, int alterId,
-                           String network, String camouflageType, String camouflageHost, String camouflagePath, String camouflageTls, String password) {
-        super(ip, port, remarks, "auto", "v2ray");
+                           String network, String camouflageType, String camouflageHost, String camouflagePath, String camouflageTls, String password, int udp) {
+        super(ip, port, remarks, "auto", "v2ray", udp);
         this.uuid = uuid;
         this.alterId = alterId;
         this.network = network == null ? "tcp" : network;
@@ -67,8 +69,8 @@ public class NodeDto extends NodeDetail {
 
 
 
-    public NodeDto(String ip, int port, String remarks, String security, String type) {
-        super(ip, port, remarks, security, type);
+    public NodeDto(String ip, int port, String remarks, String security, String type, int udp) {
+        super(ip, port, remarks, security, type, udp);
     }
 
     public NodeDto() {

@@ -7,7 +7,7 @@
         case when c.`group` is null then concat(a.remarks, ' - ', '自建')
         else concat(a.remarks, ' - ', c.`group`)
         end remarks,
-         a.type, b.source, b.flag, b.subscribeId,c.`group`
+         a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'ss'
@@ -32,7 +32,7 @@
         else concat(a.remarks, ' - ', c.`group`)
         end remarks,
         a.camouflage_type as camouflageType,a.camouflage_host as camouflageHost,
-        a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId,c.`group`
+        a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'v2ray'
@@ -59,7 +59,7 @@
         case when c.`group` is null then concat(a.remarks, ' - ', '自建')
         else concat(a.remarks, ' - ', c.`group`)
         end remarks,
-         a.type, b.source, b.flag, b.subscribeId,c.`group`
+         a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'ssr'
@@ -78,6 +78,29 @@
         order by c.order, b.subscribeId
     </select>
 
+    <select id="getTrojanNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
+        select a.id, a.node_id, a.ip, a.port,a.security,a.password,a.obfs as obfs, a.obfsParam as obfsparam,
+        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+        else concat(a.remarks, ' - ', c.`group`)
+        end remarks,
+        a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
+        from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+        left join t_subscribe_group d on c.id = d.subscribeId
+        where a.type = 'trojan'
+        <if test="flag != null">
+            and b.flag = #{flag}
+        </if>
+        <if test="group != null">
+            and d.group in (0
+            <trim prefix=",">
+                <if test="group != 0">
+                    #{group}
+                </if>
+            </trim>
+            )
+        </if>
+        order by c.order, b.subscribeId
+    </select>
 
 
     <update id="modNode"  parameterType="com.xbblog.business.dto.Node">
@@ -98,20 +121,21 @@
     
     <insert id="insertV2ray" parameterType="com.xbblog.business.dto.V2rayNodeDetail">
       insert into t_node_detail
-        (node_id, ip, port,uuid, alterId,security,network,remarks,camouflage_type,camouflage_host,camouflage_path,camouflage_tls,type )
+        (node_id, ip, port,uuid, alterId,security,network,remarks,camouflage_type,camouflage_host,camouflage_path,camouflage_tls,type,udp )
         values
-        (#{nodeId}, #{ip}, #{port},#{uuid}, #{alterId}, #{security}, #{network}, #{remarks}, #{camouflageType}, #{camouflageHost}, #{camouflagePath}, #{camouflageTls}, 'v2ray')
+        (#{nodeId}, #{ip}, #{port},#{uuid}, #{alterId}, #{security}, #{network}, #{remarks}, #{camouflageType}, #{camouflageHost}, #{camouflagePath}, #{camouflageTls}, 'v2ray', #{udp})
     </insert>
 
     <insert id="insertShadowsocks" parameterType="com.xbblog.business.dto.ShadowsocksNode">
       insert into t_node_detail
-        (node_id, ip, port,security,password, remarks, type)
+        (node_id, ip, port,security,password, remarks, type, udp)
         values
-        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},'ss')
+        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},'ss', #{udp})
     </insert>
     
     <select id="getShadowsocks" parameterType="com.xbblog.business.dto.NodeDetail" resultType="com.xbblog.business.dto.ShadowsocksNode">
-        select id ,node_id as nodeId, ip, port, remarks,security,type,password from t_node_detail
+        select id ,node_id as nodeId, ip, port, remarks,security,type,password,   udp
+        from t_node_detail
         where ip = #{ip} and port = #{port}
     </select>
 
@@ -127,9 +151,23 @@
 
     <insert id="insertShadowsocksR" parameterType="com.xbblog.business.dto.ShadowsocksRNode">
         insert into t_node_detail
-        (node_id, ip, port,security,password, remarks,obfs,obfsParam,protocol,protoParam, type)
+        (node_id, ip, port,security,password, remarks,obfs,obfsParam,protocol,protoParam, type, udp)
         values
-        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},#{obfs},#{obfsparam}, #{protocol}, #{protoparam}, 'ssr')
+        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},#{obfs},#{obfsparam}, #{protocol}, #{protoparam}, 'ssr' #{udp})
+    </insert>
+
+    <insert id="insertSnell" parameterType="com.xbblog.business.dto.SnellNode">
+        insert into t_node_detail
+        (node_id, ip, port,security,password, remarks,obfs,obfsParam, type, udp)
+        values
+        (#{nodeId}, #{ip}, #{port},  #{security},#{psk}, #{remarks}, #{host},#{version},'snell', #{udp})
+    </insert>
+
+    <insert id="insertTrojan" parameterType="com.xbblog.business.dto.TrojanNode">
+        insert into t_node_detail
+            (node_id, ip, port,security,password, remarks,obfs,obfsParam, type, udp)
+        values
+            (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks}, #{alpn}, #{sni}, 'trojan', #{udp})
     </insert>
 
     <update id="updateShadowsocksR" parameterType="com.xbblog.business.dto.ShadowsocksRNode">

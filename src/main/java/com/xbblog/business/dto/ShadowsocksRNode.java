@@ -26,8 +26,8 @@ public class ShadowsocksRNode extends ShadowsocksNode {
     //混淆
     private String obfs;
 
-    public ShadowsocksRNode(String ip, int port, String remarks, String security, String password, String protocol, String protoparam, String obfs, String obfsparam, String group) {
-        super(ip, port, remarks, security, password, group);
+    public ShadowsocksRNode(String ip, int port, String remarks, String security, String password, String protocol, String protoparam, String obfs, String obfsparam, String group, int udp) {
+        super(ip, port, remarks, security, password, group, udp);
         this.obfs = obfs;
         this.protocol = protocol;
         this.protoparam = protoparam;
@@ -36,8 +36,8 @@ public class ShadowsocksRNode extends ShadowsocksNode {
     }
 
 
-    public ShadowsocksRNode(String ip, int port, String remarks, String security, String password, String protocol, String protoparam, String obfs, String obfsparam) {
-        super(ip, port, remarks, security, password);
+    public ShadowsocksRNode(String ip, int port, String remarks, String security, String password, String protocol, String protoparam, String obfs, String obfsparam, int udp) {
+        super(ip, port, remarks, security, password, udp);
         this.obfs = obfs;
         this.protocol = protocol;
         this.protoparam = protoparam;
@@ -65,7 +65,7 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         }
         ShadowsocksRNode shadowsocksrNode = new ShadowsocksRNode(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(),
                 nodeDto.getSecurity(), nodeDto.getPassword(), nodeDto.getProtocol(), nodeDto.getProtoparam(), nodeDto.getObfs(),
-                nodeDto.getObfsparam(), nodeDto.getGroup());
+                nodeDto.getObfsparam(), nodeDto.getGroup(), nodeDto.getUdp());
         return shadowsocksrNode;
     }
 

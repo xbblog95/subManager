@@ -4,6 +4,7 @@ import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.CollectionUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@NoArgsConstructor
 public class ShadowsocksNode extends NodeDetail{
 
     //ss/ssr密码
@@ -21,14 +23,14 @@ public class ShadowsocksNode extends NodeDetail{
 
     private String group;
 
-    public ShadowsocksNode(String ip, int port, String remarks, String security, String password, String group) {
-        super(ip, port, remarks, security, "ss");
+    public ShadowsocksNode(String ip, int port, String remarks, String security, String password, String group, int udp) {
+        super(ip, port, remarks, security, "ss", udp);
         this.password = password;
         this.group = group;
     }
 
-    public ShadowsocksNode(String ip, int port, String remarks, String security, String password) {
-        super(ip, port, remarks, security, "ss");
+    public ShadowsocksNode(String ip, int port, String remarks, String security, String password, int udp) {
+        super(ip, port, remarks, security, "ss", udp);
         this.password = password;
     }
 
@@ -116,7 +118,7 @@ public class ShadowsocksNode extends NodeDetail{
             return null;
         }
         ShadowsocksNode shadowsocksNode = new ShadowsocksNode(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(),
-                nodeDto.getSecurity(), nodeDto.getPassword(), nodeDto.getGroup());
+                nodeDto.getSecurity(), nodeDto.getPassword(), nodeDto.getGroup(), nodeDto.getUdp());
         return shadowsocksNode;
     }
 

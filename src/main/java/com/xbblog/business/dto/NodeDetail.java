@@ -27,13 +27,16 @@ public class NodeDetail {
     //节点类型
     private String type;
 
+    //是否支持udp
+    private int udp;
 
-    public NodeDetail( String ip, int port, String remarks, String security, String type) {
+    public NodeDetail( String ip, int port, String remarks, String security, String type, int udp) {
         this.ip = ip;
         this.port = port;
         this.remarks = remarks;
         this.security = security;
         this.type = type;
+        this.udp = udp;
     }
 
     public NodeDetail() {

@@ -57,7 +57,10 @@ public class HttpUtils {
         {
             httpGet.setHeaders(headersReq);
         }
-        httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36");
+        else
+        {
+            httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36");
+        }
         CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
         Header[] headers = response.getHeaders("content-type");
         HttpEntity entity = response.getEntity();
@@ -75,6 +78,10 @@ public class HttpUtils {
             try {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
+                    if(!line.endsWith("\n"))
+                    {
+                        sb.append("\n");
+                    }
                 }
             } catch (IOException e) {
                 return "";

@@ -9,7 +9,9 @@ public enum SubscribeType {
     SSDSUBSCRIBE("ssdsubscribe", "ssd订阅"),
     SSSUBSCRIBE("sssubscribe", "ss订阅"),
     V2RAYNGSUBSCRIBE("v2rayNGsubscribe", "v2rayNG订阅"),
-    SSRSUBSCRIBE("ssrsubscribe", "ssr订阅");
+    SSRSUBSCRIBE("ssrsubscribe", "ssr订阅"),
+    CLASHSUBSCRIBE("clashsubscribe", "clash订阅");
+
 
     private String code;
 

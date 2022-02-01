@@ -16,6 +16,7 @@ public interface NodeMapping {
 
     List<NodeDto> getShadowsocksRNodes(Map<String, Object> paramMap);
 
+    List<NodeDto> getTrojanNodes(Map<String, Object> paramMap);
 
     void modNode(Node node);
 
@@ -38,4 +39,8 @@ public interface NodeMapping {
     void updateShadowsocksR(ShadowsocksRNode node);
 
     List<SubscribeKeyConfig> querySubscribeKeyConfig();
+
+    void insertSnell(SnellNode node);
+
+    void insertTrojan(TrojanNode node);
 }
