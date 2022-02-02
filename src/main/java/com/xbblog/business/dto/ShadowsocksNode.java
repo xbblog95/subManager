@@ -165,6 +165,7 @@ public class ShadowsocksNode extends NodeDetail{
         tempMap.put("password",node.getPassword());
         tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
         tempMap.put("type", "ss");
+        tempMap.put("udp", String.valueOf(node.getUdp()));
         return tempMap;
     }
 

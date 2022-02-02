@@ -534,6 +534,9 @@ public class NodeService {
         List<NodeDto> ssList = getShadowsocksNodes(paramMap);
         //获取ssr节点
         List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
+        //torjan节点
+        List<NodeDto> trojanList = getTrojanNodes(paramMap);
+
         //组名
 //        String group = NormalConfiguration.webGroup;
         //重命名重名的备注
@@ -555,6 +558,14 @@ public class NodeService {
             filter.put(nodeDto.getRemarks(), nodeDto);
         }
         for(NodeDto nodeDto : ssrList)
+        {
+            if(filter.get(nodeDto.getRemarks()) != null)
+            {
+                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
+            }
+            filter.put(nodeDto.getRemarks(), nodeDto);
+        }
+        for(NodeDto nodeDto : trojanList)
         {
             if(filter.get(nodeDto.getRemarks()) != null)
             {
@@ -602,6 +613,15 @@ public class NodeService {
                     nodes.add(nodeDto);
                 }
             }
+            for(NodeDto nodeDto : trojanList)
+            {
+                if(isInGroup(groupKeys, nodeDto))
+                {
+                    //标识该节点已被编入组
+                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
+                    nodes.add(nodeDto);
+                }
+            }
             Collections.shuffle(nodes);
             groupMap.put("name", nodeGroup.getName());
             groupMap.put("nodes",  parseClashNodeList(nodes));
@@ -634,6 +654,14 @@ public class NodeService {
                 nodes.add(nodeDto);
             }
         }
+        for(NodeDto nodeDto : trojanList)
+        {
+            //判断标识该节点已被编入组
+            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
+            {
+                nodes.add(nodeDto);
+            }
+        }
         Collections.shuffle(nodes);
         otherMap.put("name", "其他");
         otherMap.put("nodes",  parseClashNodeList(nodes));
@@ -649,6 +677,10 @@ public class NodeService {
             allNode.add(node);
         }
         for(NodeDto node : ssrList)
+        {
+            allNode.add(node);
+        }
+        for(NodeDto node : trojanList)
         {
             allNode.add(node);
         }
@@ -678,9 +710,17 @@ public class NodeService {
             {
                 result.add(ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNode(node)));
             }
-            else
+            else if("ssr".equals(node.getType()))
             {
                 Map<String, String> map = ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksNodeR(node));
+                if(map != null)
+                {
+                    result.add(map);
+                }
+            }
+            else
+            {
+                Map<String, String> map = TrojanNode.trojanNodeparseToClashMap(TrojanNode.toTrojanNode(node));
                 if(map != null)
                 {
                     result.add(map);

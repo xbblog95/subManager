@@ -1,13 +1,7 @@
 package com.xbblog.business.dto.clash;
 
 import com.xbblog.base.annotation.YamlProperty;
-import com.xbblog.base.utils.YamlProPertyUtils;
 import lombok.Data;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
@@ -75,13 +69,5 @@ public class ClashConfigDto {
     @YamlProperty("clash-for-android")
     private ClashConfigForAndroidDto clashForAndroid;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Constructor constructor = new Constructor(ClashConfigDto.class);
-        constructor.setPropertyUtils(new YamlProPertyUtils());
-        Yaml yaml = new Yaml(constructor);
-        ClashConfigDto clashConfigDto = yaml.loadAs(new FileReader("C:\\Users\\f5505\\.config\\clash\\profiles\\1643475726491.yml"), ClashConfigDto.class);
-        String dump = yaml.dump(clashConfigDto);
-        System.out.println(dump);
-    }
 
 }

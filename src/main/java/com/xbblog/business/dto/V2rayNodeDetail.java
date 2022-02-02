@@ -303,6 +303,7 @@ public class V2rayNodeDetail extends NodeDetail {
         tempMap.put("camouflageType", node.getCamouflageType() == null ? "" :node.getCamouflageType());
         tempMap.put("security", node.getSecurity() == null ? "auto" : node.getSecurity());
         tempMap.put("type", "v2ray");
+        tempMap.put("udp", String.valueOf(node.getUdp()));
         return tempMap;
     }
 }

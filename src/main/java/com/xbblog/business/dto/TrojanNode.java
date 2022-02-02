@@ -1,7 +1,6 @@
 package com.xbblog.business.dto;
 
 
-import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
 
@@ -53,5 +52,29 @@ public class TrojanNode extends NodeDetail{
         templateMap.put("host", nodeDto.getObfsparam());
         templateMap.put("remark", nodeDto.getRemarks());
         return StringUtil.format(templateInfo, templateMap);
+    }
+
+    public static TrojanNode toTrojanNode(NodeDto nodeDto)
+    {
+        if(nodeDto == null)
+        {
+            return null;
+        }
+        TrojanNode trojanNode = new TrojanNode(nodeDto.getIp(), nodeDto.getPort(), nodeDto.getRemarks(),
+                nodeDto.getPassword(), nodeDto.getObfsparam(), nodeDto.getObfs(), nodeDto.getUdp());
+        return trojanNode;
+    }
+
+    public static Map<String, String> trojanNodeparseToClashMap(TrojanNode node) {
+        Map<String, String> tempMap = new HashMap<String, String>();
+        tempMap.put("ip", node.getIp());
+        tempMap.put("port", String.valueOf(node.getPort()));
+        tempMap.put("password",node.getPassword());
+        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        tempMap.put("alpn", node.getAlpn());
+        tempMap.put("sni", node.getSni());
+        tempMap.put("type", "trojan");
+        tempMap.put("udp", String.valueOf(node.getUdp()));
+        return tempMap;
     }
 }

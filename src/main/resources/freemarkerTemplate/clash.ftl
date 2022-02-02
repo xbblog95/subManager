@@ -52,57 +52,93 @@ proxies:
   uuid: "${node.uuid}"
   alterId: "${node.alterId}"
   cipher: "auto"
-  <#if node.camouflageTls?length gt 0 >
+    <#if node.udp == "1">
+  udp: true
+    </#if>
+    <#if node.camouflageTls?length gt 0 >
   tls: true
   skip-cert-verify: true
-  </#if>
-  <#if (node.network!"tcp") != "tcp" >
+    </#if>
+    <#if (node.network!"tcp") != "tcp" >
   network: "${node.network}"
-  </#if>
-  <#if node.camouflageHost?length gt 0 >
+    </#if>
+    <#if node.camouflageHost?length gt 0 >
   ws-headers:
     Host: "${node.camouflageHost}"
-  </#if>
-  <#if node.camouflagePath?length gt 0 >
+    </#if>
+    <#if node.camouflagePath?length gt 0 >
   ws-path: "${node.camouflagePath}"
-  </#if>
-    <#elseif node.type == "ss">
+    </#if>
+    <#if node.network == "ws">
+  ws-opts:
+      <#if node.camouflagePath?length gt 0 >
+    path: "${node.camouflagePath}"
+      </#if>
+      <#if node.camouflageHost?length gt 0 >
+    headers:
+        Host: { "${node.camouflageHost}" }
+      </#if>
+    </#if>
+  <#elseif node.type == "trojan">
+-
+  name: "${node.remarks}"
+  type: "trojan"
+  server: "${node.ip}"
+  port: "${node.port}"
+  password: "${node.password}"
+    <#if node.udp == "1">
+  udp: true
+    </#if>
+    <#if node.sni?length gt 0>
+  sni: ${node.sni}
+    </#if>
+    <#if node.alpn?length gt 0>
+  alpn:
+    - ${node.alpn}
+    </#if>
+  <#elseif node.type == "ss">
 -
   name: "${node.remarks}"
   type: "ss"
   server: "${node.ip}"
   port: "${node.port}"
+    <#if node.udp == "1">
+  udp: true
+    </#if>
   cipher: "${node.security}"
   password: "${node.password}"
-      <#else>
+  <#else>
 -
   name : "${node.remarks}"
-  <#if node.protocol == "origin" &&  node.protocolParam?length == 0>
+    <#if node.protocol == "origin" &&  node.protocolParam?length == 0>
   type: "ss"
-  <#else >
+    <#else >
   type: "ssr"
-  </#if>
+    </#if>
   server: "${node.ip}"
   port: "${node.port}"
   cipher: "${node.security}"
   password: "${node.password}"
-  <#if node.protocol == "origin" &&  node.protocolParam?length == 0>
+    <#if node.udp == "1">
+  udp: true
+    </#if>
+    <#if node.protocol == "origin" &&  node.protocolParam?length == 0>
   plugin: "obfs"
   plugin-opts:
-    <#if node.obfs == "http_simple">
+      <#if node.obfs == "http_simple">
     mode: "http"
     host: "${node.obfsParam}"
-    </#if>
-    <#if node.obfs == "tls1.2_ticket_auth">
+      </#if>
+      <#if node.obfs == "tls1.2_ticket_auth">
     mode: "tls"
     host: "${node.obfsParam}"
-    </#if>
-  <#else >
+      </#if>
+    <#else >
   protocol: "${node.protocol}"
   protocol-param: "${node.protocolParam}"
   obfs: "${node.obfs}"
   obfs-param: "${node.obfsParam}"
-  </#if>
+    </#if>
   </#if>
 </#list>
 

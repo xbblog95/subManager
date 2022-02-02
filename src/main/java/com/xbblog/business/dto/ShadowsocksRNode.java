@@ -191,6 +191,7 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         tempMap.put("obfs", node.getObfs());
         tempMap.put("obfsParam", node.getObfsparam());
         tempMap.put("type", "ssr");
+        tempMap.put("udp", String.valueOf(node.getUdp()));
         return tempMap;
     }
 }
