@@ -33,7 +33,7 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToShadowrocketString(NodeDto nodeDto) {
-        String templateInfo = "trajon://${password}@${ip}:${port}?peer=${host}#${remark}";
+        String templateInfo = "trojan://${password}@${ip}:${port}?peer=${host}#${remark}";
         Map<String, String> templateMap = new HashMap<String, String>();
         templateMap.put("ip", nodeDto.getIp());
         templateMap.put("port", String.valueOf(nodeDto.getPort()));
@@ -48,7 +48,7 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToQuantumultXString(NodeDto nodeDto) {
-        String templateInfo = "trajon=${ip}:${port}, password=${password}, tls-host=${host},over-tls=true, tls-verification=true, tag=${remark}";
+        String templateInfo = "trojan=${ip}:${port}, password=${password}, tls-host=${host},over-tls=true, tls-verification=true, tag=${remark}";
         Map<String, String> templateMap = new HashMap<String, String>();
         templateMap.put("ip", nodeDto.getIp());
         templateMap.put("port", String.valueOf(nodeDto.getPort()));

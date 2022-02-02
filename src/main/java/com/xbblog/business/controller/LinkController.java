@@ -87,7 +87,6 @@ public class LinkController {
                 response.setHeader("content-disposition", "attachment;filename=" + DateUtils.dateFormat(new Date(), DateUtils.DATE_FORMAT) + ".txt");
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/octet-stream");
-                response.setHeader("subscription-userinfo", "upload=2785936260; download=104507074005; total=1100612632576; expire=1666297557");
                 String quantumultXStr = nodeService.getQuantumultXSubscribe(isp, user.getGroup());
                 userService.saveSubLog(subLog);
                 response.getWriter().println(quantumultXStr);
