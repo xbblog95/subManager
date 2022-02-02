@@ -33,13 +33,17 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToShadowrocketString(NodeDto nodeDto) {
-        String templateInfo = "trajon://${password}@${ip}:${port}?sni=${host}#${remark}";
+        String templateInfo = "trajon://${password}@${ip}:${port}?peer=${host}#${remark}";
         Map<String, String> templateMap = new HashMap<String, String>();
         templateMap.put("ip", nodeDto.getIp());
         templateMap.put("port", String.valueOf(nodeDto.getPort()));
         templateMap.put("password",nodeDto.getPassword());
         templateMap.put("host", nodeDto.getObfsparam());
-        templateMap.put("remark", nodeDto.getRemarks());
+        try {
+            templateMap.put("remark", URLEncoder.encode(nodeDto.getRemarks(), "UTF-8").replaceAll("\\+", "%20"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return StringUtil.format(templateInfo, templateMap);
     }
 

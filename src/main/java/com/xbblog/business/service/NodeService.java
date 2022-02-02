@@ -339,6 +339,10 @@ public class NodeService {
         }
         //获取trojan节点
         List<NodeDto> trojanList = getTrojanNodes(paramMap);
+        if(!CollectionUtils.isEmpty(trojanList))
+        {
+            buffer.append("\n");
+        }
         for(int i = 0; i < trojanList.size(); i++)
         {
             buffer.append(TrojanNode.parseToV2rayNgString(trojanList.get(i)));
@@ -408,6 +412,10 @@ public class NodeService {
         }
         //获取trojan节点
         List<NodeDto> trojanList = getTrojanNodes(paramMap);
+        if(!CollectionUtils.isEmpty(trojanList))
+        {
+            buffer.append("\n");
+        }
         for(int i = 0; i < trojanList.size(); i++)
         {
             String sub = TrojanNode.parseToShadowrocketString(trojanList.get(i));
@@ -893,6 +901,10 @@ public class NodeService {
         }
         //获取trojan节点
         List<NodeDto> trojanList = getTrojanNodes(paramMap);
+        if(!CollectionUtils.isEmpty(trojanList))
+        {
+            buffer.append("\n");
+        }
         for(int i = 0; i < trojanList.size(); i++)
         {
             String sub = TrojanNode.parseToQuantumultXString(trojanList.get(i));

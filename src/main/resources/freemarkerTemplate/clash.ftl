@@ -76,7 +76,7 @@ proxies:
       </#if>
       <#if node.camouflageHost?length gt 0 >
     headers:
-        Host: { "${node.camouflageHost}" }
+        Host: "${node.camouflageHost}"
       </#if>
     </#if>
   <#elseif node.type == "trojan">
