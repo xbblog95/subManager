@@ -817,7 +817,7 @@ public class NodeService {
         List<ShadowsocksNode> shadowsocksNodes = ShadowsocksNode.toShadowsocksNodes(ssList);
         for(int i = 0; i < shadowsocksNodes.size(); i++)
         {
-            buffer.append(ShadowsocksNode.parseToV2rayNgString(shadowsocksNodes.get(i)));
+            buffer.append(ShadowsocksNode.parseToPharosProString(shadowsocksNodes.get(i)));
             if(i != shadowsocksNodes.size() - 1)
             {
                 buffer.append("\n");
@@ -840,10 +840,26 @@ public class NodeService {
                 buffer.append("\n");
             }
         }
+        //获取Trojan节点
+        List<NodeDto> trojanNodes = getTrojanNodes(paramMap);
+        if(!CollectionUtils.isEmpty(trojanNodes))
+        {
+            buffer.append("\n");
+        }
+        for(int i = 0; i < trojanNodes.size(); i++)
+        {
+            //转换成ssr对象
+            String sub = TrojanNode.parseToPharosProString(trojanNodes.get(i));
+            buffer.append(sub);
+            if(i != trojanNodes.size() - 1 && !StringUtil.isEmpty(sub))
+            {
+                buffer.append("\n");
+            }
+        }
         return Base64Util.encodeURLSafe(buffer.toString());
     }
 
-    public String getQuantumultXSubscribe(String isp, int group) throws UnsupportedEncodingException {
+    public String getQuantumultXSubscribe(String isp, int group) {
         StringBuffer buffer = new StringBuffer();
         Map<String, Object> paramMap = new HashMap<String, Object>(1);
         paramMap.put("flag", 1);

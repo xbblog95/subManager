@@ -67,6 +67,32 @@ public class ShadowsocksNode extends NodeDetail{
             return "";
         }
     }
+
+    public static String parseToPharosProString(ShadowsocksNode node)
+    {
+        if(node == null)
+        {
+            return "";
+        }
+        String templateBase = "${security}:${password}@${ip}:${port}";
+        Map<String, String> nodeMap = new HashMap<String, String>();
+        nodeMap.put("security", node.getSecurity());
+        nodeMap.put("password", node.getPassword());
+        nodeMap.put("ip", node.getIp());
+        nodeMap.put("port", String.valueOf(node.getPort()));
+        String ssStr = StringUtil.format(templateBase, nodeMap);
+        try {
+            String templateInfo = "ss://${base}#${remarks}";
+            Map<String, String> templateMap = new HashMap<String, String>();
+            templateMap.put("base", Base64Util.encodeURLSafe(ssStr));
+            templateMap.put("remarks",URLEncoder.encode(node.getRemarks(), "UTF-8").replaceAll("\\+", "%20"));
+            return StringUtil.format(templateInfo, templateMap);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     public static String parseToShadowrocketString(ShadowsocksNode node)
     {
         return parseToShadowsocksRString(node);

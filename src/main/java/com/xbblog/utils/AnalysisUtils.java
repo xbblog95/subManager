@@ -201,7 +201,7 @@ public class AnalysisUtils {
                 if(StringUtils.isEmpty(clashNodeConfigDto.getPlugin()))
                 {
                     return new ShadowsocksNode(clashNodeConfigDto.getServer(), clashNodeConfigDto.getPort(), clashNodeConfigDto.getName(),
-                            clashNodeConfigDto.getCipher(), clashNodeConfigDto.getPassword(), clashNodeConfigDto.getUdp() ? 1 : 0);
+                            clashNodeConfigDto.getCipher(), clashNodeConfigDto.getPassword(),  clashNodeConfigDto.getUdp() == null ? 0 : clashNodeConfigDto.getUdp() ? 1 : 0);
                 }
                 if("obfs".equals(clashNodeConfigDto.getPlugin()))
                 {
@@ -210,14 +210,14 @@ public class AnalysisUtils {
                         return new ShadowsocksRNode(clashNodeConfigDto.getServer(), clashNodeConfigDto.getPort(), clashNodeConfigDto.getName(),
                                 clashNodeConfigDto.getCipher(), clashNodeConfigDto.getPassword(), "origin", "",
                                 "tls1.2_ticket_auth", StringUtils.isEmpty(clashNodeConfigDto.getPluginOpts().getHost()) ? "" : clashNodeConfigDto.getPluginOpts().getHost(),
-                                clashNodeConfigDto.getUdp() ? 1 : 0);
+                                clashNodeConfigDto.getUdp() == null ? 0 : clashNodeConfigDto.getUdp() ? 1 : 0);
                     }
                     else if("http".equals(clashNodeConfigDto.getPluginOpts().getMode()))
                     {
                         return new ShadowsocksRNode(clashNodeConfigDto.getServer(), clashNodeConfigDto.getPort(), clashNodeConfigDto.getName(),
                                 clashNodeConfigDto.getCipher(), clashNodeConfigDto.getPassword(), "origin", "",
                                 "http_simple", StringUtils.isEmpty(clashNodeConfigDto.getPluginOpts().getHost()) ? "" : clashNodeConfigDto.getPluginOpts().getHost(),
-                                clashNodeConfigDto.getUdp() ? 1 : 0);
+                                clashNodeConfigDto.getUdp() == null ? 0 : clashNodeConfigDto.getUdp() ? 1 : 0);
                     }
                     else
                     {
