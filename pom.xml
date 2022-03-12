@@ -17,7 +17,9 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
+    <build>
+        <finalName>subManger</finalName>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
