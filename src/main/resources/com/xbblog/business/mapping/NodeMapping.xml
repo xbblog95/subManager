@@ -165,9 +165,17 @@
 
     <insert id="insertTrojan" parameterType="com.xbblog.business.dto.TrojanNode">
         insert into t_node_detail
-            (node_id, ip, port,security,password, remarks,obfs,obfsParam, type, udp)
+            (node_id, ip, port,security,password, remarks,obfs,
+             <if test="sni != null and sni != ''">
+                 obfsParam,
+             </if>
+             type, udp)
         values
-            (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks}, #{alpn}, #{sni}, 'trojan', #{udp})
+            (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks}, #{alpn},
+             <if test="sni != null and sni != ''">
+                 #{sni},
+             </if>
+              'trojan', #{udp})
     </insert>
 
     <update id="updateShadowsocksR" parameterType="com.xbblog.business.dto.ShadowsocksRNode">
