@@ -1,39 +1,65 @@
 package com.xbblog.base.utils;
 
 import com.xbblog.base.annotation.YamlProperty;
-import org.yaml.snakeyaml.introspector.MissingProperty;
-import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.springframework.beans.BeanUtils;
+import org.yaml.snakeyaml.introspector.*;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * yaml属性处理类
  */
 public class YamlProPertyUtils extends PropertyUtils {
 
+    private final Map<Class<?>, Map<String, Property>> propertiesCache = new HashMap<Class<?>, Map<String, Property>>();
+
     @Override
-    public Property getProperty(Class<?> type, String name) {
-        Field[] declaredFields = type.getDeclaredFields();
-        for(Field field : declaredFields)
+    protected synchronized Map<String, Property> getPropertiesMap(Class<?> type, BeanAccess bAccess) {
+        if(propertiesCache.get(type) != null)
         {
-            if(field.getName().equals(name))
-            {
-                return super.getProperty(type, name);
-            }
-            else
-            {
-                YamlProperty annotation = field.getAnnotation(YamlProperty.class);
-                if(annotation != null)
-                {
-                    if(annotation.value().equals(name))
+            return propertiesCache.get(type);
+        }
+
+        Map<String, Property> properties = new LinkedHashMap<String, Property>();
+        for (Class<?> c = type; c != null; c = c.getSuperclass()) {
+            for (Field field : c.getDeclaredFields()) {
+                int modifiers = field.getModifiers();
+                if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
+                    YamlProperty annotation = field.getAnnotation(YamlProperty.class);
+                    if (Modifier.isPublic(modifiers)) {
+                        if(annotation != null)
+                        {
+                            properties.put(annotation.value(), new YamlFieldProperty(annotation.value(), field));
+                        }
+                        else
+                        {
+                            properties.put(field.getName(), new YamlFieldProperty(field.getName(), field));
+                        }
+                    }
+                    else
                     {
-                        return super.getProperty(type, field.getName());
+                        PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(type, field.getName());
+                        Method readMethod = propertyDescriptor.getReadMethod();
+                        Method writeMethod = propertyDescriptor.getWriteMethod();
+                        if(annotation != null)
+                        {
+                            properties.put(annotation.value(), new YamlFieldProperty(annotation.value(), readMethod, writeMethod));
+                        }
+                        else
+                        {
+                            properties.put(field.getName(), new YamlFieldProperty(field.getName(), readMethod, writeMethod));
+                        }
                     }
                 }
             }
         }
-        return new MissingProperty(name);
+        propertiesCache.put(type, properties);
+        return properties;
     }
-
 }

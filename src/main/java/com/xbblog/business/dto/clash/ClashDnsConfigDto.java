@@ -38,5 +38,7 @@ public class ClashDnsConfigDto {
     @YamlProperty("fallback-filter")
     private ClashDnsCallbackFilterConfigDto fallbackFilter;
 
+    @YamlProperty("nameserver-policy")
+    private List<String> nameserverPolicy;
 
 }

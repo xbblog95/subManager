@@ -2,6 +2,7 @@ package com.xbblog.business.dto.clash;
 
 import com.xbblog.base.annotation.YamlProperty;
 import lombok.Data;
+
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +66,9 @@ public class ClashConfigDto {
     private List<ClashProxyGroupsConfigDto> proxyGroups;
 
     private List<String> rules;
+
+    @YamlProperty("proxy-providers")
+    private Map<String, ClashProxyProvidersConfigDto> proxyProviders;
 
     @YamlProperty("clash-for-android")
     private ClashConfigForAndroidDto clashForAndroid;

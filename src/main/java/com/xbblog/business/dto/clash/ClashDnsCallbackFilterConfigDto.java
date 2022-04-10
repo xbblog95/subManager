@@ -12,6 +12,9 @@ public class ClashDnsCallbackFilterConfigDto {
     @YamlProperty("geoip")
     private Boolean geoIp;
 
+    @YamlProperty("geoip-code")
+    private String geoIpCode;
+
     @YamlProperty("ipcidr")
     private List<String> ipCidr;
 
