@@ -1,6 +1,10 @@
 package com.xbblog.business.service;
 
+import com.xbblog.base.utils.YamlProPertyUtils;
 import com.xbblog.business.dto.*;
+import com.xbblog.business.dto.clash.ClashConfigDto;
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
+import com.xbblog.business.dto.clash.ClashProxyGroupsConfigDto;
 import com.xbblog.business.handler.NodeHandler;
 import com.xbblog.business.mapping.NodeGroupMapping;
 import com.xbblog.business.mapping.NodeMapping;
@@ -17,6 +21,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.representer.Representer;
 
 import javax.servlet.ServletOutputStream;
 import java.io.*;
@@ -531,7 +537,7 @@ public class NodeService {
         return Base64Util.encode(buffer.toString());
     }
 
-    public void getClashSubscribe(OutputStream os, String isp, int group) {
+    public String getClashSubscribe( String isp, int group) {
         Map<String, Object> paramMap = new HashMap<String, Object>(2);
         paramMap.put("flag", 1);
         paramMap.put("isp", isp);
@@ -544,137 +550,9 @@ public class NodeService {
         List<NodeDto> ssrList = getShadowsocksRNodes(paramMap);
         //torjan节点
         List<NodeDto> trojanList = getTrojanNodes(paramMap);
+        ClashConfigDto clashConfigDto = ClashConfigDto.newInstance();
 
-        //组名
-//        String group = NormalConfiguration.webGroup;
-        //重命名重名的备注
-        Map<String, Object> filter = new HashMap<String, Object>();
-        for(NodeDto nodeDto : v2rayList)
-        {
-            if(filter.get(nodeDto.getRemarks()) != null)
-            {
-                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
-            }
-            filter.put(nodeDto.getRemarks(), nodeDto);
-        }
-        for(NodeDto nodeDto : ssList)
-        {
-            if(filter.get(nodeDto.getRemarks()) != null)
-            {
-                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
-            }
-            filter.put(nodeDto.getRemarks(), nodeDto);
-        }
-        for(NodeDto nodeDto : ssrList)
-        {
-            if(filter.get(nodeDto.getRemarks()) != null)
-            {
-                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
-            }
-            filter.put(nodeDto.getRemarks(), nodeDto);
-        }
-        for(NodeDto nodeDto : trojanList)
-        {
-            if(filter.get(nodeDto.getRemarks()) != null)
-            {
-                nodeDto.setRemarks(nodeDto.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
-            }
-            filter.put(nodeDto.getRemarks(), nodeDto);
-        }
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<NodeGroup> groups = nodeGroupMapping.getGroups(new NodeGroup());
-        List<Map<String, Object>> clashMapList = new ArrayList<>();
-        Map<Integer, Boolean> nodeInGroupStatusMap = new HashMap<>();
-        for(NodeGroup nodeGroup : groups)
-        {
-            //获取key
-            NodeGroupKey nodeGroupKey = new NodeGroupKey();
-            nodeGroupKey.setGroupId(nodeGroup.getId());
-            List<NodeGroupKey> groupKeys = nodeGroupMapping.getGroupKeys(nodeGroupKey);
-            Map<String, Object> groupMap = new HashMap<>();
-//            ************************ 比对每个节点备注与关键字的差异，判断是否应该进入该组
-            List<NodeDto> nodes = new ArrayList<>();
-            for(NodeDto nodeDto : v2rayList)
-            {
-                if(isInGroup(groupKeys, nodeDto))
-                {
-                    //标识该节点已被编入组
-                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
-                    nodes.add(nodeDto);
-                }
-            }
-            for(NodeDto nodeDto : ssList)
-            {
-                if(isInGroup(groupKeys, nodeDto))
-                {
-                    //标识该节点已被编入组
-                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
-                    nodes.add(nodeDto);
-                }
-            }
-            for(NodeDto nodeDto : ssrList)
-            {
-                if(isInGroup(groupKeys, nodeDto))
-                {
-                    //标识该节点已被编入组
-                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
-                    nodes.add(nodeDto);
-                }
-            }
-            for(NodeDto nodeDto : trojanList)
-            {
-                if(isInGroup(groupKeys, nodeDto))
-                {
-                    //标识该节点已被编入组
-                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
-                    nodes.add(nodeDto);
-                }
-            }
-            Collections.shuffle(nodes);
-            groupMap.put("name", nodeGroup.getName());
-            groupMap.put("nodes",  parseClashNodeList(nodes));
-            clashMapList.add(groupMap);
-        }
-        //处理其他节点
-        Map<String, Object> otherMap = new HashMap<>();
-        List<NodeDto> nodes = new ArrayList<>();
-        for(NodeDto nodeDto : v2rayList)
-        {
-            //判断标识该节点已被编入组
-            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
-            {
-                nodes.add(nodeDto);
-            }
-        }
-        for(NodeDto nodeDto : ssList)
-        {
-            //判断标识该节点已被编入组
-            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
-            {
-                nodes.add(nodeDto);
-            }
-        }
-        for(NodeDto nodeDto : ssrList)
-        {
-            //判断标识该节点已被编入组
-            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
-            {
-                nodes.add(nodeDto);
-            }
-        }
-        for(NodeDto nodeDto : trojanList)
-        {
-            //判断标识该节点已被编入组
-            if(nodeInGroupStatusMap.get(nodeDto.getId()) == null)
-            {
-                nodes.add(nodeDto);
-            }
-        }
-        Collections.shuffle(nodes);
-        otherMap.put("name", "其他");
-        otherMap.put("nodes",  parseClashNodeList(nodes));
-        clashMapList.add(otherMap);
-        map.put("group", clashMapList);
+        //所有的节点
         List<NodeDto> allNode = new ArrayList<NodeDto>();
         for(NodeDto node : v2rayList)
         {
@@ -692,14 +570,81 @@ public class NodeService {
         {
             allNode.add(node);
         }
-        map.put("nodes", parseClashNodeList(allNode));
-        TemplateUtils.format("clash.ftl", map, os);
+        //去重
+        for(NodeDetail nodeDetail : allNode)
+        {
+            for(NodeDetail tmp : allNode)
+            {
+                if(tmp.getRemarks().equals(nodeDetail.getRemarks()) && tmp != nodeDetail)
+                {
+                    tmp.setRemarks(tmp.getRemarks() + "(" + UUID.randomUUID().toString().replaceAll("-","") + ")");
+                }
+            }
+        }
+        Collections.shuffle(allNode);
+        //组装proxies对象
+        List<ClashNodeConfigDto> list = parseClashNodeList(allNode);
+        clashConfigDto.setProxies(list);
+
+        List<ClashProxyGroupsConfigDto> proxyGroupsConfigDtos = new ArrayList<>();
+        List<NodeGroup> groups = nodeGroupMapping.getGroups(new NodeGroup());
+        Map<Integer, Boolean> nodeInGroupStatusMap = new HashMap<>();
+
+        ClashProxyGroupsConfigDto top = new ClashProxyGroupsConfigDto();
+        top.setName("国外流量");
+        top.setType("select");
+        List<String> topProxies = new ArrayList<>();
+        for(NodeGroup nodeGroup : groups)
+        {
+            topProxies.add(nodeGroup.getName());
+        }
+        top.setProxies(topProxies);
+        proxyGroupsConfigDtos.add(top);
+        for(NodeGroup nodeGroup : groups)
+        {
+            ClashProxyGroupsConfigDto clashProxyGroupsConfigDto = new ClashProxyGroupsConfigDto();
+            clashProxyGroupsConfigDto.setName(nodeGroup.getName());
+            clashProxyGroupsConfigDto.setType("select");
+            List<String> proxies = new ArrayList<>();
+            //获取key
+            NodeGroupKey nodeGroupKey = new NodeGroupKey();
+            nodeGroupKey.setGroupId(nodeGroup.getId());
+            List<NodeGroupKey> groupKeys = nodeGroupMapping.getGroupKeys(nodeGroupKey);
+            for(NodeDto nodeDto : allNode)
+            {
+                if(isInGroup(groupKeys, nodeDto))
+                {
+                    nodeInGroupStatusMap.put(nodeDto.getId(), true);
+                    proxies.add(nodeDto.getRemarks());
+                }
+            }
+            clashProxyGroupsConfigDto.setProxies(proxies);
+            proxyGroupsConfigDtos.add(clashProxyGroupsConfigDto);
+        }
+        ClashProxyGroupsConfigDto other = new ClashProxyGroupsConfigDto();
+        other.setName("其他");
+        other.setType("select");
+        List<String> otherProxies = new ArrayList<>();
+        for(NodeDetail nodeDetail : allNode)
+        {
+            if(nodeInGroupStatusMap.get(nodeDetail.getId()) == null)
+            {
+                otherProxies.add(nodeDetail.getRemarks());
+            }
+        }
+        other.setProxies(otherProxies);
+        clashConfigDto.setProxyGroups(proxyGroupsConfigDtos);
+        Representer representer = new Representer();
+        representer.setPropertyUtils(new YamlProPertyUtils());
+        Yaml yaml = new Yaml(representer);
+        String dump = yaml.dump(clashConfigDto);
+        return dump;
     }
 
 
-    private List<Map<String, String>> parseClashNodeList(List<NodeDto> nodes)
+    private List<ClashNodeConfigDto> parseClashNodeList(List<NodeDto> nodes)
     {
-        List<Map<String, String>> result = new ArrayList<Map<String, String>>();
+        List<ClashNodeConfigDto> result = new ArrayList<>();
         if(CollectionUtils.isEmpty(nodes))
         {
             return result;
@@ -708,30 +653,30 @@ public class NodeService {
         {
             if("v2ray".equals(node.getType()))
             {
-                Map<String, String> map = V2rayNodeDetail.parseToClashMap(V2rayNodeDetail.toV2rayDetail(node));
-                if(map != null)
+                ClashNodeConfigDto clashNodeConfigDto = V2rayNodeDetail.parseToClashNode(V2rayNodeDetail.toV2rayDetail(node));
+                if(clashNodeConfigDto != null)
                 {
-                    result.add(map);
+                    result.add(clashNodeConfigDto);
                 }
             }
             else if("ss".equals(node.getType()))
             {
-                result.add(ShadowsocksNode.shadowsocksNodeparseToClashMap(ShadowsocksNode.toShadowsocksNode(node)));
+                result.add(ShadowsocksNode.shadowsocksNodeparseToClashNode(ShadowsocksNode.toShadowsocksNode(node)));
             }
             else if("ssr".equals(node.getType()))
             {
-                Map<String, String> map = ShadowsocksRNode.shadowsocksRNodeparseToClashMap(ShadowsocksRNode.toShadowsocksNodeR(node));
-                if(map != null)
+                ClashNodeConfigDto clashNodeConfigDto = ShadowsocksRNode.shadowsocksRNodeparseToClashNode(ShadowsocksRNode.toShadowsocksNodeR(node));
+                if(clashNodeConfigDto != null)
                 {
-                    result.add(map);
+                    result.add(clashNodeConfigDto);
                 }
             }
             else
             {
-                Map<String, String> map = TrojanNode.trojanNodeparseToClashMap(TrojanNode.toTrojanNode(node));
-                if(map != null)
+                ClashNodeConfigDto clashNodeConfigDto = TrojanNode.trojanNodeparseToClashNode(TrojanNode.toTrojanNode(node));
+                if(clashNodeConfigDto != null)
                 {
-                    result.add(map);
+                    result.add(clashNodeConfigDto);
                 }
             }
         }

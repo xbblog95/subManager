@@ -1,9 +1,12 @@
 package com.xbblog.business.dto;
 
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
+import com.xbblog.business.dto.clash.ClashNodePluginConfigDto;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -173,25 +176,56 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         return mapList;
     }
 
-    public static Map<String, String> shadowsocksRNodeparseToClashMap(ShadowsocksRNode node)
+    public static ClashNodeConfigDto shadowsocksRNodeparseToClashNode(ShadowsocksRNode node)
     {
         //排除所有chacha20的加密
         if("chacha20".equals(node.getSecurity()))
         {
             return null;
         }
-        Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("ip", node.getIp());
-        tempMap.put("port", String.valueOf(node.getPort()));
-        tempMap.put("security", node.getSecurity());
-        tempMap.put("password",node.getPassword());
-        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
-        tempMap.put("protocol", node.getProtocol());
-        tempMap.put("protocolParam", node.getProtoparam());
-        tempMap.put("obfs", node.getObfs());
-        tempMap.put("obfsParam", node.getObfsparam());
-        tempMap.put("type", "ssr");
-        tempMap.put("udp", String.valueOf(node.getUdp()));
-        return tempMap;
+        ClashNodeConfigDto clashNodeConfigDto = new ClashNodeConfigDto();
+        clashNodeConfigDto.setType("ssr");
+        clashNodeConfigDto.setServer(node.getIp());
+        clashNodeConfigDto.setPort(node.getPort());
+        clashNodeConfigDto.setName(StringUtils.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        if(node.getUdp() == 1)
+        {
+            clashNodeConfigDto.setUdp(true);
+        }
+        clashNodeConfigDto.setCipher(node.getSecurity());
+        clashNodeConfigDto.setPassword(node.getPassword());
+        if(StringUtils.isNotEmpty(node.getProtocol()) && "origin".equals(node.getProtocol()) && StringUtils.isEmpty(node.getProtoparam()))
+        {
+            clashNodeConfigDto.setPlugin("obfs");
+            ClashNodePluginConfigDto clashNodePluginConfigDto = new ClashNodePluginConfigDto();
+            switch (node.getObfs())
+            {
+                case "http_simple":
+                {
+                    clashNodePluginConfigDto.setMode("http");
+                    clashNodePluginConfigDto.setHost(node.getObfsparam());
+                    break;
+                }
+                case "tls1.2_ticket_auth":
+                {
+                    clashNodePluginConfigDto.setMode("tls");
+                    clashNodePluginConfigDto.setHost(node.getObfsparam());
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+            clashNodeConfigDto.setPluginOpts(clashNodePluginConfigDto);
+        }
+        else
+        {
+            clashNodeConfigDto.setProtocol(node.getProtocol());
+            clashNodeConfigDto.setProtocolParam(node.getProtoparam());
+            clashNodeConfigDto.setObfs(node.getObfs());
+            clashNodeConfigDto.setObfsParam(node.getObfsparam());
+        }
+        return clashNodeConfigDto;
     }
 }

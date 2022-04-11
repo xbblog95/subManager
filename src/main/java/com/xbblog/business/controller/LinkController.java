@@ -100,7 +100,8 @@ public class LinkController {
                 response.setHeader("content-disposition", "attachment;filename=" + DateUtils.dateFormat(new Date(), DateUtils.DATE_FORMAT) + ".yaml");
                 response.setCharacterEncoding("UTF-8");
                 userService.saveSubLog(subLog);
-                nodeService.getClashSubscribe(response.getOutputStream(), isp, user.getGroup());
+                String clashSubscribe = nodeService.getClashSubscribe(isp, user.getGroup());
+                response.getWriter().println(clashSubscribe);
                 break;
             case "clashr":
                 response.setHeader("content-disposition", "attachment;filename=" + DateUtils.dateFormat(new Date(), DateUtils.DATE_FORMAT) + ".yaml");

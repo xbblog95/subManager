@@ -1,10 +1,12 @@
 package com.xbblog.business.dto;
 
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -182,17 +184,24 @@ public class ShadowsocksNode extends NodeDetail{
         return mapList;
     }
 
-    public static Map<String, String> shadowsocksNodeparseToClashMap(ShadowsocksNode node)
+    public static ClashNodeConfigDto shadowsocksNodeparseToClashNode(ShadowsocksNode node)
     {
-        Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("ip", node.getIp());
-        tempMap.put("port", String.valueOf(node.getPort()));
-        tempMap.put("security", node.getSecurity());
-        tempMap.put("password",node.getPassword());
-        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
-        tempMap.put("type", "ss");
-        tempMap.put("udp", String.valueOf(node.getUdp()));
-        return tempMap;
+        if(node == null)
+        {
+            return null;
+        }
+        ClashNodeConfigDto clashNodeConfigDto = new ClashNodeConfigDto();
+        clashNodeConfigDto.setType("ss");
+        clashNodeConfigDto.setServer(node.getIp());
+        clashNodeConfigDto.setPort(node.getPort());
+        clashNodeConfigDto.setName(StringUtils.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        if(node.getUdp() == 1)
+        {
+            clashNodeConfigDto.setUdp(true);
+        }
+        clashNodeConfigDto.setCipher(node.getSecurity());
+        clashNodeConfigDto.setPassword(node.getPassword());
+        return clashNodeConfigDto;
     }
 
 }

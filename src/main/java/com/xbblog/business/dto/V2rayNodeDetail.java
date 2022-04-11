@@ -1,9 +1,13 @@
 package com.xbblog.business.dto;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
+import com.xbblog.business.dto.clash.ClashNodeWsHeadersConfigDto;
+import com.xbblog.business.dto.clash.ClashNodoWsConfigDto;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -284,26 +288,56 @@ public class V2rayNodeDetail extends NodeDetail {
         return mapList;
     }
 
-    public static Map<String, String> parseToClashMap(V2rayNodeDetail node)
+    public static ClashNodeConfigDto parseToClashNode(V2rayNodeDetail node)
     {
         if("kcp".equals(node.getNetwork()))
         {
             return null;
         }
-        Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
-        tempMap.put("ip", node.getIp());
-        tempMap.put("port", String.valueOf(node.getPort()));
-        tempMap.put("uuid", node.getUuid());
-        tempMap.put("alterId", String.valueOf(node.getAlterId()));
-        tempMap.put("network", node.getNetwork());
-        tempMap.put("camouflageTls", node.getCamouflageTls() == null ? "" : node.getCamouflageTls());
-        tempMap.put("camouflagePath", node.getCamouflagePath() == null ? "" : node.getCamouflagePath());
-        tempMap.put("camouflageHost", node.getCamouflageHost() == null ? "" :node.getCamouflageHost());
-        tempMap.put("camouflageType", node.getCamouflageType() == null ? "" :node.getCamouflageType());
-        tempMap.put("security", node.getSecurity() == null ? "auto" : node.getSecurity());
-        tempMap.put("type", "v2ray");
-        tempMap.put("udp", String.valueOf(node.getUdp()));
-        return tempMap;
+        ClashNodeConfigDto clashNodeConfigDto = new ClashNodeConfigDto();
+        clashNodeConfigDto.setType("vmess");
+        clashNodeConfigDto.setName(StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        clashNodeConfigDto.setServer(node.getIp());
+        clashNodeConfigDto.setPort(node.getPort());
+        clashNodeConfigDto.setUuid(node.getUuid());
+        clashNodeConfigDto.setAlterId(node.getAlterId());
+        clashNodeConfigDto.setCipher("auto");
+        String network = "";
+        if(StringUtils.isEmpty(node.getNetwork()) )
+        {
+            network = "tcp";
+        }
+        else
+        {
+            network = node.getNetwork();
+        }
+        clashNodeConfigDto.setNetwork(network);
+        if(node.getUdp() == 1)
+        {
+            clashNodeConfigDto.setUdp(true);
+        }
+        if(StringUtils.isNotEmpty(node.getCamouflageTls()))
+        {
+            clashNodeConfigDto.setTls(true);
+            clashNodeConfigDto.setSkipCertVerify(true);
+        }
+        if("ws".equals(network))
+        {
+            ClashNodoWsConfigDto clashNodoWsConfigDto = new ClashNodoWsConfigDto();
+            if(StringUtils.isNotEmpty(node.getCamouflageHost()))
+            {
+                ClashNodeWsHeadersConfigDto clashNodeWsHeadersConfigDto = new ClashNodeWsHeadersConfigDto();
+                clashNodeWsHeadersConfigDto.setHost(node.getCamouflageHost());
+                clashNodeConfigDto.setWsHeaders(clashNodeWsHeadersConfigDto);
+                clashNodoWsConfigDto.setHeaders(clashNodeWsHeadersConfigDto);
+            }
+            if(StringUtils.isNotEmpty(node.getCamouflagePath()))
+            {
+                clashNodeConfigDto.setWsPath(node.getCamouflagePath());
+                clashNodoWsConfigDto.setPath(node.getCamouflagePath());
+            }
+            clashNodeConfigDto.setWsOpt(clashNodoWsConfigDto);
+        }
+        return clashNodeConfigDto;
     }
 }

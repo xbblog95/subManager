@@ -1,12 +1,16 @@
 package com.xbblog.business.dto;
 
 
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -84,16 +88,27 @@ public class TrojanNode extends NodeDetail{
         return trojanNode;
     }
 
-    public static Map<String, String> trojanNodeparseToClashMap(TrojanNode node) {
-        Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("ip", node.getIp());
-        tempMap.put("port", String.valueOf(node.getPort()));
-        tempMap.put("password",node.getPassword());
-        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
-        tempMap.put("alpn", node.getAlpn());
-        tempMap.put("sni", node.getSni());
-        tempMap.put("type", "trojan");
-        tempMap.put("udp", String.valueOf(node.getUdp()));
-        return tempMap;
+    public static ClashNodeConfigDto trojanNodeparseToClashNode(TrojanNode node) {
+        ClashNodeConfigDto clashNodeConfigDto = new ClashNodeConfigDto();
+        clashNodeConfigDto.setType("trojan");
+        clashNodeConfigDto.setServer(node.getIp());
+        clashNodeConfigDto.setPort(node.getPort());
+        clashNodeConfigDto.setName(StringUtils.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        if(node.getUdp() == 1)
+        {
+            clashNodeConfigDto.setUdp(true);
+        }
+        clashNodeConfigDto.setPassword(node.getPassword());
+        if(StringUtils.isNotEmpty(node.getSni()))
+        {
+            clashNodeConfigDto.setSni(node.getSni());
+        }
+        if(StringUtils.isNotEmpty(node.getAlpn()))
+        {
+            List<String> list = new ArrayList<>();
+            list.add(node.getAlpn());
+            clashNodeConfigDto.setAlpn(list);
+        }
+        return clashNodeConfigDto;
     }
 }

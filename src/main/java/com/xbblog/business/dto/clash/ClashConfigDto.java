@@ -31,7 +31,7 @@ public class ClashConfigDto {
     private Boolean allowLan;
 
     @YamlProperty("bind-address")
-    private Boolean bindAddress;
+    private String bindAddress;
 
     private String mode;
 
@@ -74,4 +74,25 @@ public class ClashConfigDto {
     private ClashConfigForAndroidDto clashForAndroid;
 
 
+    public static ClashConfigDto newInstance()
+    {
+        ClashConfigDto clashConfigDto = new ClashConfigDto();
+        clashConfigDto.setPort(7890);
+        clashConfigDto.setSocksPort(7891);
+        clashConfigDto.setRedirectPort(7892);
+        clashConfigDto.setTProxyPort(7893);
+        clashConfigDto.setMixedPort(7890);
+        clashConfigDto.setAllowLan(true);
+        clashConfigDto.setBindAddress("*");
+        clashConfigDto.setMode("rule");
+        clashConfigDto.setLogLevel("info");
+        clashConfigDto.setIpv6(false);
+        clashConfigDto.setExternalController("127.0.0.1:9090");
+        clashConfigDto.setSecret("");
+        clashConfigDto.setRoutingMark("6666");
+        clashConfigDto.setProfile(ClashProfileConfigDto.newInstance());
+        clashConfigDto.setDns(ClashDnsConfigDto.newInstance());
+        return clashConfigDto;
+
+    }
 }

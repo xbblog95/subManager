@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbblog.business.mapping.ProxyProviderMapping">
+
+    <sql id="proxyProviderSql">
+        id, `name`, url, flag
+    </sql>
+    <select id="getProxyProvider" resultType="com.xbblog.business.dto.ProxyProvider" parameterType="com.xbblog.business.dto.ProxyProvider">
+        select <include refid="proxyProviderSql"></include>
+        from t_clash_proxy_providers
+        where flag = #{flag}
+    </select>
+
+</mapper>

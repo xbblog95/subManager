@@ -1,4 +1,6 @@
 package com.xbblog.business.dto.clash;
+import com.xbblog.business.dto.clash.ClashDnsCallbackFilterConfigDto;
+import java.util.ArrayList;
 
 import com.xbblog.base.annotation.YamlProperty;
 import lombok.Data;
@@ -41,4 +43,29 @@ public class ClashDnsConfigDto {
     @YamlProperty("nameserver-policy")
     private List<String> nameserverPolicy;
 
+    public static ClashDnsConfigDto newInstance() {
+        ClashDnsConfigDto clashDnsConfigDto = new ClashDnsConfigDto();
+        clashDnsConfigDto.setEnable(true);
+        clashDnsConfigDto.setListen("0.0.0.0:53");
+        List<String> defaultNameServers = new ArrayList<>();
+        defaultNameServers.add("114.114.114.114");
+        defaultNameServers.add("223.5.5.5");
+        clashDnsConfigDto.setDefaultNameserver(defaultNameServers);
+        clashDnsConfigDto.setEnhancedMode("redir-host");
+        List<String> fakeIpFilters = new ArrayList<>();
+        fakeIpFilters.add("198.18.0.1/16");
+        clashDnsConfigDto.setFakeIpFilter(fakeIpFilters);
+        List<String> nameServers = new ArrayList<>();
+        nameServers.add("8.8.8.8");
+        nameServers.add("8.8.4.4");
+        nameServers.add("tls://dns.rubyfish.cn:853");
+        nameServers.add("https://1.1.1.1/dns-query");
+        clashDnsConfigDto.setNameserver(nameServers);
+        clashDnsConfigDto.setIpv6(false);
+        clashDnsConfigDto.setUseHosts(false);
+        List<String> fallbacks = new ArrayList<>();
+        fallbacks.add("tcp://1.1.1.1");
+        clashDnsConfigDto.setFallback(fallbacks);
+        return clashDnsConfigDto;
+    }
 }

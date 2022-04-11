@@ -13,4 +13,11 @@ public class ClashProfileConfigDto {
     private Boolean storeFakeIp;
 
     private Boolean tracing;
+
+    public static ClashProfileConfigDto newInstance() {
+        ClashProfileConfigDto clashProfileConfigDto = new ClashProfileConfigDto();
+        clashProfileConfigDto.setStoreSelected(false);
+        clashProfileConfigDto.setStoreFakeIp(true);
+        return clashProfileConfigDto;
+    }
 }
