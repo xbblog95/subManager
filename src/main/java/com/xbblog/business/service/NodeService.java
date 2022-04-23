@@ -7,6 +7,7 @@ import com.xbblog.business.mapping.NodeMapping;
 import com.xbblog.business.mapping.SubscribeMapping;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.*;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
@@ -48,13 +49,27 @@ public class NodeService {
             {
                 insertNode(node.getNode());
                 detail.setNodeId(node.getNode().getId());
-                insertShadowsocks(node.getNodeDetail());
+                try
+                {
+                    insertShadowsocks(node.getNodeDetail());
+                }
+                catch (Exception e)
+                {
+                    logger.info("节点插入异常 订阅id {} 原因{} ", node.getNode().getSubscribeId(), ExceptionUtils.getStackTrace(e));
+                }
             }
             else if(detail.getClass() == V2rayNodeDetail.class)
             {
                 insertNode(node.getNode());
                 detail.setNodeId(node.getNode().getId());
-                insertV2ray(node.getNodeDetail());
+                try
+                {
+                    insertV2ray(node.getNodeDetail());
+                }
+                catch (Exception e)
+                {
+                    logger.info("节点插入异常 订阅id {} 原因{} ", node.getNode().getSubscribeId(), ExceptionUtils.getStackTrace(e));
+                }
             }
             else if(detail.getClass() == ShadowsocksRNode.class)
             {
@@ -62,7 +77,14 @@ public class NodeService {
                 ShadowsocksRNode shadowsocksRNode = (ShadowsocksRNode)detail;
                 insertNode(node.getNode());
                 detail.setNodeId(node.getNode().getId());
-                insertShadowsocksR(shadowsocksRNode);
+                try
+                {
+                    insertShadowsocksR(shadowsocksRNode);
+                }
+                catch (Exception e)
+                {
+                    logger.info("节点插入异常 订阅id {} 原因{} ", node.getNode().getSubscribeId(), ExceptionUtils.getStackTrace(e));
+                }
             }
             else if(detail.getClass() == SnellNode.class)
             {
@@ -70,7 +92,14 @@ public class NodeService {
                 SnellNode snellNode = (SnellNode)detail;
                 insertNode(node.getNode());
                 detail.setNodeId(node.getNode().getId());
-                insertSnell(snellNode);
+                try
+                {
+                    insertSnell(snellNode);
+                }
+                catch (Exception e)
+                {
+                    logger.info("节点插入异常 订阅id {} 原因{} ", node.getNode().getSubscribeId(), ExceptionUtils.getStackTrace(e));
+                }
             }
             else if(detail.getClass() == TrojanNode.class)
             {
@@ -78,7 +107,14 @@ public class NodeService {
                 TrojanNode trojanNode = (TrojanNode)detail;
                 insertNode(node.getNode());
                 detail.setNodeId(node.getNode().getId());
-                insertTrojan(trojanNode);
+                try
+                {
+                    insertTrojan(trojanNode);
+                }
+                catch (Exception e)
+                {
+                    logger.info("节点插入异常 订阅id {} 原因{} ", node.getNode().getSubscribeId(), ExceptionUtils.getStackTrace(e));
+                }
             }
         }
     }
