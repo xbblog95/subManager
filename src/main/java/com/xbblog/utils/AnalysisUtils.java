@@ -180,7 +180,9 @@ public class AnalysisUtils {
             return nodeList;
         }
         Constructor constructor = new Constructor(ClashConfigDto.class);
-        constructor.setPropertyUtils(new YamlProPertyUtils());
+        YamlProPertyUtils yamlProPertyUtils = new YamlProPertyUtils();
+        yamlProPertyUtils.setSkipMissingProperties(true);
+        constructor.setPropertyUtils(yamlProPertyUtils);
         Yaml yaml = new Yaml(constructor);
         ClashConfigDto clashConfigDto = yaml.loadAs(text, ClashConfigDto.class);
         List<ClashNodeConfigDto> proxies = clashConfigDto.getProxies();
