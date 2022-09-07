@@ -85,6 +85,7 @@ proxies:
   type: "trojan"
   server: "${node.ip}"
   port: "${node.port}"
+  skip-cert-verify: true
   password: "${node.password}"
     <#if node.udp == "1">
   udp: true
