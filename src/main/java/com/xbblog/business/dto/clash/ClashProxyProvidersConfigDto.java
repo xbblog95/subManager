@@ -18,6 +18,8 @@ public class ClashProxyProvidersConfigDto {
 
     private String path;
 
+    private String behavior;
+
     @YamlProperty("health-check")
     private ClashProxyProvidersHealthCheckConfigDto healthCheck;
 }

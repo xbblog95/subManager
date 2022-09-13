@@ -3,6 +3,7 @@ package com.xbblog.business.dto.clash;
 import com.xbblog.base.annotation.YamlProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -41,4 +42,22 @@ public class ClashDnsConfigDto {
     @YamlProperty("nameserver-policy")
     private List<String> nameserverPolicy;
 
+    public static ClashDnsConfigDto newInstance() {
+        ClashDnsConfigDto clashDnsConfigDto = new ClashDnsConfigDto();
+        clashDnsConfigDto.setEnable(true);
+        clashDnsConfigDto.setIpv6(false);
+        clashDnsConfigDto.setListen("0.0.0.0:53");
+        clashDnsConfigDto.setEnhancedMode("redir-host");
+        List<String> nameservers = new ArrayList<>();
+        nameservers.add("tls://8.8.8.8:853");
+        nameservers.add("tls://8.8.4.4:853");
+        nameservers.add("tls://1.1.1.1:853");
+        clashDnsConfigDto.setNameserver(nameservers);
+        List<String> fallbacks = new ArrayList<>();
+        fallbacks.add("tls://1.0.0.1:853");
+        fallbacks.add("tls://1.1.1.1:853");
+        fallbacks.add("tls://dns.google:853");
+        clashDnsConfigDto.setFallback(fallbacks);
+        return clashDnsConfigDto;
+    }
 }

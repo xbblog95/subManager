@@ -67,11 +67,24 @@ public class ClashConfigDto {
 
     private List<String> rules;
 
-    @YamlProperty("proxy-providers")
+    @YamlProperty("rule-providers")
     private Map<String, ClashProxyProvidersConfigDto> proxyProviders;
 
     @YamlProperty("clash-for-android")
     private ClashConfigForAndroidDto clashForAndroid;
 
 
+    public static ClashConfigDto newInstance() {
+        ClashConfigDto clashConfigDto = new ClashConfigDto();
+        clashConfigDto.setPort(7890);
+        clashConfigDto.setSocksPort(7891);
+        clashConfigDto.setRedirectPort(7892);
+        clashConfigDto.setAllowLan(true);
+        clashConfigDto.setMode("Rule");
+        clashConfigDto.setLogLevel("info");
+        clashConfigDto.setExternalController("127.0.0.1:9090");
+        clashConfigDto.setSecret("");
+        clashConfigDto.setDns(ClashDnsConfigDto.newInstance());
+        return clashConfigDto;
+    }
 }

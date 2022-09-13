@@ -1,10 +1,12 @@
 package com.xbblog.business.dto;
 
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -162,37 +164,21 @@ public class ShadowsocksNode extends NodeDetail{
         return list;
     }
 
-    public static List<Map<String, String>> shadowsocksNodeparseToClashMap(List<ShadowsocksNode> list)
-    {
-        List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
-        if(CollectionUtils.isEmpty(list))
-        {
-            return mapList;
-        }
-        for(ShadowsocksNode shadowsocksNode : list)
-        {
-            Map<String, String> tempMap = new HashMap<String, String>();
-            tempMap.put("ip", shadowsocksNode.getIp());
-            tempMap.put("port", String.valueOf(shadowsocksNode.getPort()));
-            tempMap.put("security", shadowsocksNode.getSecurity());
-            tempMap.put("password",shadowsocksNode.getPassword());
-            tempMap.put("remarks", shadowsocksNode.getRemarks());
-            mapList.add(tempMap);
-        }
-        return mapList;
-    }
 
-    public static Map<String, String> shadowsocksNodeparseToClashMap(ShadowsocksNode node)
+    public static ClashNodeConfigDto shadowsocksNodeparseToClash(ShadowsocksNode node)
     {
-        Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("ip", node.getIp());
-        tempMap.put("port", String.valueOf(node.getPort()));
-        tempMap.put("security", node.getSecurity());
-        tempMap.put("password",node.getPassword());
-        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
-        tempMap.put("type", "ss");
-        tempMap.put("udp", String.valueOf(node.getUdp()));
-        return tempMap;
+        ClashNodeConfigDto clashNodeConfigDto = new ClashNodeConfigDto();
+        clashNodeConfigDto.setName(StringUtils.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        clashNodeConfigDto.setType("ss");
+        clashNodeConfigDto.setServer(node.getIp());
+        clashNodeConfigDto.setPort(node.getPort());
+        if(node.getUdp() == 1)
+        {
+            clashNodeConfigDto.setUdp(true);
+        }
+        clashNodeConfigDto.setCipher(node.getSecurity());
+        clashNodeConfigDto.setPassword(node.getPassword());
+        return clashNodeConfigDto;
     }
 
 }

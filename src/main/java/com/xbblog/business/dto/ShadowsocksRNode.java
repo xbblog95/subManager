@@ -1,9 +1,12 @@
 package com.xbblog.business.dto;
 
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
+import com.xbblog.business.dto.clash.ClashNodePluginConfigDto;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -143,55 +146,61 @@ public class ShadowsocksRNode extends ShadowsocksNode {
         return StringUtil.format(template, templateMap);
     }
 
-    public static List<Map<String, String>> shadowsocksRNodeparseToClashMap(List<ShadowsocksRNode> list)
-    {
-        List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
-        if(CollectionUtils.isEmpty(list))
-        {
-            return mapList;
-        }
 
-        for(ShadowsocksRNode shadowsocksRNode : list)
-        {
-            //排除所有chacha20的加密
-            if("chacha20".equals(shadowsocksRNode.getSecurity()))
-            {
-                continue;
-            }
-            Map<String, String> tempMap = new HashMap<String, String>();
-            tempMap.put("ip", shadowsocksRNode.getIp());
-            tempMap.put("port", String.valueOf(shadowsocksRNode.getPort()));
-            tempMap.put("security", shadowsocksRNode.getSecurity());
-            tempMap.put("password",shadowsocksRNode.getPassword());
-            tempMap.put("remarks", shadowsocksRNode.getRemarks());
-            tempMap.put("protocol", shadowsocksRNode.getProtocol());
-            tempMap.put("protocolParam", shadowsocksRNode.getProtoparam());
-            tempMap.put("obfs", shadowsocksRNode.getObfs());
-            tempMap.put("obfsParam", shadowsocksRNode.getObfsparam());
-            mapList.add(tempMap);
-        }
-        return mapList;
-    }
-
-    public static Map<String, String> shadowsocksRNodeparseToClashMap(ShadowsocksRNode node)
+    public static ClashNodeConfigDto shadowsocksRNodeparseToClash(ShadowsocksRNode node)
     {
         //排除所有chacha20的加密
         if("chacha20".equals(node.getSecurity()))
         {
             return null;
         }
-        Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("ip", node.getIp());
-        tempMap.put("port", String.valueOf(node.getPort()));
-        tempMap.put("security", node.getSecurity());
-        tempMap.put("password",node.getPassword());
-        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
-        tempMap.put("protocol", node.getProtocol());
-        tempMap.put("protocolParam", node.getProtoparam());
-        tempMap.put("obfs", node.getObfs());
-        tempMap.put("obfsParam", node.getObfsparam());
-        tempMap.put("type", "ssr");
-        tempMap.put("udp", String.valueOf(node.getUdp()));
-        return tempMap;
+        ClashNodeConfigDto clashNodeConfigDto = new ClashNodeConfigDto();
+        clashNodeConfigDto.setName(StringUtils.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        if("origin".equals(node.getProtocol()) && StringUtils.isEmpty(node.getProtoparam()))
+        {
+            clashNodeConfigDto.setType("ss");
+        }
+        else
+        {
+            clashNodeConfigDto.setType("ssr");
+        }
+        if(StringUtils.isNotEmpty(node.getObfs()) || !"plain".equals(node.getObfs()))
+        {
+            if("http_simple".equals(node.getObfs()))
+            {
+                clashNodeConfigDto.setPlugin("obfs");
+                ClashNodePluginConfigDto clashNodePluginConfigDto = new ClashNodePluginConfigDto();
+                clashNodePluginConfigDto.setMode("http");
+                clashNodePluginConfigDto.setHost(node.getObfsparam());
+                clashNodeConfigDto.setPluginOpts(clashNodePluginConfigDto);
+            }
+            if("tls1.2_ticket_auth".equals(node.getObfs()))
+            {
+                clashNodeConfigDto.setPlugin("obfs");
+                ClashNodePluginConfigDto clashNodePluginConfigDto = new ClashNodePluginConfigDto();
+                clashNodePluginConfigDto.setMode("tls");
+                clashNodePluginConfigDto.setHost(node.getObfsparam());
+                clashNodeConfigDto.setPluginOpts(clashNodePluginConfigDto);
+            }
+        }
+        clashNodeConfigDto.setServer(node.getIp());
+        clashNodeConfigDto.setPort(node.getPort());
+        if(node.getUdp() == 1)
+        {
+            clashNodeConfigDto.setUdp(true);
+        }
+        clashNodeConfigDto.setCipher(node.getSecurity());
+        clashNodeConfigDto.setPassword(node.getPassword());
+        clashNodeConfigDto.setProtocol(node.getProtocol());
+        if(StringUtils.isNotEmpty(node.getProtoparam()))
+        {
+            clashNodeConfigDto.setProtocolParam(node.getProtoparam());
+        }
+        clashNodeConfigDto.setObfs(node.getObfs());
+        if(StringUtils.isNotEmpty(node.getObfsparam()))
+        {
+            clashNodeConfigDto.setObfsParam(node.getObfsparam());
+        }
+        return clashNodeConfigDto;
     }
 }

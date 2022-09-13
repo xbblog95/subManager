@@ -1,9 +1,13 @@
 package com.xbblog.business.dto;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xbblog.business.dto.clash.ClashNodeConfigDto;
+import com.xbblog.business.dto.clash.ClashNodeWsHeadersConfigDto;
+import com.xbblog.business.dto.clash.ClashNodoWsConfigDto;
 import com.xbblog.config.NormalConfiguration;
 import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -253,57 +257,54 @@ public class V2rayNodeDetail extends NodeDetail {
         return list;
     }
 
-    public static List<Map<String, String>> parseToClashMap(List<V2rayNodeDetail> list)
-    {
-        List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
-        if(CollectionUtils.isEmpty(list))
-        {
-            return mapList;
-        }
-        for(V2rayNodeDetail v2rayNodeDetail : list)
-        {
-            if("kcp".equals(v2rayNodeDetail.getNetwork()))
-            {
-                continue;
-            }
-            Map<String, String> tempMap = new HashMap<String, String>();
-            tempMap.put("remarks", v2rayNodeDetail.getRemarks());
-            tempMap.put("ip", v2rayNodeDetail.getIp());
-            tempMap.put("port", String.valueOf(v2rayNodeDetail.getPort()));
-            tempMap.put("uuid", v2rayNodeDetail.getUuid());
-            tempMap.put("alterId", String.valueOf(v2rayNodeDetail.getAlterId()));
-            tempMap.put("network", v2rayNodeDetail.getNetwork());
-            tempMap.put("camouflageTls", v2rayNodeDetail.getCamouflageTls() == null ? "" : v2rayNodeDetail.getCamouflageTls());
-            tempMap.put("camouflagePath", v2rayNodeDetail.getCamouflagePath() == null ? "" : v2rayNodeDetail.getCamouflagePath());
-            tempMap.put("camouflageHost", v2rayNodeDetail.getCamouflageHost() == null ? "" :v2rayNodeDetail.getCamouflageHost());
-            tempMap.put("camouflageType", v2rayNodeDetail.getCamouflageType() == null ? "" :v2rayNodeDetail.getCamouflageType());
-            tempMap.put("security", v2rayNodeDetail.getSecurity() == null ? "auto" : v2rayNodeDetail.getSecurity());
-            tempMap.put("type", "v2ray");
-            mapList.add(tempMap);
-        }
-        return mapList;
-    }
-
-    public static Map<String, String> parseToClashMap(V2rayNodeDetail node)
+    public static ClashNodeConfigDto parseToClash(V2rayNodeDetail node)
     {
         if("kcp".equals(node.getNetwork()))
         {
             return null;
         }
-        Map<String, String> tempMap = new HashMap<String, String>();
-        tempMap.put("remarks", StringUtil.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
-        tempMap.put("ip", node.getIp());
-        tempMap.put("port", String.valueOf(node.getPort()));
-        tempMap.put("uuid", node.getUuid());
-        tempMap.put("alterId", String.valueOf(node.getAlterId()));
-        tempMap.put("network", node.getNetwork());
-        tempMap.put("camouflageTls", node.getCamouflageTls() == null ? "" : node.getCamouflageTls());
-        tempMap.put("camouflagePath", node.getCamouflagePath() == null ? "" : node.getCamouflagePath());
-        tempMap.put("camouflageHost", node.getCamouflageHost() == null ? "" :node.getCamouflageHost());
-        tempMap.put("camouflageType", node.getCamouflageType() == null ? "" :node.getCamouflageType());
-        tempMap.put("security", node.getSecurity() == null ? "auto" : node.getSecurity());
-        tempMap.put("type", "v2ray");
-        tempMap.put("udp", String.valueOf(node.getUdp()));
-        return tempMap;
+        ClashNodeConfigDto clashNodeConfigDto = new ClashNodeConfigDto();
+        clashNodeConfigDto.setType("vmess");
+        clashNodeConfigDto.setName( StringUtils.isEmpty(node.getRemarks()) ? "": node.getRemarks().replaceAll("'", "").replaceAll("\"", ""));
+        clashNodeConfigDto.setServer(node.getIp());
+        clashNodeConfigDto.setPort(node.getPort());
+        clashNodeConfigDto.setUuid(node.getUuid());
+        clashNodeConfigDto.setAlterId(node.getAlterId());
+        clashNodeConfigDto.setCipher("auto");
+        if(node.getUdp() == 1)
+        {
+            clashNodeConfigDto.setUdp(true);
+        }
+        if(StringUtils.isNotEmpty(node.getCamouflageTls()))
+        {
+            clashNodeConfigDto.setTls(true);
+            clashNodeConfigDto.setSkipCertVerify(true);
+        }
+        if(StringUtils.isNotEmpty(node.getNetwork()) && "tcp".equals(node.getNetwork()))
+        {
+            clashNodeConfigDto.setNetwork(node.getNetwork());
+        }
+        if("ws".equals(node.getNetwork()))
+        {
+
+            if(StringUtils.isNotEmpty(node.getCamouflagePath()) || StringUtils.isNotEmpty(node.getCamouflageHost()))
+            {
+                ClashNodoWsConfigDto clashNodoWsConfigDto = new ClashNodoWsConfigDto();
+                if(StringUtils.isNotEmpty(node.getCamouflagePath()))
+                {
+                    clashNodoWsConfigDto.setPath(node.getCamouflagePath());
+                    clashNodeConfigDto.setWsPath(node.getCamouflagePath());
+                }
+                if(StringUtils.isNotEmpty(node.getCamouflageHost()))
+                {
+                    ClashNodeWsHeadersConfigDto clashNodeWsHeadersConfigDto = new ClashNodeWsHeadersConfigDto();
+                    clashNodeWsHeadersConfigDto.setHost(node.getCamouflageHost());
+                    clashNodoWsConfigDto.setHeaders(clashNodeWsHeadersConfigDto);
+                    clashNodeConfigDto.setWsHeaders(clashNodeWsHeadersConfigDto);
+                }
+                clashNodeConfigDto.setWsOpt(clashNodoWsConfigDto);
+            }
+        }
+        return clashNodeConfigDto;
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbblog.business.mapping.RuleMapping">
+
+    <resultMap id="clashRuleProviderMap" type="com.xbblog.business.dto.ClashRuleProvider">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="name" jdbcType="VARCHAR" property="name"></result>
+        <result column="type" jdbcType="VARCHAR" property="type"></result>
+        <result column="behavior" jdbcType="VARCHAR" property="behavior"></result>
+        <result column="url" jdbcType="VARCHAR" property="url"></result>
+        <result column="interval" jdbcType="INTEGER" property="interval"></result>
+        <result column="rule_type" jdbcType="VARCHAR" property="ruleType"></result>
+        <result column="flag" jdbcType="INTEGER" property="flag"></result>
+    </resultMap>
+
+    <resultMap id="clashCustomRuleMap" type="com.xbblog.business.dto.ClashCustomRule">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="name" jdbcType="VARCHAR" property="name"></result>
+        <result column="flag" jdbcType="INTEGER" property="flag"></result>
+    </resultMap>
+
+
+    <select id="queryAllClashRuleProviders" resultMap="clashRuleProviderMap">
+        select id, name, type, behavior, url, `interval`, rule_type, flag
+        from t_clash_rule_providers
+        where flag = 1
+    </select>
+
+    <select id="queryAllCustomRules" resultMap="clashCustomRuleMap">
+        select id, `text`
+        from t_clash_custom_rules
+        where flag = 1
+    </select>
+</mapper>
