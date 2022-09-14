@@ -84,7 +84,6 @@ public class ClashConfigDto {
         clashConfigDto.setLogLevel("info");
         clashConfigDto.setExternalController("127.0.0.1:9090");
         clashConfigDto.setSecret("");
-        clashConfigDto.setDns(ClashDnsConfigDto.newInstance());
         return clashConfigDto;
     }
 }
