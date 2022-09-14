@@ -280,7 +280,7 @@ public class V2rayNodeDetail extends NodeDetail {
             clashNodeConfigDto.setTls(true);
             clashNodeConfigDto.setSkipCertVerify(true);
         }
-        if(StringUtils.isNotEmpty(node.getNetwork()) && "tcp".equals(node.getNetwork()))
+        if(StringUtils.isNotEmpty(node.getNetwork()) && !"tcp".equals(node.getNetwork()))
         {
             clashNodeConfigDto.setNetwork(node.getNetwork());
         }
