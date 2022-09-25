@@ -153,7 +153,7 @@
         insert into t_node_detail
         (node_id, ip, port,security,password, remarks,obfs,obfsParam,protocol,protoParam, type, udp)
         values
-        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},#{obfs},#{obfsparam}, #{protocol}, #{protoparam}, 'ssr' #{udp})
+        (#{nodeId}, #{ip}, #{port},  #{security},#{password}, #{remarks},#{obfs},#{obfsparam}, #{protocol}, #{protoparam}, 'ssr', #{udp})
     </insert>
 
     <insert id="insertSnell" parameterType="com.xbblog.business.dto.SnellNode">
