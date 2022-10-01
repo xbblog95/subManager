@@ -2,6 +2,7 @@ package com.xbblog.business.dto;
 
 
 import com.xbblog.business.dto.clash.ClashNodeConfigDto;
+import com.xbblog.utils.Base64Util;
 import com.xbblog.utils.StringUtil;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -28,12 +29,7 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToV2rayNgString(NodeDto nodeDto) {
-        try {
-            return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "sni=" + nodeDto.getObfsparam() + "#" + URLEncoder.encode(nodeDto.getRemarks(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return "";
-        }
+        return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "sni=" + nodeDto.getObfsparam() + "#" + Base64Util.encodeURLSafe(nodeDto.getRemarks());
     }
 
     public static String parseToPharosProString(NodeDto nodeDto) {
