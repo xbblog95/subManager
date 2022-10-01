@@ -29,7 +29,7 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToV2rayNgString(NodeDto nodeDto) {
-        return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "sni=" + nodeDto.getObfsparam() + "#" + Base64Util.encodeURLSafe(nodeDto.getRemarks());
+        return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "sni=" + nodeDto.getObfsparam() + "#" + Base64Util.encode(nodeDto.getRemarks());
     }
 
     public static String parseToPharosProString(NodeDto nodeDto) {
