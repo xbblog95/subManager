@@ -31,7 +31,7 @@ public class TrojanNode extends NodeDetail{
 
     public static String parseToV2rayNgString(NodeDto nodeDto) {
         try {
-            return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "security=tls&sni=" + nodeDto.getObfsparam() + "#" + URLEncoder.encode(nodeDto.getRemarks(), "UTF-8");
+            return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "security=tls&sni=" + nodeDto.getObfsparam() + "#" + URLEncoder.encode(nodeDto.getRemarks(), "UTF-8").replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
