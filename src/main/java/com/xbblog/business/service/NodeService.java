@@ -741,6 +741,7 @@ public class NodeService {
                 otherNodeNames.add(nodeDto.getRemarks());
             }
         }
+        otherNodeNames.add("DIRECT");
         ClashProxyGroupsConfigDto otherProxyGroupConfig = new ClashProxyGroupsConfigDto();
         otherProxyGroupConfig.setName("其他");
         otherProxyGroupConfig.setType("select");
