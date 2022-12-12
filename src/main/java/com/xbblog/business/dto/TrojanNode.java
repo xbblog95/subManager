@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +30,11 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToV2rayNgString(NodeDto nodeDto) {
-        return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "sni=" + nodeDto.getObfsparam() + "#" + Base64Util.encode(nodeDto.getRemarks());
+        try {
+            return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "security=tls&sni=" + nodeDto.getObfsparam() + "#" + URLEncoder.encode(nodeDto.getRemarks(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static String parseToPharosProString(NodeDto nodeDto) {
