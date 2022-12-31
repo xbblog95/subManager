@@ -37,13 +37,9 @@ public class HttpUtils {
     {
        return sendGet(url, param, null);
     }
-    /**
-     * 发送GET请求
-     * @param url   请求url
-     * @return JSON或者字符串
-     * @throws Exception
-     */
-    public static String sendGet(String url, Map<String, Object> param, Header[] headersReq) throws Exception{
+
+    public static String sendGet(String url, Map<String, Object> param, Header[] headersReq, Map<String, String> handerResultMap) throws Exception
+    {
         LOGGER.info("发送get请求,url为 {} 参数为 {}", url , param);
         CloseableHttpClient closeableHttpClient = getHttpClient(url);
         URIBuilder uriBuilder = new URIBuilder(url);
@@ -63,6 +59,18 @@ public class HttpUtils {
         }
         CloseableHttpResponse response = closeableHttpClient.execute(httpGet);
         Header[] headers = response.getHeaders("content-type");
+        if(handerResultMap != null)
+        {
+            Set<String> keys = handerResultMap.keySet();
+            for(String key : keys)
+            {
+                Header[] hd = response.getHeaders(key);
+                if(hd != null && hd.length != 0)
+                {
+                    handerResultMap.put(key, hd[0].getValue());
+                }
+            }
+        }
         HttpEntity entity = response.getEntity();
         if(headers.length != 0 && "application/octet-stream".equals(headers[0].getElements()[0].getName()))
         {
@@ -98,6 +106,15 @@ public class HttpUtils {
         {
             return EntityUtils.toString(entity, "UTF-8");
         }
+    }
+    /**
+     * 发送GET请求
+     * @param url   请求url
+     * @return JSON或者字符串
+     * @throws Exception
+     */
+    public static String sendGet(String url, Map<String, Object> param, Header[] headersReq) throws Exception{
+        return sendGet(url, param, headersReq, null);
     }
 
     /**

@@ -107,7 +107,7 @@
         update t_node set  source = #{source}, flag = #{flag}  where id = #{id}
     </update>
 
-    <insert id="insertNode"  parameterType="com.xbblog.business.dto.Node" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertNode"  parameterType="com.xbblog.business.dto.Node" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into t_node
             (source, subscribeId)
         values
