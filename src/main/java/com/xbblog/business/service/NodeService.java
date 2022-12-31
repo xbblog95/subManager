@@ -316,6 +316,7 @@ public class NodeService {
                     nodeList.add(bo);
                 }
             }
+            Thread.sleep(3000);
         }
         return nodeList;
     }
