@@ -97,7 +97,23 @@ public class ShadowsocksNode extends NodeDetail{
 
     public static String parseToShadowrocketString(ShadowsocksNode node)
     {
-        return parseToShadowsocksRString(node);
+        if(node == null)
+        {
+            return "";
+        }
+        try {
+            String templateBase = "ss://${base64Security}:${password}@${ip}:${port}#${remark}";
+            Map<String, String> nodeMap = new HashMap<String, String>();
+            nodeMap.put("base64Security",  Base64Util.encodeURLSafe(node.getSecurity() + ":" + node.getPassword()));
+            nodeMap.put("password", node.getPassword());
+            nodeMap.put("ip", node.getIp());
+            nodeMap.put("port", String.valueOf(node.getPort()));
+            nodeMap.put("remark", node.getRemarks());
+            return StringUtil.format(templateBase, nodeMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     public static String parseToQuantumultString(ShadowsocksNode node)

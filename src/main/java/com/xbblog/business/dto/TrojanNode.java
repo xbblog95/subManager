@@ -30,11 +30,7 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToV2rayNgString(NodeDto nodeDto) {
-        try {
-            return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "security=tls&sni=" + nodeDto.getObfsparam() + "#" + URLEncoder.encode(nodeDto.getRemarks(), "UTF-8").replaceAll("\\+", "%20");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        return "trojan://" + nodeDto.getPassword() + "@" + nodeDto.getIp() + ":" + nodeDto.getPort() + "?" + "security=tls&sni=" + nodeDto.getObfsparam() + "#" + nodeDto.getRemarks();
     }
 
     public static String parseToPharosProString(NodeDto nodeDto) {
@@ -53,18 +49,7 @@ public class TrojanNode extends NodeDetail{
     }
 
     public static String parseToShadowrocketString(NodeDto nodeDto) {
-        String templateInfo = "trojan://${password}@${ip}:${port}?peer=${host}#${remark}";
-        Map<String, String> templateMap = new HashMap<String, String>();
-        templateMap.put("ip", nodeDto.getIp());
-        templateMap.put("port", String.valueOf(nodeDto.getPort()));
-        templateMap.put("password",nodeDto.getPassword());
-        templateMap.put("host", nodeDto.getObfsparam());
-        try {
-            templateMap.put("remark", URLEncoder.encode(nodeDto.getRemarks(), "UTF-8").replaceAll("\\+", "%20"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return StringUtil.format(templateInfo, templateMap);
+        return parseToV2rayNgString(nodeDto);
     }
 
     public static String parseToQuantumultXString(NodeDto nodeDto) {

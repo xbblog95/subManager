@@ -137,36 +137,7 @@ public class V2rayNodeDetail extends NodeDetail {
 
     public static String parseToShadowrocketString(V2rayNodeDetail node)
     {
-        if(node == null)
-        {
-            return "";
-        }
-        //        Shadowrocket不支持kcp
-        if("kcp".equals(node.getNetwork()))
-        {
-            return "";
-        }
-        String template = "none:${uuid}@${ip}:${port}";
-        Map<String, String> nodeMap = new HashMap<String, String>();
-        nodeMap.put("uuid", node.getUuid());
-        nodeMap.put("ip", node.getIp());
-        nodeMap.put("port", String.valueOf(node.getPort()));
-        String base64Origin = StringUtil.format(template, nodeMap);
-        String base64 = Base64Util.encodeURLSafe(base64Origin);
-        try {
-            String templateOther = "vmess://${base}?remarks=${remarks}&obfs=${network}&obfsParam=${host}&path=${path}&tls=${tls}";
-            Map<String, String> templateMap = new HashMap<String, String>();
-            templateMap.put("base", base64);
-            templateMap.put("remarks", URLEncoder.encode(node.getRemarks(), "UTF-8").replaceAll("\\+", "%20"));
-            templateMap.put("network", "ws".equals(node.getNetwork()) ? node.getNetwork() : node.getCamouflageType());
-            templateMap.put("host", node.getCamouflageHost());
-            templateMap.put("path", node.getCamouflagePath());
-            templateMap.put("tls", String.valueOf("tls".equals(node.getCamouflageTls())));
-            return StringUtil.format(templateOther, templateMap);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return "";
-        }
+       return parseToV2rayNgString(node);
     }
 
     public static String parseToQuantumultString(V2rayNodeDetail node)
