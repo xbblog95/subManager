@@ -180,6 +180,9 @@ public class NodeService {
 
     public void insertNode(Node node) {
         nodeMapping.insertNode(node);
+        NodeStatus status = new NodeStatus();
+        status.setNodeId(node.getId());
+        nodeMapping.insertNodeStatus(status);
     }
 
     public List<NodeBo> getAllssLink() throws Exception  {
@@ -337,7 +340,9 @@ public class NodeService {
     }
 
     public void deleteAll() {
-        nodeMapping.deleteAll();
+        nodeMapping.deleteAllNodeStatus();
+        nodeMapping.deleteAllNodeDetail();
+        nodeMapping.deleteAllNode();
     }
 
     public List<NodeDto> getAllShadowsocksNodes() {
@@ -1146,4 +1151,31 @@ public class NodeService {
         return result;
     }
 
+    public void updateNodeStatus(NodeStatus nodeStatus) {
+        List<NodeStatus> nodeStatuses = nodeMapping.queryNodeStatus(nodeStatus);
+        if(CollectionUtils.isEmpty(nodeStatuses))
+        {
+            nodeMapping.insertNodeStatus(nodeStatus);
+        }
+        else
+        {
+            nodeMapping.updateNodeStatus(nodeStatus);
+        }
+    }
+
+    public List<NodeStatusVo> queryNodeStatusPage() {
+
+        List<NodeStatusVo> nodeStatusVos = nodeMapping.queryNodeStatusPage();
+        List<NodeStatusVo> list = new ArrayList<>();
+        for(NodeStatusVo statusVo: nodeStatusVos)
+        {
+            NodeDto nodeDto = new NodeDto();
+            nodeDto.setRemarks(statusVo.getName());
+            if(filterNode(nodeDto))
+            {
+                list.add(statusVo);
+            }
+        }
+        return list;
+    }
 }

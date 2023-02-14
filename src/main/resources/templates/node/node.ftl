@@ -13,9 +13,23 @@
     <link rel="stylesheet" href="${base}/static/css/plugins/toastr/toastr.min.css"/>
     <link href="${base}/static/css/animate.css" rel="stylesheet">
     <link href="${base}/static/css/style.css" rel="stylesheet">
+    <link href="${base}/static/css/plugins/bootstrap-table/bootstrap-table.css" rel="stylesheet">
     <script  type="text/javascript">
         var BASE_PATH = '${base}';
     </script>
+    <style rel="stylesheet">
+        .col-backgroud-min {
+            background-color: #ffffff;
+        }
+
+        .col-backgroud-normal {
+            background-color: #33ffff;
+        }
+
+        .col-backgroud-max {
+            background-color: #ff0099;
+        }
+    </style>
 </head>
 <body style="  background-size: cover;">
 <div id="wrapper">
@@ -129,68 +143,7 @@
             </form>
         </div>
         <div class="row  border-bottom white-bg dashboard-header">
-
-            <div class="col-md-12">
-                您的v2rayN/v2rayNG(PC/Android客户端)专用订阅地址为：<span id="v2rayNgSub" >${BASE_PATH}link/${user.token}/v2rayNg/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#v2rayNgSub">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/v2rayNg.html" target="_blank">点击此处查看v2rayNG使用教程</a>
-                <br/>
-                您的shadowsocksR(PC/Android客户端)专用订阅地址为：<span id="shadowsocksRSub" >${BASE_PATH}link/${user.token}/shadowsocksR/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#shadowsocksRSub">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/shadowsocksR.html" target="_blank" >点击此处查看shadowsocksR使用教程</a>
-                <br/>
-                您的shadowrocket(IOS客户端)专用订阅地址为：<span id="shadowrocketSub" >${BASE_PATH}link/${user.token}/shadowrocket/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#shadowrocketSub">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/shadowrocket.html" target="_blank">点击此处查看shadowrocket使用教程</a>
-                <br/>
-                您的quantumult(IOS客户端)专用订阅地址为：<span id="quantumultSub" >${BASE_PATH}link/${user.token}/quantumult/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#quantumultSub">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/quantumult.html" target="_blank">点击此处查看quantumult使用教程</a>
-                <br/>
-                您的quantumultX(IOS客户端)专用订阅地址为：<span id="quantumultxSub" >${BASE_PATH}link/${user.token}/quantumultx/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#quantumultxSub">点击此处复制订阅地址</a>
-                <br/>
-                分流规则：<code id="quantumultxFilter" >https://raw.githubusercontent.com/ConnersHua/Profiles/master/Quantumult/X/Pro.conf</code>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#quantumultxFilter">点击此处复制分流地址</a>
-                <br/>
-                您的clash(PC客户端)专用托管地址为：<span id="clashSub" >${BASE_PATH}link/${user.token}/clash/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#clashSub">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/clash.html" target="_blank">点击此处查看clash使用教程</a>
-                <br/>
-                您的clashR(PC/IOS客户端)专用托管地址为：<span id="clashrSub" >${BASE_PATH}link/${user.token}/clashr/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#clashrSub">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/clashr.html" target="_blank">点击此处查看clashR使用教程</a>
-                <br/>
-                您的Potatso Lite(IOS客户端)专用订阅地址为：<span id="potatsoSub" >${BASE_PATH}link/${user.token}/potatso/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#potatsoSub">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/potatso.html" target="_blank">点击此处查看Potatso Lite使用教程</a>
-                <br/>
-                您的Pharos Pro(IOS客户端)专用订阅地址为：<span id="pharosPro" >${BASE_PATH}link/${user.token}/pharosPro/getLink</span>
-                <br/>
-                <a href="javascript:void(0)" class="copy" data-clipboard-action="copy" data-clipboard-target="#pharosPro">点击此处复制订阅地址</a>
-                <a href="${base}/static/html/userguide/pharosPro.html" target="_blank">点击此处查看Pharos Pro使用教程</a>
-                <p style="color: red;font-size: 150%">各个客户端订阅格式不兼容，请选择对应正确的客户端订阅地址</p>
-                <p>其他教程</p>
-                <a href="${base}/static/html/userguide/switchyOmega.html" target="_blank">SwitchyOmega使用教程</a>
-                <a href="${base}/static/html/userguide/Netch.html" target="_blank">游戏加速工具Netch使用教程</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="wrapper wrapper-content">
-                    <div class="row">
-                        <button type="button" class="btn btn-primary" id="resetToken">重置订阅地址</button>
-                    </div>
-                </div>
-            </div>
+            <div id="table" style="width: 100%"></div>
         </div>
 
     </div>
@@ -210,5 +163,176 @@
 <script type="text/javascript" src="${base}/static/js/common/common.js"></script>
 <script type="text/javascript" src="${base}/static/js/common/common2.js"></script>
 <script type="text/javascript" src="${base}/static/js/index/index.js"></script>
+<script type="text/javascript" src="${base}/static/js/plugins/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="${base}/static/js/plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#table").bootstrapTable({
+        url : BASE_PATH + "/node/queryNodeStatus",
+        columns : [{
+            field : "name",
+            title : "名称",
+            width : 200
+        },{
+            field : "location",
+            title : "地区",
+            width : 70
+        },{
+            field : "ping",
+            title : "ping延迟",
+            width : 120,
+            sortable : true,
+            formatter : function (value, row, index)
+            {
+                if(value)
+                {
+                    return value + "ms";
+                }
+                else
+                {
+                    return "";
+                }
+            },
+            cellStyle : function (value, row, index) {
+                if (!value) {
+                    return {};
+                }
+                return {
+                    css  : {
+                        "background-color" : "#66ff66"
+                    }
+                }
+            }
+        },{
+            field : "tcpPing",
+            title : "TCP Ping延迟",
+            width : 120,
+            sortable : true,
+            formatter : function (value, row, index)
+            {
+                if(value)
+                {
+                    return value + "ms";
+                }
+                else
+                {
+                    return "";
+                }
+            },
+            cellStyle : function (value, row, index) {
+                if (!value) {
+                    return {};
+                }
+                return {
+                    css  : {
+                        "background-color" : "#66ff66"
+                    }
+                }
+            }
+        },{
+            field : "loss",
+            title : "丢包率",
+            width : 80,
+            sortable : true,
+            formatter : function (value, row, index)
+            {
+                if($.isNumeric(value))
+                {
+                    return value + "%";
+                }
+                else
+                {
+                    return value;
+                }
+            }
+        },{
+            field : "nat",
+            title : "nat",
+            width : 100,
+        },{
+            field : "speed",
+            title : "平均速度",
+            width : 150,
+            sortable : true,
+            cellStyle : function (value, row, index) {
+                if (!value) {
+                    return {};
+                }
+                let speed = value / 1024;
+                if (speed > 1) {
+                    return {
+                        classes: 'col-backgroud-max'
+                    }
+                }
+                if (speed > 0.5) {
+                    return {
+                        classes: 'col-backgroud-normal'
+                    }
+                } else {
+                    return {
+                        classes: 'col-backgroud-min'
+                    }
+                }
+            },
+            formatter : function (value, row, index)
+            {
+                if(value)
+                {
+                    return value / 1024 + "MB/s";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        },{
+            field : "maxSpeed",
+            title : "最大速度",
+            width : 150,
+            sortable : true,
+            cellStyle : function (value, row, index)
+            {
+                if(!value)
+                {
+                    return {};
+                }
+                let speed = value / 1024;
+                if(speed  > 1)
+                {
+                    return {
+                        classes : 'col-backgroud-max'
+                    }
+                }
+                if(speed  > 0.5)
+                {
+                    return {
+                        classes : 'col-backgroud-normal'
+                    }
+                }
+                else
+                {
+                    return {
+                        classes : 'col-backgroud-min'
+                    }
+                }
+            },
+            formatter : function (value, row, index)
+            {
+                if(value)
+                {
+                    return value / 1024 + "MB/s";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        },{
+            field : "updateTime",
+            title : "最后一次更新时间"
+        }]
+    });
+</script>
 </body>
 </html>

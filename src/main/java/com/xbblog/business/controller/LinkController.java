@@ -124,10 +124,21 @@ public class LinkController {
     @ResponseBody
     public Map<String, Object> testActive() throws Exception
     {
-        List<NodeBo> list = nodeService.getAllssLink();
-        nodeService.insertAll(list);
         Map<String, Object> map = new HashMap<String, Object>();
         monitorService.testActive();
+        map.put("success", true);
+        return map;
+    }
+
+    @RequestMapping("refreshLink")
+    @ResponseBody
+    public Map<String, Object> refreshLink() throws Exception
+    {
+        logger.info("开始更新订阅");
+        List<NodeBo> list = nodeService.getAllssLink();
+        nodeService.insertAll(list);
+        logger.info("更新订阅完成");
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("success", true);
         return map;
     }

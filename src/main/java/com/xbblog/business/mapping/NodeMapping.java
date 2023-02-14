@@ -43,4 +43,19 @@ public interface NodeMapping {
     void insertSnell(SnellNode node);
 
     void insertTrojan(TrojanNode node);
+
+
+    List<NodeStatus> queryNodeStatus(NodeStatus nodeStatus);
+
+    int insertNodeStatus(NodeStatus nodeStatus);
+
+    int updateNodeStatus(NodeStatus nodeStatus);
+
+    int deleteAllNodeStatus();
+
+    int deleteAllNodeDetail();
+
+    int deleteAllNode();
+
+    List<NodeStatusVo> queryNodeStatusPage();
 }

@@ -3,103 +3,99 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xbblog.business.mapping.NodeMapping">
     <select id="getShadowsocksNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
-        select a.id, a.node_id, a.ip, a.port,a.security,a.password,
-        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
-        else concat(a.remarks, ' - ', c.`group`)
-        end remarks,
-         a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
+        select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
+                case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+                else concat(a.remarks, ' - ', c.`group`)
+                end remarks,
+                a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
-        left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'ss'
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
         <if test="group != null">
-            and d.group in (0
-            <trim prefix=",">
-                <if test="group != 0">
-                    #{group}
-                </if>
-            </trim>
-            )
+            and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in
+            (0
+                <trim prefix=",">
+                    <if test="group != 0">
+                        #{group}
+                    </if>
+                </trim>
+            ))
         </if>
-        order by c.order, b.subscribeId
+        order by c.order, c.id
     </select>
 
     <select id="getV2rayNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
-        select b.id, a.node_id as nodeId, a.ip, a.port,a.uuid, a.alterId,a.security,a.network,
-        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
-        else concat(a.remarks, ' - ', c.`group`)
-        end remarks,
-        a.camouflage_type as camouflageType,a.camouflage_host as camouflageHost,
-        a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
+        select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
+            case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+            else concat(a.remarks, ' - ', c.`group`)
+            end remarks,
+            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
-        left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'v2ray'
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
         <if test="group != null">
-            and d.group in (0
+            and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in
+            (0
             <trim prefix=",">
                 <if test="group != 0">
                     #{group}
                 </if>
             </trim>
-            )
+            ))
         </if>
-
-
-        order by c.order, b.subscribeId
+        order by c.order, c.id
     </select>
 
     <select id="getShadowsocksRNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
-        select a.id, a.node_id, a.ip, a.port,a.security,a.password,a.obfs as obfs, a.obfsParam as obfsparam, a.protocol as protocol,
-        a.protoParam as protoparam,
-        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
-        else concat(a.remarks, ' - ', c.`group`)
-        end remarks,
-         a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
+        select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
+            case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+            else concat(a.remarks, ' - ', c.`group`)
+            end remarks,
+            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
-        left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'ssr'
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
         <if test="group != null">
-            and d.group in (0
+            and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in
+            (0
             <trim prefix=",">
                 <if test="group != 0">
                     #{group}
                 </if>
             </trim>
-            )
+            ))
         </if>
-        order by c.order, b.subscribeId
+        order by c.order, c.id
     </select>
 
     <select id="getTrojanNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
-        select a.id, a.node_id, a.ip, a.port,a.security,a.password,a.obfs as obfs, a.obfsParam as obfsparam,
-        case when c.`group` is null then concat(a.remarks, ' - ', '自建')
-        else concat(a.remarks, ' - ', c.`group`)
-        end remarks,
-        a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
+        select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
+            case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+            else concat(a.remarks, ' - ', c.`group`)
+            end remarks,
+            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
-        left join t_subscribe_group d on c.id = d.subscribeId
         where a.type = 'trojan'
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
         <if test="group != null">
-            and d.group in (0
+            and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in
+            (0
             <trim prefix=",">
                 <if test="group != 0">
                     #{group}
                 </if>
             </trim>
-            )
+            ))
         </if>
-        order by c.order, b.subscribeId
+        order by c.order, c.id
     </select>
 
 
@@ -114,11 +110,16 @@
             (#{source}, #{subscribeId})
     </insert>
 
-    <delete id="deleteAll"  >
-      delete  a, b
-        from t_node a, t_node_detail b where a.id = b.node_id
+    <delete id="deleteAllNode"  >
+      delete
+        from t_node
     </delete>
-    
+
+    <delete id="deleteAllNodeDetail"  >
+        delete
+        from t_node_detail
+    </delete>
+
     <insert id="insertV2ray" parameterType="com.xbblog.business.dto.V2rayNodeDetail">
       insert into t_node_detail
         (node_id, ip, port,uuid, alterId,security,network,remarks,camouflage_type,camouflage_host,camouflage_path,camouflage_tls,type,udp )
@@ -187,5 +188,112 @@
     
     <select id="querySubscribeKeyConfig"  resultType="com.xbblog.business.dto.SubscribeKeyConfig">
         select id, subscribeId, flag, `key`, kind from t_subscribe_key_config where flag = 1
+    </select>
+    
+    <select id="queryNodeStatus" parameterType="com.xbblog.business.dto.NodeStatus" resultType="com.xbblog.business.dto.NodeStatus">
+        select id, node_id as nodeId, location, ping, tcp_ping as tcpPing, loss, nat, speed, max_speed as maxSpeed
+        from t_node_status
+        <where>
+            <if test="nodeId != null">
+                and node_id = #{nodeId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNodeStatus" parameterType="com.xbblog.business.dto.NodeStatus">
+        insert into t_node_status
+        (node_id
+            <if test="location != null and location != ''">
+                ,location
+            </if>
+            <if test="ping != null">
+                ,ping
+            </if>
+            <if test="tcpPing != null">
+                ,tcp_ping
+            </if>
+            <if test="loss != null ">
+                ,loss
+            </if>
+            <if test="nat != null and nat != ''">
+                ,nat
+            </if>
+            <if test="speed != null ">
+                ,speed
+            </if>
+            <if test="maxSpeed != null">
+                ,max_speed
+            </if>
+            )
+            values
+            (#{nodeId}
+            <if test="location != null and location != ''">
+                ,#{location}
+            </if>
+            <if test="ping != null">
+                ,#{ping}
+            </if>
+            <if test="tcpPing != null">
+                ,#{tcpPing}
+            </if>
+            <if test="loss != null ">
+                ,#{loss}
+            </if>
+            <if test="nat != null and nat != ''">
+                ,#{nat}
+            </if>
+            <if test="speed != null ">
+                ,#{speed}
+            </if>
+            <if test="maxSpeed != null">
+                ,#{maxSpeed}
+            </if>
+            )
+    </insert>
+
+    <update id="updateNodeStatus" parameterType="com.xbblog.business.dto.NodeStatus">
+        update t_node_status
+        <set>
+            <if test="location != null and location != ''">
+                location = #{location},
+            </if>
+            <if test="ping != null">
+                ping = #{ping},
+            </if>
+            <if test="tcpPing != null">
+                tcp_ping = #{tcpPing},
+            </if>
+            <if test="loss != null ">
+                loss =#{loss},
+            </if>
+            <if test="nat != null and nat != ''">
+                nat = #{nat},
+            </if>
+            <if test="speed != null ">
+                speed = #{speed},
+            </if>
+            <if test="maxSpeed != null">
+                max_speed = #{maxSpeed}
+            </if>
+        </set>
+        <where>
+            <if test="nodeId != null">
+                and node_id = #{nodeId}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteAllNodeStatus"  >
+        delete
+        from t_node_status
+    </delete>
+    
+    <select id="queryNodeStatusPage" resultType="com.xbblog.business.dto.NodeStatusVo">
+        select b.id,    case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+                             else concat(a.remarks, ' - ', c.`group`)
+            end as name,tns.location, tns.ping, tns.tcp_ping as tcpPing, tns.loss, tns.nat, tns.nat,tns.speed, tns.max_speed as maxSpeed, tns.update_time as updateTime
+        from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
+                             left join t_node_status tns on b.id = tns.node_id;
+
     </select>
 </mapper>
