@@ -26,7 +26,7 @@ public class QuartzConfiguration {
     }
     @Bean
     public Trigger monitorActiveQuartzTrigger(){
-        CronScheduleBuilder  scheduleBuilder = CronScheduleBuilder.cronSchedule("0 0 8,12,16,20 ? * *");
+        CronScheduleBuilder  scheduleBuilder = CronScheduleBuilder.cronSchedule("0 0 8,14,20 ? * *");
         return TriggerBuilder.newTrigger().forJob(monitorActiveJobDetail())
                 .withIdentity("monitorActiveTrigger")
                 .withSchedule(scheduleBuilder)
