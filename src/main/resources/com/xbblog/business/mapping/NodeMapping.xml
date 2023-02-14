@@ -4,10 +4,10 @@
 <mapper namespace="com.xbblog.business.mapping.NodeMapping">
     <select id="getShadowsocksNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
         select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
-                case when c.`group` is null then concat(a.remarks, ' - ', '自建')
-                else concat(a.remarks, ' - ', c.`group`)
-                end remarks,
-                a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
+            case when c.`group` is null then concat(a.remarks, ' - ', '自建')
+            else concat(a.remarks, ' - ', c.`group`)
+            end remarks,
+            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'ss'
         <if test="flag != null">
@@ -27,11 +27,12 @@
     </select>
 
     <select id="getV2rayNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
-        select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
+        select b.id, a.node_id as nodeId, a.ip, a.port,a.uuid, a.alterId,a.security,a.network,
             case when c.`group` is null then concat(a.remarks, ' - ', '自建')
             else concat(a.remarks, ' - ', c.`group`)
             end remarks,
-            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
+            a.camouflage_type as camouflageType,a.camouflage_host as camouflageHost,
+            a.camouflage_path as camouflagePath,a.camouflage_tls as camouflageTls,a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'v2ray'
         <if test="flag != null">
@@ -51,11 +52,12 @@
     </select>
 
     <select id="getShadowsocksRNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
-        select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
+        select a.id, a.node_id  as nodeId, a.ip, a.port,a.security,a.password,a.obfs as obfs, a.obfsParam as obfsparam, a.protocol as protocol,
+            a.protoParam as protoparam,
             case when c.`group` is null then concat(a.remarks, ' - ', '自建')
             else concat(a.remarks, ' - ', c.`group`)
             end remarks,
-            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
+            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'ssr'
         <if test="flag != null">
@@ -75,11 +77,11 @@
     </select>
 
     <select id="getTrojanNodes" resultType="com.xbblog.business.dto.NodeDto" parameterType="java.util.HashMap">
-        select a.id, a.node_id as nodeId, a.ip, a.port,a.security,a.password,
+        select a.id, a.node_id  as nodeId, a.ip, a.port,a.security,a.password,a.obfs as obfs, a.obfsParam as obfsparam,
             case when c.`group` is null then concat(a.remarks, ' - ', '自建')
             else concat(a.remarks, ' - ', c.`group`)
             end remarks,
-            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp, c.order
+            a.type, b.source, b.flag, b.subscribeId,c.`group`,a.udp
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'trojan'
         <if test="flag != null">
