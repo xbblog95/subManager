@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.xbblog.business.dto.NodeDto;
 import com.xbblog.business.dto.NodeStatus;
 import com.xbblog.business.handler.StairSpeedTestMonitorNodeHandler;
+import com.xbblog.business.handler.impl.StairSpeedTestActiveMonitorNodeHandlerImpl;
+import com.xbblog.business.handler.impl.StairSpeedTestSpeedMonitorNodeHandlerImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -27,10 +29,13 @@ public class StairSpeedTestClient extends WebSocketClient {
 
     private NodeDto nodeDto;
 
+    private NodeStatus nodeStatus = new NodeStatus();
+
     public StairSpeedTestClient(String url, NodeDto nodeDto, StairSpeedTestMonitorNodeHandler stairSpeedTestMonitorNodeHandler) throws URISyntaxException {
         super(new URI(url));
         this.nodeDto = nodeDto;
         this.stairSpeedTestMonitorNodeHandler = stairSpeedTestMonitorNodeHandler;
+        nodeStatus.setNodeId(nodeDto.getNodeId());
     }
 
     @Override
@@ -48,62 +53,71 @@ public class StairSpeedTestClient extends WebSocketClient {
         JSONObject jsonObject = JSONObject.parseObject(s);
         if("eof".equals(jsonObject.getString("info")))
         {
+            stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, nodeStatus);
             latch.countDown();
         }
-        NodeStatus status = new NodeStatus();
-        status.setNodeId(nodeDto.getNodeId());
         if("gotping".equals(jsonObject.getString("info")))
         {
-            status.setPing(jsonObject.getDouble("ping"));
+            nodeStatus.setPing(jsonObject.getDouble("ping"));
             String loss = jsonObject.getString("loss");
             if(loss.endsWith("%"))
             {
-                status.setLoss(Double.parseDouble(loss.substring(0, loss.lastIndexOf("%"))));
+                nodeStatus.setLoss(Double.parseDouble(loss.substring(0, loss.lastIndexOf("%"))));
             }
-            stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, status);
             return;
         }
         if("gotgeoip".equals(jsonObject.getString("info")))
         {
-            status.setLocation(jsonObject.getString("location"));
-            stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, status);
+            nodeStatus.setLocation(jsonObject.getString("location"));
             return;
         }
         if("gotnat".equals(jsonObject.getString("info")))
         {
-            status.setNat(jsonObject.getString("result"));
-            stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, status);
+            nodeStatus.setNat(jsonObject.getString("result"));
             return;
         }
         if("gotgping".equals(jsonObject.getString("info")))
         {
-            status.setTcpPing(jsonObject.getDouble("ping"));
-            stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, status);
+            nodeStatus.setTcpPing(jsonObject.getDouble("ping"));
             return;
         }
         if("gotspeed".equals(jsonObject.getString("info")))
         {
             String speed = jsonObject.getString("speed");
             String maxSpeed = jsonObject.getString("maxspeed");
-            if("N/A".equals(speed) || "N/A".equals(maxSpeed))
+            //本次做的是速度检测,并且测出的速度是N/A
+            if(stairSpeedTestMonitorNodeHandler instanceof StairSpeedTestSpeedMonitorNodeHandlerImpl && "N/A".equals(speed))
+            {
+                nodeStatus.setIsSetSpeed(true);
+            }
+            //本次做的是速度检测,并且测出的速度是N/A
+            else if(stairSpeedTestMonitorNodeHandler instanceof StairSpeedTestSpeedMonitorNodeHandlerImpl && "N/A".equals(maxSpeed))
+            {
+                nodeStatus.setIsSetMaxSpeed(true);
+            }
+            //本次做的是TCP检测,测出的速度必定是N/A
+            else if(stairSpeedTestMonitorNodeHandler instanceof StairSpeedTestActiveMonitorNodeHandlerImpl && ("N/A".equals(speed) || "N/A".equals(maxSpeed)))
             {
                 return;
             }
-            status.setSpeed(formatSpeed(speed)); ;
-            status.setMaxSpeed(formatSpeed(maxSpeed));
-            stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, status);
+            nodeStatus.setSpeed(formatSpeed(speed));
+            nodeStatus.setIsSetSpeed(true);
+            nodeStatus.setMaxSpeed(formatSpeed(maxSpeed));
+            nodeStatus.setIsSetMaxSpeed(true);
         }
     }
 
     @Override
     public void onClose(int i, String s, boolean b) {
         logger.info("节点id {} 名称 {} 检测完成", nodeDto.getNodeId(), nodeDto.getRemarks());
+        stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, nodeStatus);
         latch.countDown();
     }
 
     @Override
     public void onError(Exception e) {
         logger.info("节点id {} 名称 {} 检测完成 发生异常", nodeDto.getNodeId(), nodeDto.getRemarks());
+        stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, nodeStatus);
         latch.countDown();
     }
 

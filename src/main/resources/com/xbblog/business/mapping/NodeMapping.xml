@@ -280,26 +280,19 @@
     <update id="updateNodeStatus" parameterType="com.xbblog.business.dto.NodeStatus">
         update t_node_status
         <set>
-            <if test="location != null and location != ''">
-                location = #{location},
-            </if>
-            <if test="ping != null">
-                ping = #{ping},
-            </if>
-            <if test="tcpPing != null">
-                tcp_ping = #{tcpPing},
-            </if>
-            <if test="loss != null ">
-                loss =#{loss},
-            </if>
-            <if test="nat != null and nat != ''">
-                nat = #{nat},
-            </if>
+            location = #{location}, ping = #{ping}, tcp_ping = #{tcpPing},loss =#{loss}, nat = #{nat},
+
             <if test="speed != null ">
                 speed = #{speed},
             </if>
+            <if test="isSetSpeed and speed == null">
+                speed = null,
+            </if>
             <if test="maxSpeed != null">
-                max_speed = #{maxSpeed}
+                max_speed = #{maxSpeed},
+            </if>
+            <if test="isSetMaxSpeed and maxSpeed == null">
+                max_speed = null
             </if>
         </set>
         <where>
@@ -322,4 +315,5 @@
                              left join t_node_status tns on b.id = tns.node_id;
 
     </select>
+
 </mapper>

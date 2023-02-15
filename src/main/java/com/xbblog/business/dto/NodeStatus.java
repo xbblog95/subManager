@@ -19,7 +19,11 @@ public class NodeStatus {
 
     private Double speed;
 
+    private Boolean isSetSpeed = false;
+
     private Double maxSpeed;
+
+    private Boolean isSetMaxSpeed = false;
 
 
 }
