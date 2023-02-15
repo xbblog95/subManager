@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class MonitorActiveJob extends QuartzJobBean {
+public class MonitorSpeedJob extends QuartzJobBean {
 
 
     @Autowired
@@ -25,6 +25,14 @@ public class MonitorActiveJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        monitorService.testActiveActive(new TestActiveReqDto());
+        List<NodeBo> list = null;
+        try {
+            list = nodeService.getAllssLink();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        nodeService.insertAll(list);
+        monitorService.testActiveSpeed(new TestActiveReqDto());
     }
 }

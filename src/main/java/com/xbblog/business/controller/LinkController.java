@@ -2,6 +2,7 @@ package com.xbblog.business.controller;
 
 import com.xbblog.business.dto.NodeBo;
 import com.xbblog.business.dto.SubLog;
+import com.xbblog.business.dto.TestActiveReqDto;
 import com.xbblog.business.dto.User;
 import com.xbblog.business.service.MonitorService;
 import com.xbblog.business.service.NodeService;
@@ -122,10 +123,20 @@ public class LinkController {
 
     @RequestMapping("testActive")
     @ResponseBody
-    public Map<String, Object> testActive() throws Exception
+    public Map<String, Object> testActive(TestActiveReqDto reqDto) throws Exception
     {
         Map<String, Object> map = new HashMap<String, Object>();
-        monitorService.testActive();
+        monitorService.testActiveActive(reqDto);
+        map.put("success", true);
+        return map;
+    }
+
+    @RequestMapping("testSpeed")
+    @ResponseBody
+    public Map<String, Object> testSpeed(TestActiveReqDto reqDto) throws Exception
+    {
+        Map<String, Object> map = new HashMap<String, Object>();
+        monitorService.testActiveSpeed(reqDto);
         map.put("success", true);
         return map;
     }

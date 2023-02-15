@@ -13,6 +13,12 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
+        <if test="subscribeId != null">
+            and b.subscribeId = #{subscribeId}
+        </if>
+        <if test="nodeId != null">
+            and b.id = #{nodeId}
+        </if>
         <if test="group != null">
             and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in
             (0
@@ -37,6 +43,12 @@
         where a.type = 'v2ray'
         <if test="flag != null">
             and b.flag = #{flag}
+        </if>
+        <if test="subscribeId != null">
+            and b.subscribeId = #{subscribeId}
+        </if>
+        <if test="nodeId != null">
+            and b.id = #{nodeId}
         </if>
         <if test="group != null">
             and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in
@@ -63,6 +75,12 @@
         <if test="flag != null">
             and b.flag = #{flag}
         </if>
+        <if test="subscribeId != null">
+            and b.subscribeId = #{subscribeId}
+        </if>
+        <if test="nodeId != null">
+            and b.id = #{nodeId}
+        </if>
         <if test="group != null">
             and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in
             (0
@@ -86,6 +104,12 @@
         where a.type = 'trojan'
         <if test="flag != null">
             and b.flag = #{flag}
+        </if>
+        <if test="subscribeId != null">
+            and b.subscribeId = #{subscribeId}
+        </if>
+        <if test="nodeId != null">
+            and b.id = #{nodeId}
         </if>
         <if test="group != null">
             and exists(select 1 from t_subscribe_group as d where d.subscribeId = b.subscribeId and d.group in

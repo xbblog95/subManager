@@ -1026,7 +1026,7 @@ public class NodeService {
         return buffer.toString();
     }
 
-    private List<NodeDto> getV2rayNodes(Map<String, Object> paramMap)
+    public List<NodeDto> getV2rayNodes(Map<String, Object> paramMap)
     {
         List<NodeDto> list = nodeMapping.getV2rayNodes(paramMap);
         List<NodeDto> result = new ArrayList<NodeDto>();
@@ -1041,7 +1041,7 @@ public class NodeService {
         return result;
     }
 
-    private List<NodeDto> getShadowsocksNodes(Map<String, Object> paramMap)
+    public List<NodeDto> getShadowsocksNodes(Map<String, Object> paramMap)
     {
         List<NodeDto> list = nodeMapping.getShadowsocksNodes(paramMap);
         List<NodeDto> result = new ArrayList<NodeDto>();
@@ -1056,7 +1056,7 @@ public class NodeService {
         return result;
     }
 
-    private List<NodeDto> getTrojanNodes(Map<String, Object> paramMap) {
+    public List<NodeDto> getTrojanNodes(Map<String, Object> paramMap) {
         List<NodeDto> list = nodeMapping.getTrojanNodes(paramMap);
         List<NodeDto> result = new ArrayList<NodeDto>();
         for(NodeDto node : list)
@@ -1070,7 +1070,7 @@ public class NodeService {
         return result;
     }
 
-    private List<NodeDto> getShadowsocksRNodes(Map<String, Object> paramMap)
+    public List<NodeDto> getShadowsocksRNodes(Map<String, Object> paramMap)
     {
         List<NodeDto> list = nodeMapping.getShadowsocksRNodes(paramMap);
         List<NodeDto> result = new ArrayList<NodeDto>();

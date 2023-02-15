@@ -2,20 +2,21 @@ package com.xbblog.business.handler.impl;
 
 import com.xbblog.business.dto.Node;
 import com.xbblog.business.dto.NodeDto;
-import com.xbblog.business.handler.MonitorNodeHandler;
 import com.xbblog.business.service.NodeService;
 import com.xbblog.business.service.V2rayService;
 import com.xbblog.utils.MonitorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class TelnetMonitorNodeHandlerImpl implements MonitorNodeHandler {
+@Service("telnetMonitorNodeHandler")
+public class TelnetMonitorNodeHandlerImpl {
 
     private static Logger logger = LoggerFactory.getLogger(TelnetMonitorNodeHandlerImpl.class);
 
@@ -63,7 +64,6 @@ public class TelnetMonitorNodeHandlerImpl implements MonitorNodeHandler {
         }
     }
 
-    @Override
     public void monitor(List<NodeDto> nodes) {
         List<Future> threadList = new ArrayList<Future>();
         for(final NodeDto node : nodes)

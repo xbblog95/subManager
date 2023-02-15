@@ -3,7 +3,7 @@ package com.xbblog.business.websocket;
 import com.alibaba.fastjson.JSONObject;
 import com.xbblog.business.dto.NodeDto;
 import com.xbblog.business.dto.NodeStatus;
-import com.xbblog.business.handler.impl.StairSpeedTestMonitorNodeHandlerImpl;
+import com.xbblog.business.handler.StairSpeedTestMonitorNodeHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -23,11 +23,11 @@ public class StairSpeedTestClient extends WebSocketClient {
 
     private CountDownLatch latch = new CountDownLatch(1);;
 
-    private StairSpeedTestMonitorNodeHandlerImpl stairSpeedTestMonitorNodeHandler;
+    private StairSpeedTestMonitorNodeHandler stairSpeedTestMonitorNodeHandler;
 
     private NodeDto nodeDto;
 
-    public StairSpeedTestClient(String url, NodeDto nodeDto, StairSpeedTestMonitorNodeHandlerImpl stairSpeedTestMonitorNodeHandler) throws URISyntaxException {
+    public StairSpeedTestClient(String url, NodeDto nodeDto, StairSpeedTestMonitorNodeHandler stairSpeedTestMonitorNodeHandler) throws URISyntaxException {
         super(new URI(url));
         this.nodeDto = nodeDto;
         this.stairSpeedTestMonitorNodeHandler = stairSpeedTestMonitorNodeHandler;
@@ -83,8 +83,14 @@ public class StairSpeedTestClient extends WebSocketClient {
         }
         if("gotspeed".equals(jsonObject.getString("info")))
         {
-            status.setSpeed(formatSpeed(jsonObject.getString("speed"))); ;
-            status.setMaxSpeed(formatSpeed(jsonObject.getString("maxspeed"))); ;
+            String speed = jsonObject.getString("speed");
+            String maxSpeed = jsonObject.getString("maxspeed");
+            if("N/A".equals(speed) || "N/A".equals(maxSpeed))
+            {
+                return;
+            }
+            status.setSpeed(formatSpeed(speed)); ;
+            status.setMaxSpeed(formatSpeed(maxSpeed));
             stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, status);
         }
     }
