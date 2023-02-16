@@ -107,4 +107,23 @@ public class StairSpeedTestSpeedMonitorNodeHandlerImpl extends StairSpeedTestMon
         }
 
     }
+
+    public void updateNodeStatus(NodeDto node, NodeStatus nodeStatus)
+    {
+        try
+        {
+            nodeStatus.setNodeId(node.getNodeId());
+            if(nodeStatus.getTcpPing() == null || nodeStatus.getTcpPing() == 0.00)
+            {
+                nodeStatus.setIsSetSpeed(true);
+                nodeStatus.setIsSetMaxSpeed(true);
+            }
+            nodeService.updateNodeStatus(nodeStatus);
+        }
+        catch (Exception e)
+        {
+            logger.error("update status error ");
+        }
+
+    }
 }
