@@ -310,7 +310,7 @@
     <select id="queryNodeStatusPage" resultType="com.xbblog.business.dto.NodeStatusVo">
         select b.id,    case when c.`group` is null then concat(a.remarks, ' - ', '自建')
                              else concat(a.remarks, ' - ', c.`group`)
-            end as name,tns.location, tns.ping, tns.tcp_ping as tcpPing, tns.loss, tns.nat, tns.nat,tns.speed, tns.max_speed as maxSpeed, tns.update_time as updateTime
+            end as name,tns.location, tns.ping, tns.tcp_ping as tcpPing, tns.loss, tns.nat, tns.nat,tns.speed, tns.max_speed as maxSpeed, tns.update_time as updateTime, b.subscribeId
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
                              left join t_node_status tns on b.id = tns.node_id;
 

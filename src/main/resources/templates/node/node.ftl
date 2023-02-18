@@ -259,6 +259,10 @@
                 if (!value) {
                     return {};
                 }
+                if(!row.tcpPing)
+                {
+                    return {};
+                }
                 let speed = value / 1024;
                 if (speed > 1) {
                     return {
@@ -277,6 +281,10 @@
             },
             formatter : function (value, row, index)
             {
+                if(!row.tcpPing)
+                {
+                    return "";
+                }
                 if(value)
                 {
                     return value / 1024 + "MB/s";
@@ -294,6 +302,10 @@
             cellStyle : function (value, row, index)
             {
                 if(!value)
+                {
+                    return {};
+                }
+                if(!row.tcpPing)
                 {
                     return {};
                 }
@@ -319,6 +331,10 @@
             },
             formatter : function (value, row, index)
             {
+                if(!row.tcpPing)
+                {
+                    return "";
+                }
                 if(value)
                 {
                     return value / 1024 + "MB/s";

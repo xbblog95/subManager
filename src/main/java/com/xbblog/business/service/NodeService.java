@@ -1171,6 +1171,7 @@ public class NodeService {
         {
             NodeDto nodeDto = new NodeDto();
             nodeDto.setRemarks(statusVo.getName());
+            nodeDto.setSubscribeId(statusVo.getSubscribeId());
             if(filterNode(nodeDto))
             {
                 list.add(statusVo);

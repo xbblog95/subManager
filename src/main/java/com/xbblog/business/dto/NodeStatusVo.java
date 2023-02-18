@@ -13,6 +13,8 @@ public class NodeStatusVo {
 
     private String name;
 
+    private Integer subscribeId;
+
     private String location;
 
     private Double ping;
