@@ -346,7 +346,8 @@
             }
         },{
             field : "updateTime",
-            title : "最后一次更新时间"
+            title : "最后一次更新时间",
+            sortable : true
         }]
     });
 </script>

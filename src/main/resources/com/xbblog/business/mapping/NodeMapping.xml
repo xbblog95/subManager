@@ -280,6 +280,7 @@
     <update id="updateNodeStatus" parameterType="com.xbblog.business.dto.NodeStatus">
         update t_node_status
         <set>
+            update_time = CURRENT_TIMESTAMP,
             location = #{location}, ping = #{ping}, tcp_ping = #{tcpPing},loss =#{loss}, nat = #{nat},
 
             <if test="speed != null ">
