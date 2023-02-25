@@ -11,7 +11,7 @@
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'ss'
         <if test="flag != null">
-            and b.flag = #{flag}
+            and exists (select 1 from t_node_status d where d.node_id = b.id and d.tcp_ping > 0)
         </if>
         <if test="subscribeId != null">
             and b.subscribeId = #{subscribeId}
@@ -42,7 +42,7 @@
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'v2ray'
         <if test="flag != null">
-            and b.flag = #{flag}
+            and exists (select 1 from t_node_status d where d.node_id = b.id and d.tcp_ping > 0)
         </if>
         <if test="subscribeId != null">
             and b.subscribeId = #{subscribeId}
@@ -73,7 +73,7 @@
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'ssr'
         <if test="flag != null">
-            and b.flag = #{flag}
+            and exists (select 1 from t_node_status d where d.node_id = b.id and d.tcp_ping > 0)
         </if>
         <if test="subscribeId != null">
             and b.subscribeId = #{subscribeId}
@@ -103,7 +103,7 @@
         from t_node_detail a join t_node b on a.node_id = b.id left join t_subscribe c on c.id = b.subscribeId
         where a.type = 'trojan'
         <if test="flag != null">
-            and b.flag = #{flag}
+            and exists (select 1 from t_node_status d where d.node_id = b.id and d.tcp_ping > 0)
         </if>
         <if test="subscribeId != null">
             and b.subscribeId = #{subscribeId}
