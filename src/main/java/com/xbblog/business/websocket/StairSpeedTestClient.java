@@ -54,7 +54,7 @@ public class StairSpeedTestClient extends WebSocketClient {
         if("eof".equals(jsonObject.getString("info")))
         {
             stairSpeedTestMonitorNodeHandler.updateNodeStatus(nodeDto, nodeStatus);
-            latch.countDown();
+            return;
         }
         if("gotping".equals(jsonObject.getString("info")))
         {

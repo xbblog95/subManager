@@ -28,13 +28,13 @@ public class QuartzConfiguration {
                 .build();
     }
 
-    @Bean
-    public JobDetail refreshListJobDetail(){
-        return JobBuilder.newJob(RefreshListJob.class)//PrintTimeJob我们的业务类
-                .withIdentity("refreshListJob")//可以给该JobDetail起一个id
-                .storeDurably()//即使没有Trigger关联时，也不需要删除该JobDetail
-                .build();
-    }
+//    @Bean
+//    public JobDetail refreshListJobDetail(){
+//        return JobBuilder.newJob(RefreshListJob.class)//PrintTimeJob我们的业务类
+//                .withIdentity("refreshListJob")//可以给该JobDetail起一个id
+//                .storeDurably()//即使没有Trigger关联时，也不需要删除该JobDetail
+//                .build();
+//    }
 
 
 //    @Bean
@@ -48,21 +48,21 @@ public class QuartzConfiguration {
 //                .build();
 //    }
 
-    @Bean
-    public JobDetail monitorSpeedJobDetail(){
-        return JobBuilder.newJob(MonitorSpeedJob.class)//PrintTimeJob我们的业务类
-                .withIdentity("monitorSpeedJob")//可以给该JobDetail起一个id
-                .storeDurably()//即使没有Trigger关联时，也不需要删除该JobDetail
-                .build();
-    }
-
-    @Bean
-    public Trigger monitorSpeedQuartzTrigger(){
-        CronScheduleBuilder  scheduleBuilder = CronScheduleBuilder.cronSchedule("0 0 18 ? * *");
-        return TriggerBuilder.newTrigger().forJob(monitorSpeedJobDetail())
-                .withIdentity("monitorSpeedTrigger")
-                .withSchedule(scheduleBuilder)
-                .startNow()
-                .build();
-    }
+//    @Bean
+//    public JobDetail monitorSpeedJobDetail(){
+//        return JobBuilder.newJob(MonitorSpeedJob.class)//PrintTimeJob我们的业务类
+//                .withIdentity("monitorSpeedJob")//可以给该JobDetail起一个id
+//                .storeDurably()//即使没有Trigger关联时，也不需要删除该JobDetail
+//                .build();
+//    }
+//
+//    @Bean
+//    public Trigger monitorSpeedQuartzTrigger(){
+//        CronScheduleBuilder  scheduleBuilder = CronScheduleBuilder.cronSchedule("0 0 18 ? * *");
+//        return TriggerBuilder.newTrigger().forJob(monitorSpeedJobDetail())
+//                .withIdentity("monitorSpeedTrigger")
+//                .withSchedule(scheduleBuilder)
+//                .startNow()
+//                .build();
+//    }
 }

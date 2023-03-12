@@ -25,6 +25,14 @@ public class MonitorActiveJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        List<NodeBo> list = null;
+        try {
+            list = nodeService.getAllssLink();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        nodeService.insertAll(list);
         monitorService.testActiveActive(new TestActiveReqDto());
     }
 }
