@@ -1,6 +1,7 @@
 package com.xbblog.business.service;
 
 import com.xbblog.business.dto.*;
+import com.xbblog.business.handler.impl.NoMonitorNodeHandlerImpl;
 import com.xbblog.business.handler.impl.StairSpeedTestActiveMonitorNodeHandlerImpl;
 import com.xbblog.business.handler.impl.StairSpeedTestSpeedMonitorNodeHandlerImpl;
 import com.xbblog.business.handler.impl.TelnetMonitorNodeHandlerImpl;
@@ -33,6 +34,9 @@ public class MonitorService {
 
     @Autowired
     private StairSpeedTestSpeedMonitorNodeHandlerImpl stairSpeedTestSpeedMonitorNodeHandler;
+
+    @Autowired
+    private NoMonitorNodeHandlerImpl monitorNodeHandler;
 
     @Transactional
     public void testActiveActive(TestActiveReqDto reqDto)
@@ -149,14 +153,14 @@ public class MonitorService {
         if (CollectionUtils.isEmpty(nodes)) {
             return ;
         }
-        stairSpeedTestActiveMonitorNodeHandler.monitor(nodes);
+        monitorNodeHandler.monitor(nodes);
     }
 
     private void monitorSpeed(List<NodeDto> nodes) {
         if (CollectionUtils.isEmpty(nodes)) {
             return ;
         }
-        stairSpeedTestSpeedMonitorNodeHandler.monitor(nodes);
+        monitorNodeHandler.monitor(nodes);
     }
 
 }
